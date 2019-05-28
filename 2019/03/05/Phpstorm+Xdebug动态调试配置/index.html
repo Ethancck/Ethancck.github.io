@@ -416,14 +416,14 @@ height:50vh;
 <p><img src="https://www.fuzzer.xyz/images/xdebug/0.1.png" alt="在这里插入图片描述"></p>
 <h6 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[XDebug]</span><br><span class="line">zend_extension=<span class="string">"K:\PhpStudy20180211\PHPTutorial\php\php-5.4.45\ext\php_xdebug.dll"</span></span><br><span class="line">xdebug.profiler_output_dir=<span class="string">"K:\PhpStudy20180211\PHPTutorial\tmp\xdebug"</span></span><br><span class="line">xdebug.trace_output_dir=<span class="string">"K:\PhpStudy20180211\PHPTutorial\tmp\xdebug"</span></span><br><span class="line"></span><br><span class="line">xdebug.remote_enable=<span class="number">1</span> <span class="comment">//是否允许远程终端 这里标示开启</span></span><br><span class="line">xdebug.profiler_enable_trigger=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">xdebug.remote_handler=dbgp</span><br><span class="line"></span><br><span class="line">xdebug.remote_mode=req</span><br><span class="line"></span><br><span class="line">xdebug.remote_host=localhost</span><br><span class="line"></span><br><span class="line">xdebug.remote_port=<span class="number">9000</span> <span class="comment">//这里表示服务器的监听端口</span></span><br><span class="line"></span><br><span class="line">xdebug.idekey=PHPSTORM <span class="comment">//这里是调试器的关键字 在Chrome以及FireFox中插件配置的时候要用到</span></span><br></pre></td></tr></table></figure>
 <p>配置截图：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080445191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/0.2.png" alt="在这里插入图片描述"></p>
 <p>把我给的代码注释去掉即可！</p>
 <p>然后重启Apache服务！</p>
 <h6 id="验证xdebug安装是否成功"><a href="#验证xdebug安装是否成功" class="headerlink" title="验证xdebug安装是否成功"></a>验证xdebug安装是否成功</h6><p>方法一：执行phpinfo</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080459344.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/0.3.png" alt="在这里插入图片描述"></p>
 <p>出现xdebug信息证明插件已经安装成功</p>
 <p>方法二：进入php安装目录，找到php.exe,执行php -m</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080523726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/0.4.png" alt="在这里插入图片描述"></p>
 <h5 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h5><h6 id="配置phpstorm内的php版本"><a href="#配置phpstorm内的php版本" class="headerlink" title="配置phpstorm内的php版本"></a>配置phpstorm内的php版本</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/2.png" alt="在这里插入图片描述"></p>
 <h6 id="添加服务器"><a href="#添加服务器" class="headerlink" title="添加服务器"></a>添加服务器</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/3.png" alt="在这里插入图片描述"></p>
 <p>这是可以是外网服务器，也可以本机，我添加的本机localhost！</p>
@@ -453,7 +453,7 @@ height:50vh;
 <p><img src="https://www.fuzzer.xyz/images/xdebug/15.png" alt="在这里插入图片描述"></p>
 <p>把它复制到php安装目录，用php go-pear.phar执行一下就行了，安装过程一路默认即可！</p>
 <h6 id="PHPUnit"><a href="#PHPUnit" class="headerlink" title="PHPUnit"></a>PHPUnit</h6><p>这个安装走的坑也不少，最主要是找对版本，从<a href="https://phpunit.de/" target="_blank" rel="noopener">官网</a>拿下来了一张图</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304081101249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/phps/11.png" alt="在这里插入图片描述"></p>
 <p>我的是php5.4 所以得下PHPUnit4版本，所有版本<a href="https://phar.phpunit.de/" target="_blank" rel="noopener">下载</a>，把下载的phpunit啊、放到php的安装目录，并重命名为phpunit.phar，一般都带有版本号，去掉！</p>
 <p>然后cmd进入php目录K:\PhpStudy20180211\PHPTutorial\php\php-5.4.45，输入</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> @php <span class="string">"%~dp0phpunit.phar"</span> %* &gt; phpunit.cmd</span><br></pre></td></tr></table></figure>
@@ -461,7 +461,7 @@ height:50vh;
 <p>然后退出cmd，再开启cmd，进入php5.4.45目录，输入<code>phpunit -version</code> </p>
 <p>会显示phpunit的信息，就成功了！</p>
 <p>然后在phpstorm中找到test framework</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304081120839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/phps/12.png" alt="在这里插入图片描述"></p>
 <p>把phpunit的路径配置好就行了！</p>
 <h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>Xdebug是一个开放源代码的PHP程序调试器(即一个Debug工具)，可以用来跟踪，调试和分析PHP程序的运行状况！有了它的帮助，你的挖洞之旅会更加轻松愉快一些！</p>
 
@@ -481,8 +481,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2019/03/01/SQL注入回顾篇(四)/" title="SQL注入回顾篇(4)">
-                    <div class="prevTitle">SQL注入回顾篇(4)</div>
+                <a href="/2019/03/01/SQL注入回顾篇(二)/" title="SQL注入回顾篇(2)">
+                    <div class="prevTitle">SQL注入回顾篇(2)</div>
                 </a>
             
         </li>
@@ -970,10 +970,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -1062,12 +1058,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
         </li>
     
     
@@ -1082,7 +1078,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -1092,12 +1088,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
@@ -1136,13 +1132,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
-        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
-    
         <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
-        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
-    
-        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
     
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
@@ -1150,25 +1142,29 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
         <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
     
-        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
-        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     
-        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
-    
         <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
         <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
     
