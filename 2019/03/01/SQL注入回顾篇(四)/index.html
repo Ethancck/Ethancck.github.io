@@ -454,22 +454,22 @@ height:50vh;
 <li>注出数据库</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u&quot;http://192.168.23.164/sqli/example1.php?name=root&quot; –dbs</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190301091342995.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL4/clip_image002.png" alt="在这里插入图片描述"></p>
 <ul>
 <li>注出指定数据库的表</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">"http://192.168.23.164/sqli/example1.php?name=root"</span> -D exercises –tables</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190301091443841.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL4/clip_image004.png" alt="在这里插入图片描述"></p>
 <ul>
 <li>注出表中的相关字段</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">"http://192.168.23.164/sqli/example1.php?name=root"</span> -D exercises -T users –columns</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190301091500598.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL4/clip_image006.png" alt="在这里插入图片描述"></p>
 <ul>
 <li>注出字段值</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">"http://192.168.23.164/sqli/example1.php?name=root"</span> -D exercises -T users –dump</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190301091518369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL4/clip_image008.png" alt="在这里插入图片描述"></p>
 <h5 id="权限常用参数"><a href="#权限常用参数" class="headerlink" title="权限常用参数"></a>权限常用参数</h5><ul>
 <li>-b, –banner 检索数据库管理系统的标识 </li>
 <li>–current-user 检索数据库管理系统当前用户 </li>
@@ -1541,16 +1541,16 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href="/2019/03/01/SQL注入回顾篇(一)/" title="SQL注入回顾篇(1)">
-                    <div class="nextTitle">SQL注入回顾篇(1)</div>
+                <a href="/2019/03/01/SQL注入回顾篇(三)/" title="SQL注入回顾篇(3)">
+                    <div class="nextTitle">SQL注入回顾篇(3)</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2019/03/01/SQL注入回顾篇(三)/" title="SQL注入回顾篇(3)">
-                    <div class="prevTitle">SQL注入回顾篇(3)</div>
+                <a href="/2018/10/04/python沙盒逃逸/" title="python 沙盒逃逸">
+                    <div class="prevTitle">python 沙盒逃逸</div>
                 </a>
             
         </li>
@@ -2022,10 +2022,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -2134,22 +2130,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -2186,35 +2182,35 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
     
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
-        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
-    
         <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
-    
-        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     

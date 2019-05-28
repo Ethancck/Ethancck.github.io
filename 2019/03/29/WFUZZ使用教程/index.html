@@ -403,7 +403,7 @@ height:50vh;
     <article class="article-entry">
         <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>Wfuzz是一款为了评估WEB应用而生的Fuzz（Fuzz是爆破的一种手段）工具，它基于一个简单的理念，即用给定的Payload去fuzz。它允许在HTTP请求里注入任何输入的值，针对不同的WEB应用组件进行多种复杂的爆破攻击。比如：参数、认证、表单、目录/文件、头部等等，这款工具在kali里面自带。</p>
 <a id="more"></a>
-<p><img src="https://img-blog.csdnimg.cn/20190317142847210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/1.1.png" alt="在这里插入图片描述"></p>
 <p><strong>你可以用Wfuzz找到下面的漏洞：</strong></p>
 <ul>
 <li><p>可预测的认证</p>
@@ -491,7 +491,7 @@ height:50vh;
 <p>POST请求正文：money=1</p>
 <p>使用如下命令：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -z range,<span class="number">0</span><span class="number">-20</span> -t <span class="number">20</span> -d <span class="string">"money=1"</span> http:<span class="comment">//127.0.0.1/dorabox/race_condition/pay.php?FUZZ</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190317143023865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/1.png" alt="在这里插入图片描述"></p>
 <p>测试并发要控制请求次数，在这里为使用<code>range</code>模块生成0-20，<strong>然后将FUZZ占位符放在URL的参数后不影响测试即可</strong>，主要是用<code>-t</code>参数设置并发请求，该参数默认设置都是10。</p>
 <p>另外使用<code>-s</code>参数可以调节每次发送HTTP的时间间隔。</p>
 <h6 id="保存测试结果"><a href="#保存测试结果" class="headerlink" title="保存测试结果"></a>保存测试结果</h6><p>wfuzz通过<code>printers</code>模块来将结果以不同格式保存到文档中，一共有如下几种格式：</p>
@@ -505,13 +505,13 @@ height:50vh;
 <h6 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h6><p>命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -z range,0-9 -w dict.txt -m zip http://127.0.0.1/ip.php?FUZZ=FUZ2Z</span><br></pre></td></tr></table></figure>
 <p>结果如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143041236.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/2.png" alt="在这里插入图片描述"></p>
 <p>该命令的意思：设置了两个字典。两个占位符，一个是<code>range</code>模块生成的<code>0、1、2、3、4、5、6、7、8、9</code> 10个数字，一个是外部字典dict.txt的9行字典，使用<strong>zip迭代器组合这两个字典</strong>发送。</p>
 <p><strong>zip迭代器的功能</strong>：字典数相同、一一对应进行组合，<strong>如果字典数不一致则多余的抛弃掉不请求，如上命令结果就是数字9被抛弃了因为没有字典和它组合</strong>。</p>
 <h6 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h6><p>命令：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -z range,<span class="number">0</span><span class="number">-9</span> -w dict.txt -m chain http:<span class="comment">//127.0.0.1/ip.php?FUZZ</span></span><br></pre></td></tr></table></figure>
 <p>结果如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143054800.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/3.png" alt="在这里插入图片描述"></p>
 <p>该命令设置了两个字典，一个占位符FUZZ，<strong>使用chain迭代器组合这两个字典</strong>发送。</p>
 <p><strong>chain迭代器的功能</strong>：通过返回结果就能看出来<code>chain</code>迭代器的功能了，<strong>这个迭代器是将所有字典全部整合（不做组合）放在一起然后传入占位符FUZZ</strong>中。</p>
 <h6 id="product"><a href="#product" class="headerlink" title="product"></a>product</h6><p>命令：</p>
@@ -520,9 +520,9 @@ height:50vh;
 <p><img src="https://img-blog.csdnimg.cn/20190317143108645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>该命令的意思：设置了两个字典，两个占位符，一个是<code>range</code>模块生成的<code>0、1、2</code> 3个数字，一个是外部字典dict.txt的3行字典，使用<strong>product迭代器组合这两个字典</strong>发送。</p>
 <p><strong>product迭代器的功能</strong>：通过返回结果，知道了请求总数为9，请求的payload交叉组合：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143119585.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/14.png" alt="在这里插入图片描述"></p>
 <h6 id="Encoders"><a href="#Encoders" class="headerlink" title="Encoders"></a>Encoders</h6><p>wfuzz中<strong>encoders模块</strong>可以实现编码解码、加密，它支持如下图中所列转换功能：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143131540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/5.png" alt="在这里插入图片描述"></p>
 <p><strong>使用Encoders</strong></p>
 <p><strong>正常使用：</strong></p>
 <ul>
@@ -538,13 +538,13 @@ height:50vh;
 <p><code>wfuzz -z file,dict.txt,md5-base64 http://127.0.0.1/ip.php\?FUZZ</code></p>
 </li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190317143145335.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/6.png" alt="在这里插入图片描述"></p>
 <ul>
 <li><p>多次转换，使用一个<code>@</code>号分隔的列表来按照<strong>从右往左顺序</strong>多次转换（这里让传入的字典先md5加密然后base64编码）</p>
 <p><code>wfuzz -z file,dict.txt,base64@md5 http://127.0.0.1/ip.php\?FUZZ</code></p>
 </li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/20190317143200411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/7.png" alt="在这里插入图片描述"></p>
 <h6 id="Scripts"><a href="#Scripts" class="headerlink" title="Scripts"></a>Scripts</h6><p>之前说了wfuzz支持插件，其本身也有很多插件，插件大部分都是实现扫描和解析功能，插件共有两大类和一类附加插件：</p>
 <ul>
 <li>passive：分析已有的请求和响应（被动）</li>
@@ -552,17 +552,17 @@ height:50vh;
 <li>discovery：自动帮助wfuzz对目标站进行爬取，将发现的内容提供给wfuzz进行请求</li>
 </ul>
 <p>Wfuzz默认自带脚本如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143211422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/8.png" alt="在这里插入图片描述"></p>
 <h6 id="使用Scripts"><a href="#使用Scripts" class="headerlink" title="使用Scripts"></a>使用Scripts</h6><p>我想使用<code>Scripts</code>中的<code>backups</code>模块，可以先试用<code>--script-help</code>参数来看如何关于这个模块的信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz --script-help=robots</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190317143220897.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/9.png" alt="在这里插入图片描述"></p>
 <p>从如上结果中可以知道这个模块不需要设置参数，该模块解析robots.txt的并且寻找新的内容，，至于到底寻找什么，就需要动手实践下了～</p>
 <p>在本地建一个robots.txt：</p>
-<p><img src="https://img-blog.csdnimg.cn/2019031714323690.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/10.png" alt="在这里插入图片描述"></p>
 <p>使用如下命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz --script=robots -z list,&quot;robots.txt&quot; http://127.0.0.1/FUZZ</span><br></pre></td></tr></table></figure>
 <p><code>--script</code>是使用脚本模块的参数，这时候就有个疑惑命令为什么要加上list呢？因为在这里<code>robots</code>脚本只是解析<code>robots.txt</code>规则的，所以你需要告诉wfuzz去请求哪个文件而这里我写的就是<code>robots.txt</code>就可以解析（假设 <a href="http://127.0.0.1/t.txt" target="_blank" rel="noopener">http://127.0.0.1/t.txt</a> 的内容也是robots的就可以写成这样的命令<code>wfuzz --script=robots -z list,&quot;t.txt&quot; http://127.0.0.1/FUZZ</code> ）</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143248986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/11.png" alt="在这里插入图片描述"></p>
 <p>从如上图中得知wfuzz解析robots.txt的内容然后请求解析之后获得的路径。</p>
 <h6 id="自定义插件"><a href="#自定义插件" class="headerlink" title="自定义插件"></a>自定义插件</h6><p> 使用wfuzz可以自己编写wfuzz插件，需要放在<code>~/.wfuzz/scripts/</code>目录下，具体如何编写可以参考已有的插件：<a href="https://github.com/xmendez/wfuzz/tree/master/src/wfuzz/plugins/scripts" target="_blank" rel="noopener">https://github.com/xmendez/wfuzz/tree/master/src/wfuzz/plugins/scripts</a></p>
 <h6 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h6><p>Recipes</p>
@@ -576,14 +576,14 @@ height:50vh;
 <h6 id="超时"><a href="#超时" class="headerlink" title="超时"></a>超时</h6><p>使用wfuzz扫描会遇到一些响应很慢的情况，wfuzz可以设置超时时间。</p>
 <p>参数<code>--conn-delay</code>来设置wfuzz等待服务器响应接连的秒数。 参数<code>--req-delay</code>来设置wfuzz等待响应完成的最大秒数。</p>
 <h6 id="结合BurpSuite"><a href="#结合BurpSuite" class="headerlink" title="结合BurpSuite"></a>结合BurpSuite</h6><p>从Burp的LOG文件中获取测试的URL地址：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190317143314572.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/12.png" alt="在这里插入图片描述"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -z burplog,&quot;1.burp&quot; FUZZ</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190317143322973.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/fuzz1/13.png" alt="在这里插入图片描述"></p>
 <p>还有能够读取burpsuite保存的state：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wfuzz -z burpstate,a_burp_state.burp FUZZ</span><br></pre></td></tr></table></figure>
 <h6 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h6><p>这里篇幅太长，建议综合参考 <a href="https://github.com/xmendez/wfuzz/blob/18a83606e3011159b4b2e8c0064f95044c3c4af5/docs/user/advanced.rst" target="_blank" rel="noopener">https://github.com/xmendez/wfuzz/blob/18a83606e3011159b4b2e8c0064f95044c3c4af5/docs/user/advanced.rst</a> 就不一一写出来了。</p>
 <h6 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h6><p>在这里贴出来自己搜集的字典！需要的可以自行下载</p>
-<p>链接：<a href="https://pan.baidu.com/s/1tekP1fxZ22h-L4o8nfoefg" target="_blank" rel="noopener">https://pan.baidu.com/s/1tekP1fxZ22h-L4o8nfoefg</a><br>        提取码：j66f<br>        第一个字典目录结构<br><img src="https://img-blog.csdnimg.cn/2019031714433784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>示例<br><img src="https://img-blog.csdnimg.cn/20190317152511640.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/201903171609356.png" alt="在这里插入图片描述"></p>
+<p>链接：<a href="https://pan.baidu.com/s/1tekP1fxZ22h-L4o8nfoefg" target="_blank" rel="noopener">https://pan.baidu.com/s/1tekP1fxZ22h-L4o8nfoefg</a><br>        提取码：j66f<br>        第一个字典目录结构<br><img src="https://www.fuzzer.xyz/images/fuzz1/16.png" alt="在这里插入图片描述"><br>示例<br><img src="https://www.fuzzer.xyz/images/fuzz1/17.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/201903171609356.png" alt="在这里插入图片描述"></p>
 
     </article>
     <!-- license  -->
@@ -1074,10 +1074,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -1186,22 +1182,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -1238,35 +1234,35 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
     
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
-        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
-    
         <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
-    
-        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     

