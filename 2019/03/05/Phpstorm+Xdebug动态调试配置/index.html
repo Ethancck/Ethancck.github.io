@@ -413,7 +413,7 @@ height:50vh;
 </ul>
 <h4 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h4><h5 id="安装Xdebug"><a href="#安装Xdebug" class="headerlink" title="安装Xdebug"></a>安装Xdebug</h5><p>本地的环境是用phpStudy搭建的，直接在phpStudy可以勾选Xdebug：</p>
 <p>其他选项菜单-PHP扩展及设置-PHP扩展-Xdebug勾选（默认不勾选）</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080415185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/0.1.png" alt="在这里插入图片描述"></p>
 <h6 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h6><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[XDebug]</span><br><span class="line">zend_extension=<span class="string">"K:\PhpStudy20180211\PHPTutorial\php\php-5.4.45\ext\php_xdebug.dll"</span></span><br><span class="line">xdebug.profiler_output_dir=<span class="string">"K:\PhpStudy20180211\PHPTutorial\tmp\xdebug"</span></span><br><span class="line">xdebug.trace_output_dir=<span class="string">"K:\PhpStudy20180211\PHPTutorial\tmp\xdebug"</span></span><br><span class="line"></span><br><span class="line">xdebug.remote_enable=<span class="number">1</span> <span class="comment">//是否允许远程终端 这里标示开启</span></span><br><span class="line">xdebug.profiler_enable_trigger=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">xdebug.remote_handler=dbgp</span><br><span class="line"></span><br><span class="line">xdebug.remote_mode=req</span><br><span class="line"></span><br><span class="line">xdebug.remote_host=localhost</span><br><span class="line"></span><br><span class="line">xdebug.remote_port=<span class="number">9000</span> <span class="comment">//这里表示服务器的监听端口</span></span><br><span class="line"></span><br><span class="line">xdebug.idekey=PHPSTORM <span class="comment">//这里是调试器的关键字 在Chrome以及FireFox中插件配置的时候要用到</span></span><br></pre></td></tr></table></figure>
 <p>配置截图：</p>
 <p><img src="https://img-blog.csdnimg.cn/20190304080445191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
@@ -424,34 +424,33 @@ height:50vh;
 <p>出现xdebug信息证明插件已经安装成功</p>
 <p>方法二：进入php安装目录，找到php.exe,执行php -m</p>
 <p><img src="https://img-blog.csdnimg.cn/20190304080523726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h5 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h5><h6 id="配置phpstorm内的php版本"><a href="#配置phpstorm内的php版本" class="headerlink" title="配置phpstorm内的php版本"></a>配置phpstorm内的php版本</h6><p><img src="https://img-blog.csdnimg.cn/20190304080542221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="添加服务器"><a href="#添加服务器" class="headerlink" title="添加服务器"></a>添加服务器</h6><p><img src="https://img-blog.csdnimg.cn/20190304080601829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h5><h6 id="配置phpstorm内的php版本"><a href="#配置phpstorm内的php版本" class="headerlink" title="配置phpstorm内的php版本"></a>配置phpstorm内的php版本</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/2.png" alt="在这里插入图片描述"></p>
+<h6 id="添加服务器"><a href="#添加服务器" class="headerlink" title="添加服务器"></a>添加服务器</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/3.png" alt="在这里插入图片描述"></p>
 <p>这是可以是外网服务器，也可以本机，我添加的本机localhost！</p>
 <h6 id="Debug配置"><a href="#Debug配置" class="headerlink" title="Debug配置"></a>Debug配置</h6><p>设置debug端口，这里设为9000，需要跟php.ini的配置对应，此端口可更改！</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080616380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="DBGp-Proxy配置"><a href="#DBGp-Proxy配置" class="headerlink" title="DBGp Proxy配置"></a>DBGp Proxy配置</h6><p><img src="https://img-blog.csdnimg.cn/20190304080629643.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h6 id="调试配置"><a href="#调试配置" class="headerlink" title="调试配置"></a>调试配置</h6><p><img src="https://img-blog.csdnimg.cn/2019030408064260.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080653706.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/4.png" alt="在这里插入图片描述"></p>
+<h6 id="DBGp-Proxy配置"><a href="#DBGp-Proxy配置" class="headerlink" title="DBGp Proxy配置"></a>DBGp Proxy配置</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/5.png" alt="在这里插入图片描述"></p>
+<h6 id="调试配置"><a href="#调试配置" class="headerlink" title="调试配置"></a>调试配置</h6><p><img src="https://www.fuzzer.xyz/images/xdebug/6.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/7.png" alt="在这里插入图片描述"></p>
 <p>默认浏览器是chrome，我改成了Firefox，可以设置调试的url</p>
 <p>下面是本地一个cms的调试配置</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080708410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/12.png" alt="在这里插入图片描述"></p>
 <h5 id="火狐配置"><a href="#火狐配置" class="headerlink" title="火狐配置"></a>火狐配置</h5><p>到火狐组件扩展中心下载The easiest Xdebug</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080730261.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080743342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080759561.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/8.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/10.png" alt="在这里插入图片描述"></p>
 <p>上面的IDE key要和你自己的保持一致！</p>
 <h5 id="chrome插件安装"><a href="#chrome插件安装" class="headerlink" title="chrome插件安装"></a>chrome插件安装</h5><p>在google安装xdebug helper，配置与上相似，保证ide key一致即可!</p>
-<p><img src="https://img-blog.csdnimg.cn/2019030408081457.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/11.png" alt="在这里插入图片描述"></p>
 <h5 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h5><p>首先在浏览器里输入你要调试的url，然后点击右上角的爬虫标志</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080834395.png" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/13.png" alt="在这里插入图片描述"></p>
 <p>phpstorm开启监听，按1，在代码的地方打上断点，按2</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080847790.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/14.png" alt="在这里插入图片描述"></p>
 <p>调试结果如图</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080909166.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/16.png" alt="在这里插入图片描述"></p>
 <p>这样我们就能愉快的调试我们的web程序了！</p>
 <h5 id="两个坑"><a href="#两个坑" class="headerlink" title="两个坑"></a>两个坑</h5><h6 id="pear安装"><a href="#pear安装" class="headerlink" title="pear安装"></a>pear安装</h6><p>如果你出现Cannot find PHPUnit in include path (.;C:\php5\pear)，可能是pear和PHPUnit未安装</p>
 <p>安装pear可以借助phpstudy，在其它选项，其它高级应用里面，安装pear即可，也可以手动安装，首先要找到go-pear.phar</p>
-<p><img src="https://img-blog.csdnimg.cn/20190304080937152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://www.fuzzer.xyz/images/xdebug/15.png" alt="在这里插入图片描述"></p>
 <p>把它复制到php安装目录，用php go-pear.phar执行一下就行了，安装过程一路默认即可！</p>
 <h6 id="PHPUnit"><a href="#PHPUnit" class="headerlink" title="PHPUnit"></a>PHPUnit</h6><p>这个安装走的坑也不少，最主要是找对版本，从<a href="https://phpunit.de/" target="_blank" rel="noopener">官网</a>拿下来了一张图</p>
 <p><img src="https://img-blog.csdnimg.cn/20190304081101249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0pCbG9jaw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
@@ -482,8 +481,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2019/03/01/SQL注入回顾篇(四)/" title="SQL注入回顾篇(4)">
-                    <div class="prevTitle">SQL注入回顾篇(4)</div>
+                <a href="/2019/03/01/SQL注入回顾篇(二)/" title="SQL注入回顾篇(2)">
+                    <div class="prevTitle">SQL注入回顾篇(2)</div>
                 </a>
             
         </li>
@@ -963,6 +962,18 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 26
@@ -1051,12 +1062,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
         </li>
     
     
@@ -1127,13 +1138,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
     
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
     
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
-        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
@@ -1151,9 +1162,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
     
-        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
