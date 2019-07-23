@@ -346,25 +346,26 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2018/10/04/python沙盒逃逸/">
+        <a class="abstract-title" href="/2019/07/23/Xss小游戏通关秘籍/">
             
-                <span>python 沙盒逃逸</span>
+                <span>[Untitled Post]</span>
         </a>
         <div class="abstract-content">
-            <h5 id="题记："><a href="#题记：" class="headerlink" title="题记："></a>题记：</h5><p>闲来无事，加上之前第十一届全国大学生信息安全竞赛创新能力实践赛线下赛的时候，碰见过python沙盒的题目，于是乎想深入了解一下，故有此篇！<br>
-        </p></div>
+            题记最近发现一个xss的攻防网站，界面很有意思，很适合寓教于乐。于是玩了一下午，特此记录下来！xss姿势众多，所以每关也只是给了一部分示例！
+正文0x00server code:
+123function render (input) &#123;     return '&lt;div&gt;' + input + '&lt;/div&gt;' &#125;
+input code:
+1&lt;script&gt;alert(1)&lt;/script&gt;
+第一关，没啥说的，没有任何过滤，直接输出到了js里面。
+0x01server code:
+123function render (...
+        </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/04</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/23</span>
             </div>
             <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="python">python</a>
-    
-</div>
             
         </div>
     </article>
