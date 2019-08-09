@@ -405,30 +405,30 @@ height:50vh;
 <h4 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h4><p>本文静态分析+动态调试的方法分析此漏洞！</p>
 <p>由于这个漏洞是由于对cookie中<code>language</code>字段值未过滤而导致的，我们首先找到对<code>language</code>字段操作的代码段</p>
 <p>代码段位于<code>\source\class\discuz\discuz_application.php</code>的304行，我们在305行处下个断点，然后在cookie传入我们的payload查看运行结果</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\1.png" alt></p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\2.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/1.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/2.png" alt></p>
 <p>我们可以发现cookie中的language字段被取了出来，并赋值给了<code>$lng</code>变量，我们再跟踪一下<code>$lng</code></p>
 <p>变量看看它又被进行了什么操作。</p>
 <p>我们发现在同文件341行处，<code>$lng</code>变量又被赋值给了<code>DISCUZ_LANG</code>常量</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\3.png" alt></p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\4.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/3.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/4.png" alt></p>
 <p>这里<code>DISCUZ_LANG</code>常量并没进行任何过滤，因此是完全可控的！</p>
 <p>我们继续跟踪<code>DISCUZ_LANG</code>常量又被哪里引用到了?</p>
 <p>我们可以追踪到<code>source\function\function_core.php</code>第644行</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\5.png" alt></p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\6.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/5.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/6.png" alt></p>
 <p>我们可以发现在生成<code>cachefile</code>时，<code>DISCUZ_LANG</code>常量会被拼接到<code>cachefile</code>变量里面！文件会被写入<code>/data/template</code>目录下</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\9.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/9.png" alt></p>
 <p>我们的恶意代码是传进去了，但是他又是怎么被执行呢？</p>
 <p>接下来，我们分析一下，它究竟是为什么会被执行？</p>
 <p>我们可以发现<code>$cachefile</code>变量是在template方法中定义的，它最终返回的是生成的缓存路径及文件名称</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\10.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/10.png" alt></p>
 <p>最简单的方法是我们继续跟，看这个返回值会被怎么处理，经过动态调试我们发现这个返回的方法路径进了我们的缓存文件并且被文件包含进去了</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\11.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/11.png" alt></p>
 <p>我们知道被<code>include</code>包含的内容会被作为php代码执行，因此造成了代码执行！</p>
 <p>这里我们通过查找调用template方法的位置，可以发现不止一个位置存在代码执行</p>
 <p>除去我们的缓存文件还有很多地方调用！</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\discuz\12.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/discuz/12.png" alt></p>
 <p>综上所述，我们可以很清楚的知道这个漏洞的触发流程！</p>
 <h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><p>POC的编写，大家可以根据漏洞触发过程来编写，并不是很难！在此推一下Pocsuite3框架。自从来到某实验室实习，学习不了东西！祝大家周末愉快！</p>
 
@@ -1030,6 +1030,8 @@ top:50vh;
     
     
     
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 32
@@ -1078,12 +1080,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
         </li>
     
     
@@ -1148,12 +1150,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
         </li>
     
     
@@ -1168,22 +1170,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
         </li>
     
     
@@ -1226,9 +1228,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
     
-        <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
-    
         <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
@@ -1240,17 +1242,17 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
-        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
-    
-        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
-        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
-        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
@@ -1260,9 +1262,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1307,9 +1309,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
     
-        <span class="sidebar-category-name" data-categories="内网"><span class="iconfont-archer">&#xe60a;</span>内网</span>
-    
         <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+        <span class="sidebar-category-name" data-categories="内网"><span class="iconfont-archer">&#xe60a;</span>内网</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
