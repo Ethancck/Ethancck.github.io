@@ -409,20 +409,20 @@ height:50vh;
 <p>我们可以通过继承<code>HTMLParser</code>并重载其方法来实现我们需要的功能</p>
 <p>下面是简单的 HTML 解析器的一个基本示例，使用 <a href="https://docs.python.org/zh-cn/3/library/html.parser.html#html.parser.HTMLParser" target="_blank" rel="noopener"><code>HTMLParser</code></a> 类，当遇到开始标记、结束标记以及数据的时候将内容打印出来</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">![<span class="number">2</span>](K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\<span class="number">2.</span>png)<span class="keyword">from</span> html.parser <span class="keyword">import</span> HTMLParser</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyHTMLParser</span><span class="params">(HTMLParser)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle_starttag</span><span class="params">(self, tag, attrs)</span>:</span></span><br><span class="line">        print(<span class="string">"Encountered a start tag:"</span>, tag)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle_endtag</span><span class="params">(self, tag)</span>:</span></span><br><span class="line">        print(<span class="string">"Encountered an end tag :"</span>, tag)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handle_data</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        print(<span class="string">"Encountered some data  :"</span>, data)</span><br><span class="line"></span><br><span class="line">parser = MyHTMLParser()</span><br><span class="line">parser.feed(<span class="string">'&lt;html&gt;&lt;head&gt;&lt;title&gt;Test&lt;/title&gt;&lt;/head&gt;'</span></span><br><span class="line">            <span class="string">'&lt;body&gt;&lt;h1&gt;Parse me!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;'</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\1.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/1.png" alt></p>
 <p>我们需要定义一个我们自己的<code>HTML</code>解析器来处理我们的标签，标识出来script标签，html注释，html标签，属性，css等等</p>
 <p>部分代码如下</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\2.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/2.png" alt></p>
 <p>寻找反射点的思路和js的类似，通过遍历标签来来解析html结构，<code>tagname</code>代表标签名，<code>attibutes</code>代表属性，<code>content</code>代表数据内容，<code>#comment</code>代表注释，每个标签被封装为字典形式的列表元素</p>
 <p>使用以下的demo</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">![<span class="number">4</span>](K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\<span class="number">4.</span>png)![<span class="number">4</span>](K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\<span class="number">4.</span>png)    &lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">    &lt;a href="?q=1&amp;w=2&amp;e=3&amp;r=4&amp;t=5"&gt;test&lt;/a&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">    body&#123;</span><br><span class="line">        background:<span class="comment">#aaaflag&#123;111222&#125;;</span></span><br><span class="line">    &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    var a = 'xx';flag&#123;111222&#125;&lt;/script&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">    &lt;textarea&gt;flag&#123;111222&#125;&lt;/TexTarea&gt;kkk</span><br><span class="line">    &lt;/div&gt;ffff&lt;aaaaa&gt;bb</span><br><span class="line">    &lt;input style=<span class="string">"color:flag&#123;111222&#125;"</span> value2=<span class="string">"flag&#123;111222&#125;"</span> aflag&#123;<span class="number">111222</span>&#125;=<span class="string">"aaa"</span>/&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">            this <span class="keyword">is</span> comment</span><br><span class="line">            <span class="number">5</span>flag&#123;<span class="number">111222</span>&#125;</span><br><span class="line">                    --&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <p>处理后的效果</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\3.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/3.png" alt></p>
 <p>处理完html标签，接下该寻找sink输出点在html的上下文。思路跟js的寻找思路是相同的</p>
 <p>通过遍历列表内容来找到我们的<code>input</code>，部分代码如下：</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\4.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/4.png" alt></p>
 <p>最后会给出输出点上下文的一些细节信息，如是否是html标签等等</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\5.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/5.png" alt></p>
 <p>然后根据不同的上下文给出我们的payload，使用html语法树有很多好处，比如可以准确判断回显的位置</p>
 <h4 id="探究发包"><a href="#探究发包" class="headerlink" title="探究发包"></a>探究发包</h4><p>X3Scan的扫描思路参考了一些xray的扫描思路，比如不发送一些产生危害的payload，只根据回显的上下文发送一些flag测试一些关键字符是否被转义和过滤，如&lt;&gt;,”.’,()等，如果没有过滤最后给出建议payload，如：<code>confirm()</code></p>
 <p>首先对于无法使用html和js解析的回显，如jsonp和json格式的相应包，我们使用如下的发包顺序：</p>
@@ -432,11 +432,11 @@ height:50vh;
 <p><strong>对于html标签内的内容</strong></p>
 <p><code>&lt;h2&gt;xxxxx&lt;/h2&gt;</code></p>
 <p>扫描器会依次发送<code>0xb9d8c</code>，<code>&lt;/H2&gt;&lt;mowvhry&gt;</code>当确认标签可以闭合，会给出<code>&lt;/h2&gt;&lt;img src=1&gt;</code></p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\6.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/6.png" alt></p>
 <p><strong>对于标签属性</strong></p>
 <p>demo:<a href="https://brutelogic.com.br/xss.php?b3=" target="_blank" rel="noopener">https://brutelogic.com.br/xss.php?b3=</a></p>
 <p>扫描器会依次发送<code>0xb78123</code>，<code>&#39;psafq=&#39;</code>，<code>&#39;&gt;&lt;arcbvyf&gt;</code>，<code>&quot;psafq=&quot;</code>，<code>&quot;&gt;&lt;arcbvyf&gt;</code>，当确认引号和尖括号没有被过滤时，最终给出<code>&quot;&gt;&lt;img src=1&gt;</code>，<code>&quot;OnMoUsEoVeR=confirm()//</code>。</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\7.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/7.png" alt></p>
 <p><strong>对于html注释</strong></p>
 <p><code>&lt;!-- this is comment &lt;?php echo $t;?&gt; --&gt;</code></p>
 <p>扫描器会依次发送<code>0xfda748</code>，<code>--&gt;&lt;aorxlwd&gt;</code>，<code>--!&gt;&lt;aorxlwd&gt;</code>，当确定<code>--&gt;</code>或<code>--!&gt;</code>没有过滤时，给出payload，<code>--&gt;&lt;aorxlwd&gt;</code> </p>
@@ -453,7 +453,7 @@ height:50vh;
 <h4 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h4><p>扫描器大致流程：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">发送随机字符--》确认参数回显---》通过html/js解析确认回显位置--》根据回显的上下文发送不同的payload进行测试--》使用html，js语法树解析是否多出来标签，属性，js语句等来确定是否执行成功</span><br></pre></td></tr></table></figure>
 <h3 id="成果展示"><a href="#成果展示" class="headerlink" title="成果展示"></a>成果展示</h3><p>由于一直处于开发阶段，并没进行大规模测试，但是偶尔也会有个小惊喜，某次调bug的时候发现京东某站的xss</p>
-<p><img src="K:\git blog\Ethancck.github.io\hexo\source\images\x3scan1\8.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan1/8.png" alt></p>
 
     </article>
     <!-- license  -->
@@ -1209,54 +1209,6 @@ top:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 42
@@ -1364,12 +1316,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/内存取证初探/">内存取证艺术</a>
+            <span class="archive-post-date">05/27</span><a class="archive-post-title" href="/2019/05/27/charles破解/">charles破解</a>
         </li>
     
     
@@ -1434,12 +1386,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(下)/">php代码审计之函数漏洞审计(下)</a>
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/php代码审计之函数漏洞审计(上)/">php代码审计之函数漏洞审计(上)</a>
         </li>
     
     
@@ -1454,7 +1406,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
         </li>
     
     
@@ -1469,7 +1421,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(二)/">SQL注入回顾篇(2)</a>
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href="/2019/03/01/SQL注入回顾篇(三)/">SQL注入回顾篇(3)</a>
         </li>
     
     
@@ -1506,9 +1458,9 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz 脚本"><span class="iconfont-archer">&#xe606;</span>fuzz 脚本</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码执行"><span class="iconfont-archer">&#xe606;</span>代码执行</span>
     
         <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
@@ -1516,19 +1468,19 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
     
-        <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
-    
         <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
+    
+        <span class="sidebar-tag-name" data-tags="csrf，getshell"><span class="iconfont-archer">&#xe606;</span>csrf，getshell</span>
     
         <span class="sidebar-tag-name" data-tags="扫描器"><span class="iconfont-archer">&#xe606;</span>扫描器</span>
     
         <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
     
+        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
+    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
         <span class="sidebar-tag-name" data-tags="时光"><span class="iconfont-archer">&#xe606;</span>时光</span>
-    
-        <span class="sidebar-tag-name" data-tags="web安全"><span class="iconfont-archer">&#xe606;</span>web安全</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
@@ -1544,15 +1496,15 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
-        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
-    
         <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
-        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
-    
         <span class="sidebar-tag-name" data-tags="内网攻防"><span class="iconfont-archer">&#xe606;</span>内网攻防</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
     
