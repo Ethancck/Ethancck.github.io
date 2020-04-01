@@ -22,7 +22,7 @@
     <meta name="description" content="一花一世界，一木一森林">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Ethan&#39;s Blog</title>
+    <title>XSS语义分析的阶段性总结(一) · Ethan&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Ethan&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">XSS语义分析的阶段性总结(一)</a>
+            </div>
+    </div>
     
     <a class="home-link" href="/">Ethan's Blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            XSS语义分析的阶段性总结(一)
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="扫描器">扫描器</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.6k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/03/19</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,130 +399,118 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/01/SQL注入回顾篇(二)/">
-            
-                <span>SQL注入回顾篇(2)</span>
-        </a>
-        <div class="abstract-content">
-            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>忆往昔，峥嵘岁月稠！大学已经到了大三了，打了很多比赛，回顾还是挺欣慰！此系列来由是想留一点东西，把所学知识整理一下，同时也是受github上Micro8分享的启发，故想做一些工作，以留后人参考，历时两个星期，第一系列SQL注入回顾篇出炉！内容分四节发布，其中SQL注入代码审计为两节，WAF绕过总结为1节，SQLMAP使用总结为1节！此为SQL注入代码审计第二部分。欢迎各位斧正，交流！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/01</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于X3Scan的研发已经有些进展了，所以对这一阶段的工作做一下总结！对于X3Scan的定位，我更加倾向于主动+被动的结合。主动的方面主要体现在可以主动抓取页面链接并发起请求，并且后期可能参考XSStrike加入主动fuzz的功能，这个目前还未加入，正在纠结中。。。而被动的方面，主要的工作就是xss语义分析的研究，通过xss语义分析而不是盲目的使用payload进行fuzz。</p>
+<a id="more"></a>
+<h3 id="语义分析"><a href="#语义分析" class="headerlink" title="语义分析"></a>语义分析</h3><p>业内提的比较早的是长亭的一款waf产品，语义分析说白了就是根据上下文来进行分析，而不是通过正则搜索的方式来匹配污染源，也就是我们的漏洞触发点。</p>
+<p>由于这个需求，我们需要开发一款可以理解上下文的工具。来帮助我们识别我们的payload是输出在什么样的语义环境，从而给出精确的payload，而这一点xray目前做的效果挺不错的。</p>
+<h4 id="AST语法树"><a href="#AST语法树" class="headerlink" title="AST语法树"></a>AST语法树</h4><p>在此之前我们先简单了解一下JS抽象语法树。</p>
+<p>Javascript 代码的<strong>解析</strong>（Parse ）步骤分为两个阶段：词法分析（Lexical Analysis）和 语法分析（Syntactic Analysis）。这个步骤接收代码并输出抽象语法树，亦称 AST</p>
+<p>在分析 Javascript 的 AST 过程中，借助于工具 <a href="https://astexplorer.net/" target="_blank" rel="noopener">AST Explorer</a> 能帮助我们对 AST 节点有一个更好的感性认识。</p>
+<p>下面是AST Explorer对 Javascript代码的解析，经过AST Explorer的解析Javascript代码会被抽象成AST的形式。</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/1.png" alt></p>
+<p>下面简单介绍几个节点类型，更多的参考官方文档定义<a href="https://esprima.readthedocs.io/en/3.1/syntax-tree-format.html" target="_blank" rel="noopener">https://esprima.readthedocs.io/en/3.1/syntax-tree-format.html</a></p>
+<p>使用下面的demo为例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> param = location.hash.split(<span class="string">"#"</span>)[<span class="number">1</span>];</span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"Hello "</span> + param + <span class="string">"!"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>VariableDeclaration</strong></p>
+<p>变量声明，<code>kind</code> 属性表示是什么类型的声明，因为 ES6 引入了 <code>const/let</code>。<code>declarations</code> 表示声明的多个描述，因为我们可以这样：<code>let a = 1, b = 2;</code></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/2.png" alt></p>
+<p><strong>VariableDeclarator</strong></p>
+<p>变量声明的描述，<code>id</code> 表示变量名称节点，<code>init</code> 表示初始值的表达式，可以为 <code>null</code></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/3.png" alt></p>
+<p><strong>Identifier</strong></p>
+<p>标识符，就是我们写 JS 时自定义的名称，如变量名，函数名，属性名，都归为标识符</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/4.png" alt></p>
+<p>一个标识符可能是一个表达式，或者是解构的模式（ES6 中的解构语法）。</p>
+<p><strong>Literal</strong></p>
+<p>字面量，就代表了一个值的字面量，如 <code>“hello”</code>, <code>1</code> 这些，还有正则表达式（有一个扩展的 <code>Node</code> 来表示正则表达式），如 <code>/\d?/</code></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/5.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/6.png" alt></p>
+<p><code>value</code> 这里即对应了字面量的值，我们可以看出字面量值的类型，字符串，布尔，数值，<code>null</code> 和正则。</p>
+<p><strong>BinaryExpression</strong></p>
+<p>由于这里存在两个个二元运算，所以简单再介绍其中一个，其它的便不多简绍。</p>
+<p>二元运算表达式节点，<code>left</code> 和 <code>right</code> 表示运算符左右的两个表达式，<code>operator</code> 表示一个二元运算符。</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/7.png" alt></p>
+<p>这里进行运算的一个是<strong>Literal</strong>类型也就是<code>hello</code>,一个是<strong>Identifier</strong>类型也就是<code>param</code>变量，运算符为<code>+</code></p>
+<p>AST的介绍先到这里。下面介绍一下检测的原理</p>
+<h4 id="检测原理"><a href="#检测原理" class="headerlink" title="检测原理"></a>检测原理</h4><p>xss漏洞一般有两种检测方法，第一种是简单粗暴的使用收集来的payload进行fuzz，通过页面是否回显来判断是否存在漏洞，这种手段目前已经不适用了。另一种就是通过对返回页面进行解析，结合语义分析，根据输出在不同的上下文来选择发送我们的payload，这样的话，我们的payload即精巧又准确。</p>
+<p>还是使用这个demo</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> param = location.hash.split(<span class="string">"#"</span>)[<span class="number">1</span>];</span><br><span class="line"><span class="built_in">document</span>.write(<span class="string">"Hello "</span> + param + <span class="string">"!"</span>);</span><br></pre></td></tr></table></figure>
+<p>检测思路一般为，我们首先找到<code>document.write</code>这个函数，从而定位到<code>param</code>，由<code>param</code>我们可以进行回溯到<code>location.hash.split(&quot;#&quot;)[1]</code>，从而证明触发点是可控的。在污点分析模型里面，我们称<code>document.write</code>为sink，也就是污点汇聚点,代表直接产生安全敏感操作(违反数据完整性)或者泄露隐私数据到外界(违反数据保密性)，称<code>location.hash.split(&quot;#&quot;)[1]</code>为<code>source</code>，也就是污点源,代表直接引入不受信任的数据或者机密数据到系统中。很多代码审计工具也是基于了这样的模型。</p>
+<p>基于上面的分析，我们需要开发一个可以理解js上下文的工具，帮助我们找到<code>sink</code>和<code>source</code>，让我们可以由<code>sink</code>回溯<code>source</code>，或者由反过来亦可，正则上实现这个问题已经基本不可能了，我们需要能够给上下文赋予准确意义。</p>
+<p>而上面的AST语法树可以满足我们的需求，因为它可以帮助我们分析xss的输出点的上下文</p>
+<p>幸运的是python里面有将js代码解析为语法树的库<code>pyjsparser</code>，还有在其基础上实现的<code>js2py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyjsparser <span class="keyword">import</span> parse</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">js = <span class="string">'''</span></span><br><span class="line"><span class="string">    var param = location.hash.split("#")[1];</span></span><br><span class="line"><span class="string">document.write("Hello " + param + "!");</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">ast = parse(js)</span><br><span class="line">print(json.dumps((ast)))</span><br></pre></td></tr></table></figure>
+<p>解析出来的效果跟<code>AST Explorer</code>是一致的</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/8.png" alt></p>
+<p>接下来我们需要设计一个递归来找到每个表达式，每一个<code>Identifier</code>和<code>Literal</code>类型等等。</p>
+<p>部分代码如下：</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/9.png" alt></p>
+<p>然后再遍历<code>body</code>的节点，找寻输出位置</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/10.png" alt></p>
+<p>仍是上面的demo，我们尝试找到<code>Hello</code></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/13.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/11.png" alt></p>
+<p>输出结果如下：</p>
+<p><img src="https://www.fuzzer.xyz/images/x3scan/12.png" alt></p>
+<p>我们找到了<code>Hello</code>，并且输出位置的上下文为<code>Literal</code></p>
+<p>有了上面的研究，通过sink回溯source的方法便可以实现，对于dom型xss的分析，也会更加精确，对于反射型xss输出在js的情况，同样适用</p>
+<p>如果回显在JS脚本中，发送测试payload后，通过js语法树解析确定<code>Identifier</code>和<code>Literal</code>这两个类型中是否包含，如果payload是<code>Identifier</code>类型，就可以直接判断存在xss，如果payload是<code>Literal</code>类型，再通过单双引号来测试是否可以闭合。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>关于js语义分析暂时先分析到这里，难点还是dom型xss的检测，因为dom xss检测识别有点复杂，下一篇会探讨一下sink输出在html的情况，探讨一下html解析的一些问题。</p>
+
     </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/01/SQL注入回顾篇(三)/">
-            
-                <span>SQL注入回顾篇(3)</span>
-        </a>
-        <div class="abstract-content">
-            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>忆往昔，峥嵘岁月稠！大学已经到了大三了，打了很多比赛，回顾还是挺欣慰！此系列来由是想留一点东西，把所学知识整理一下，同时也是受github上Micro8分享的启发，故想做一些工作，以留后人参考，历时两个星期，第一系列SQL注入回顾篇出炉！内容分四节发布，其中SQL注入代码审计为两节，WAF绕过总结为1节，SQLMAP使用总结为1节！此为SQL注入代码审计第二部分。欢迎各位斧正，交流！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/01</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/01/SQL注入回顾篇(四)/">
-            
-                <span>SQL注入回顾篇(4)</span>
-        </a>
-        <div class="abstract-content">
-            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>忆往昔，峥嵘岁月稠！大学已经到了大三了，打了很多比赛，回顾还是挺欣慰！此系列来由是想留一点东西，把所学知识整理一下，同时也是受github上Micro8分享的启发，故想做一些工作，以留后人参考，历时两个星期，第一系列SQL注入回顾篇出炉！内容分四节发布，其中SQL注入代码审计为两节，WAF绕过总结为1节，SQLMAP使用总结为1节！此为SQLMAP使用总结部分。欢迎各位斧正，交流！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/01</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/01/SQL注入回顾篇(一)/">
-            
-                <span>SQL注入回顾篇(1)</span>
-        </a>
-        <div class="abstract-content">
-            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>忆往昔，峥嵘岁月稠！大学已经到了大三了，打了很多比赛，回顾还是挺欣慰！此系列来由是想留一点东西，把所学知识整理一下，同时也是受github上Micro8分享的启发，故想做一些工作，以留后人参考，历时两个星期，第一系列SQL注入回顾篇出炉！内容分四节发布，其中SQL注入代码审计为两节，WAF绕过总结为1节，SQLMAP使用总结为1节！此为SQL注入代码审计第一部分。欢迎各位斧正，交流！</p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/01</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="web安全">web安全</a>
-    
-</div>
-            
-        </div>
-    </article>
+    <!-- license  -->
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2020/03/23/XSS语义分析的阶段性总结(二)/" title="XSS语义分析的阶段性总结(二)">
+                    <div class="nextTitle">XSS语义分析的阶段性总结(二)</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2020/01/07/技术沙龙/" title="技术沙龙">
+                    <div class="prevTitle">技术沙龙</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2019/page/5/">&#60; PREV</a><a class="page-number" href="/archives/2019/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="page-number" href="/archives/2019/page/5/">5</a><span class="page-number current">6</span>
-    </nav>
     
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "FuPdFy9xCtoivKmiix3FHb4d-gzGzoHsz",
+        appKey: "pAQSVceyfizzVqhmmyUQeX2j",
+        placeholder: "一起唠嗑:)",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -550,6 +599,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语义分析"><span class="toc-number">2.</span> <span class="toc-text">语义分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AST语法树"><span class="toc-number">2.1.</span> <span class="toc-text">AST语法树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#检测原理"><span class="toc-number">2.2.</span> <span class="toc-text">检测原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最后"><span class="toc-number">3.</span> <span class="toc-text">最后</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1581,6 +1648,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
