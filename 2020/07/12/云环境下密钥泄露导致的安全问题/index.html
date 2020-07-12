@@ -422,49 +422,49 @@ height:50vh;
 </ul>
 <p>OSS Browser、OSSUTIL是官方阿里云官方提供的工具只能对于OSS进行操作，API调试或者第三方平台可以直接操作ECS，甚至重置服务器。</p>
 <p>这里演示一下<a href=":https://github.com/aliyun/oss-browser/blob/master/all-releases.md">OSS Browser</a>对OSS的操作</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\5.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/5.png" alt></p>
 <p>阿里云 access key ID 和 access key secret 是访问阿里云API的唯一凭证。Access key ID 是类似身份的标识，而 access key secret 的作用是签名你的访问参数，以防被篡改。Access key secret 类似你的登录密码。</p>
 <p>登陆后便可访问文件服务，并对文件进行操作</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\6.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/6.png" alt></p>
 <p>通过<a href="https://yun.cloudbility.com/login.html" target="_blank" rel="noopener">行云管家</a>这样的第三方平台，我们可以进一步进行操作。同样的我们需要access key ID 和 access key secret 。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\7.png" alt></p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\10.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/7.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/10.png" alt></p>
 <p>通过行云管家，不仅可以访问OSS服务，还可以直接重置服务器密码，接管服务器。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\9.png" alt></p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\8.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/9.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/8.png" alt></p>
 <ul>
 <li><a href="http://r3start.net/index.php/2019/09/16/580" target="_blank" rel="noopener">参考案例</a></li>
 </ul>
 <h4 id="COS服务-临时密钥泄露"><a href="#COS服务-临时密钥泄露" class="headerlink" title="COS服务 临时密钥泄露"></a>COS服务 临时密钥泄露</h4><p>对象存储（Cloud Object Storage，COS）是腾讯云提供的一种存储海量文件的分布式存储服务，用户可通过网络随时存储和查看数据。跟阿里云一样腾讯云的主机也有主账户和子账户之分，子账号是由主账号创建的实体，有确定的身份 ID 和身份凭证，拥有登录腾讯云控制台的权限。子账号默认不拥有资源，必须由所属主账号进行授权。与阿里云不同的是，腾讯云引入了临时密钥。</p>
 <p><a href="https://cloud.tencent.com/document/product/598/33416" target="_blank" rel="noopener">临时密钥（临时访问凭证）</a> 是通过 CAM 云 API 提供的接口，获取到权限受限的密钥。主要是为了解决固定密钥计算签名方式不能有效地控制权限，同时把永久密钥放到客户端代码中有极大的泄露风险的问题。</p>
 <p>腾讯云获取临时密钥的过程如下：</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\4.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/4.png" alt></p>
 <p>在这里，第四步下发临时密钥，返回的字段主要包含以下三个字段：</p>
 <ul>
 <li>TmpSecretId</li>
 <li>TmpSecretKey</li>
 <li>Token</li>
 </ul>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\13.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/13.png" alt></p>
 <p>然后利用这三个字段计算签名，获得签名后，客户端发送携带签名的请求给COS服务器，对Bucket 进行操作。</p>
 <p>其中要是想对指定的Bucket 进行操作，我们还需要知道对应的Bucket 名称，以及所属地域Region 。</p>
 <h4 id="cosplay"><a href="#cosplay" class="headerlink" title="cosplay!"></a>cosplay!</h4><p>这里使用GEEKPWN云安全比赛的一道题作为例子来讲一下腾讯云临时密钥的利用。</p>
 <p>题目打开是一个上传页面</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\12.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/12.png" alt></p>
 <p>这里我们随便选择一个文件上传，然后使用burp捕获一下数据包</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\14.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/14.png" alt></p>
 <p>这里发现了一个GetTempKey接口，其返回了临时密钥的相关信息</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\11.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/11.png" alt></p>
 <p>这里主要关心TmpSecretId、TmpSecretKey、Token这三个字段，因为这三个字段是计算签名的必要条件。腾讯云公布的有专门计算<a href="https://cos5.cloud.tencent.com/static/cos-sign/" target="_blank" rel="noopener">签名的工具</a>。</p>
 <p>更多关于计算签名的细节参考<a href="https://cloud.tencent.com/document/product/436/7778" target="_blank" rel="noopener">官方文档</a>。</p>
 <p>这道题我们选择更简便的方式，官方还提供了COS 请求工具，<a href="https://cloud.tencent.com/document/product/436/30996" target="_blank" rel="noopener">使用说明</a>。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\15.jpg" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/15.jpg" alt></p>
 <p>想对指定的Bucket 进行操作，我们还需要知道对应的Bucket 名称，以及所属地域Region。通过查看页面源码发现泄露了对应的Bucket 名称以及Region。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\15.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/15.png" alt></p>
 <p>有了这些条件后我们就可以访问cos的资源了。选择使用临时密钥进行访问。x-cos-security-token的值为返回字段中Token的值。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\1.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/1.png" alt></p>
 <p>找了一个flag.txt,查看flag.txt的内容。参数key为其所在key标签的值，类似于目录。</p>
-<p><img src="C:\Users\得瑟克星\Desktop\yun\2.png" alt></p>
+<p><img src="https://www.fuzzer.xyz/images/yun/2.png" alt></p>
 <p>成功拿到flag。</p>
 <p>通过这道题我们可以发现临时密钥的权限比较小，获取难度较大。同时临时密钥存在生效时间，默认为1800s。所以，相对于固定密钥也更为安全可靠。</p>
 <h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p>上面讨论的是国内的厂商，当然国外的云厂商，如Amazon的AWS，也存在很多安全问题，例如S3存储桶配置不当，泄露AccessKey后，可对S3存储桶进行增删操作，这里的S3类似于OSS、Elastic Beanstalk中利用SSRF访问元数据，获取AccessKey等一些敏感信息等等。</p>
@@ -657,8 +657,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
     
     
     
@@ -1516,9 +1514,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="工具"><span class="iconfont-archer">&#xe606;</span>工具</span>
     
-        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
-    
         <span class="sidebar-tag-name" data-tags="web"><span class="iconfont-archer">&#xe606;</span>web</span>
+    
+        <span class="sidebar-tag-name" data-tags="php代码审计"><span class="iconfont-archer">&#xe606;</span>php代码审计</span>
     
         <span class="sidebar-tag-name" data-tags="tips"><span class="iconfont-archer">&#xe606;</span>tips</span>
     
@@ -1540,25 +1538,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="反序列化"><span class="iconfont-archer">&#xe606;</span>反序列化</span>
     
-        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
-    
         <span class="sidebar-tag-name" data-tags="RCE"><span class="iconfont-archer">&#xe606;</span>RCE</span>
+    
+        <span class="sidebar-tag-name" data-tags="fuzz 工具"><span class="iconfont-archer">&#xe606;</span>fuzz 工具</span>
     
         <span class="sidebar-tag-name" data-tags="xss"><span class="iconfont-archer">&#xe606;</span>xss</span>
     
-        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
-    
         <span class="sidebar-tag-name" data-tags="sql注入，攻防"><span class="iconfont-archer">&#xe606;</span>sql注入，攻防</span>
     
-        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+        <span class="sidebar-tag-name" data-tags="curl"><span class="iconfont-archer">&#xe606;</span>curl</span>
     
         <span class="sidebar-tag-name" data-tags="PHP"><span class="iconfont-archer">&#xe606;</span>PHP</span>
     
+        <span class="sidebar-tag-name" data-tags="phar反序列化"><span class="iconfont-archer">&#xe606;</span>phar反序列化</span>
+    
         <span class="sidebar-tag-name" data-tags="云安全"><span class="iconfont-archer">&#xe606;</span>云安全</span>
     
-        <span class="sidebar-tag-name" data-tags="内网攻防"><span class="iconfont-archer">&#xe606;</span>内网攻防</span>
-    
         <span class="sidebar-tag-name" data-tags="fuzz"><span class="iconfont-archer">&#xe606;</span>fuzz</span>
+    
+        <span class="sidebar-tag-name" data-tags="内网攻防"><span class="iconfont-archer">&#xe606;</span>内网攻防</span>
     
         <span class="sidebar-tag-name" data-tags="命令注入，攻防"><span class="iconfont-archer">&#xe606;</span>命令注入，攻防</span>
     
